@@ -62,20 +62,20 @@ export default function Home() {
   if (!mounted) return null;
 
   return (
-    <main className="h-screen overflow-hidden bg-gradient-to-br from-[#08283B] via-[#042133] to-[#08283B]">
-      <div className="h-full max-w-[1800px] mx-auto p-6 flex flex-col">
+    <main className="h-screen overflow-hidden">
+      <div className="h-full max-w-[1900px] mx-auto p-8 flex flex-col">
 
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-10">
           <div>
-            <h1 className="text-3xl font-bold text-white tracking-tight">
-              Smart Money Sentiment
+            <h1 className="text-4xl font-black text-white tracking-tight">
+              Smart Money <span className="gradient-text neon-text">Sentiment</span>
             </h1>
-            <p className="text-white/40 text-sm mt-1">Real-time Nansen Intelligence</p>
+            <p className="text-white/50 text-sm mt-2 font-medium">Real-time Nansen Intelligence Dashboard</p>
           </div>
-          <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-nansen-cyan/20">
-            <div className="w-2 h-2 bg-nansen-cyan rounded-full animate-pulse"></div>
-            <span className="text-nansen-cyan font-semibold text-xs tracking-wider">LIVE</span>
+          <div className="flex items-center gap-3 px-5 py-2.5 rounded-full premium-card neon-glow">
+            <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-nansen-cyan to-nansen-blue animate-pulse shadow-lg"></div>
+            <span className="gradient-text font-bold text-sm tracking-wider uppercase">Live</span>
           </div>
         </div>
 
@@ -95,21 +95,21 @@ export default function Home() {
                 />
 
                 {/* Stats Grid */}
-                <div className="w-full mt-12 grid grid-cols-2 gap-4">
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-5 border border-white/10">
-                    <div className="text-white/50 text-xs uppercase tracking-wider mb-2">24h Spot Buys</div>
-                    <div className="text-3xl font-bold text-nansen-cyan">
+                <div className="w-full mt-16 grid grid-cols-2 gap-5">
+                  <div className="premium-card rounded-3xl p-6 shimmer">
+                    <div className="text-white/40 text-xs uppercase tracking-widest font-bold mb-3">24h Spot Buys</div>
+                    <div className="text-4xl font-black gradient-text neon-text mb-2">
                       ${(sentiment.buy_volume_24h / 1000000).toFixed(1)}M
                     </div>
-                    <div className="text-white/40 text-xs mt-1">{sentiment.buy_count} trades</div>
+                    <div className="text-white/30 text-xs font-semibold">{sentiment.buy_count} trades</div>
                   </div>
 
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-5 border border-white/10">
-                    <div className="text-white/50 text-xs uppercase tracking-wider mb-2">Net Flow</div>
-                    <div className={`text-3xl font-bold ${sentiment.net_flow >= 0 ? 'text-nansen-cyan' : 'text-red-400'}`}>
+                  <div className="premium-card rounded-3xl p-6 shimmer">
+                    <div className="text-white/40 text-xs uppercase tracking-widest font-bold mb-3">Net Flow</div>
+                    <div className={`text-4xl font-black mb-2 ${sentiment.net_flow >= 0 ? 'gradient-text neon-text' : 'text-red-400 neon-text'}`}>
                       {sentiment.net_flow >= 0 ? '+' : ''}{(sentiment.net_flow / 1000000).toFixed(1)}M
                     </div>
-                    <div className="text-white/40 text-xs mt-1">{sentiment.trade_count} total trades</div>
+                    <div className="text-white/30 text-xs font-semibold">{sentiment.trade_count} total trades</div>
                   </div>
                 </div>
               </>
@@ -120,30 +120,33 @@ export default function Home() {
 
           {/* Middle Column - Recent Trades */}
           <div className="col-span-4 flex flex-col">
-            <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-5 border border-white/10 flex-1 flex flex-col overflow-hidden">
-              <h2 className="text-lg font-bold text-white mb-4">Recent Spot Trades</h2>
-              <div className="flex-1 overflow-y-auto space-y-2 pr-2 scrollbar-thin">
+            <div className="premium-card rounded-3xl p-6 flex-1 flex flex-col overflow-hidden shimmer">
+              <h2 className="text-xl font-black text-white mb-5 flex items-center gap-3">
+                <span className="gradient-text">Recent Spot Trades</span>
+                <div className="h-px flex-1 bg-gradient-to-r from-nansen-cyan/50 to-transparent"></div>
+              </h2>
+              <div className="flex-1 overflow-y-auto space-y-2.5 pr-2 scrollbar-thin">
                 {loading ? (
-                  <div className="text-white/50 text-center py-8 text-sm">Loading...</div>
+                  <div className="text-white/50 text-center py-12 text-sm">Loading...</div>
                 ) : trades.length > 0 ? (
                   trades.slice(0, 15).map((trade, index) => {
                     const isBuy = trade.token_sold_symbol === 'ETH' || trade.token_sold_symbol === 'USDC' || trade.token_sold_symbol === 'USDT';
                     const mainToken = isBuy ? trade.token_bought_symbol : trade.token_sold_symbol;
                     return (
-                      <div key={index} className="bg-white/5 rounded-xl p-3 border border-white/5 hover:border-nansen-cyan/30 transition-all">
+                      <div key={index} className="bg-white/5 rounded-2xl p-4 border border-white/10 hover:border-nansen-cyan/50 hover:bg-white/10 transition-all duration-300 group">
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <div className={`w-2 h-2 rounded-full ${isBuy ? 'bg-nansen-cyan' : 'bg-red-400'}`}></div>
+                          <div className="flex items-center gap-4">
+                            <div className={`w-3 h-3 rounded-full shadow-lg ${isBuy ? 'bg-gradient-to-br from-nansen-cyan to-nansen-blue neon-glow' : 'bg-gradient-to-br from-red-400 to-red-600'}`}></div>
                             <div>
-                              <div className="text-white font-semibold text-sm">{mainToken}</div>
-                              <div className="text-white/40 text-xs uppercase">{isBuy ? 'buy' : 'sell'}</div>
+                              <div className="text-white font-bold text-sm group-hover:text-nansen-cyan transition-colors">{mainToken}</div>
+                              <div className={`text-xs uppercase font-semibold ${isBuy ? 'text-nansen-cyan/70' : 'text-red-400/70'}`}>{isBuy ? 'buy' : 'sell'}</div>
                             </div>
                           </div>
                           <div className="text-right">
-                            <div className="text-white font-bold text-sm">
+                            <div className="text-white font-black text-base">
                               ${(trade.trade_value_usd / 1000).toFixed(0)}K
                             </div>
-                            <div className="text-white/40 text-xs">
+                            <div className="text-white/30 text-xs font-medium">
                               {new Date(trade.block_timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </div>
                           </div>
@@ -152,7 +155,7 @@ export default function Home() {
                     );
                   })
                 ) : (
-                  <div className="text-white/50 text-center py-8 text-sm">No trades available</div>
+                  <div className="text-white/50 text-center py-12 text-sm">No trades available</div>
                 )}
               </div>
             </div>
