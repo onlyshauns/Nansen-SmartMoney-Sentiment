@@ -40,7 +40,7 @@ export default function SmartTraderLeaderboard() {
 
   return (
     <div className="card">
-      <div className="p-8 border-b border-white/5">
+      <div className="p-10 border-b border-white/5">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-bold text-white mb-1">Perps Positions</h3>
@@ -60,7 +60,7 @@ export default function SmartTraderLeaderboard() {
         </div>
       </div>
 
-      <div className="p-8 space-y-6 max-h-[600px] overflow-y-auto">
+      <div className="p-10 space-y-8 max-h-[600px] overflow-y-auto">
         {loading ? (
           <div className="text-gray-500 text-center py-20">Loading...</div>
         ) : traders.length > 0 ? (

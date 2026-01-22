@@ -86,10 +86,10 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#0A0E15]">
-      <div className="max-w-[1600px] mx-auto px-8 py-12">
+      <div className="max-w-[1600px] mx-auto px-12 py-20">
 
         {/* Header */}
-        <div className="mb-20">
+        <div className="mb-32">
           <h1 className="text-3xl font-bold text-white mb-2" title="Dashboard tracking trading activity from wallets identified by Nansen as 'smart money' - experienced and successful traders">Smart Money Dashboard</h1>
           <p className="text-gray-500 text-sm" title="Data updates every 2 minutes from Nansen API">Real-time sentiment from Nansen smart money wallets</p>
         </div>
@@ -140,9 +140,9 @@ export default function Home() {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-3 gap-12">
+            <div className="grid grid-cols-3 gap-16">
               {/* Buy Ratio */}
-              <div className="stat-card p-8 relative">
+              <div className="stat-card p-10 relative">
                 <div className="absolute top-4 right-4 info-icon">
                   <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
                     ⓘ
@@ -170,7 +170,7 @@ export default function Home() {
               </div>
 
               {/* Buy Volume */}
-              <div className="stat-card p-8 relative">
+              <div className="stat-card p-10 relative">
                 <div className="absolute top-4 right-4 info-icon">
                   <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
                     ⓘ
@@ -187,7 +187,7 @@ export default function Home() {
               </div>
 
               {/* Net Flow */}
-              <div className="stat-card p-8 relative">
+              <div className="stat-card p-10 relative">
                 <div className="absolute top-4 right-4 info-icon">
                   <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
                     ⓘ
@@ -206,12 +206,12 @@ export default function Home() {
 
             {/* Activity Section */}
             <div>
-              <h2 className="text-2xl font-bold text-white mb-12" title="Real-time trading activity from smart money wallets across spot markets (DEX) and perpetual futures (Hyperliquid)">Live Activity</h2>
+              <h2 className="text-2xl font-bold text-white mb-16" title="Real-time trading activity from smart money wallets across spot markets (DEX) and perpetual futures (Hyperliquid)">Live Activity</h2>
 
               <div className="grid grid-cols-2 gap-32">
                 {/* Spot Trades */}
                 <div className="card">
-                  <div className="p-8 border-b border-white/5">
+                  <div className="p-10 border-b border-white/5">
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="text-lg font-bold text-white mb-1">Spot Trades</h3>
@@ -231,7 +231,7 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div className="p-8 space-y-6 max-h-[600px] overflow-y-auto">
+                  <div className="p-10 space-y-8 max-h-[600px] overflow-y-auto">
                     {trades.slice(0, 10).map((trade, index) => {
                       const isBuy = ['ETH', 'USDC', 'USDT', 'DAI'].includes(trade.token_sold_symbol);
                       const token = isBuy ? trade.token_bought_symbol : trade.token_sold_symbol;
