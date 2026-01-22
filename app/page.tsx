@@ -104,7 +104,7 @@ export default function Home() {
             {/* Hero Sentiment Indicator */}
             <div className="max-w-3xl mx-auto">
               <div
-                className="hero-card p-20 text-center relative"
+                className="hero-card p-24 text-center relative"
                 style={{
                   boxShadow: `0 30px 90px ${getSentimentColor(sentiment.overall)}25`,
                 }}
@@ -140,9 +140,9 @@ export default function Home() {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-3 gap-16">
+            <div className="grid grid-cols-3 gap-20">
               {/* Buy Ratio */}
-              <div className="stat-card p-10 relative">
+              <div className="stat-card p-12 relative">
                 <div className="absolute top-4 right-4 info-icon">
                   <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
                     ⓘ
@@ -170,7 +170,7 @@ export default function Home() {
               </div>
 
               {/* Buy Volume */}
-              <div className="stat-card p-10 relative">
+              <div className="stat-card p-12 relative">
                 <div className="absolute top-4 right-4 info-icon">
                   <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
                     ⓘ
@@ -187,7 +187,7 @@ export default function Home() {
               </div>
 
               {/* Net Flow */}
-              <div className="stat-card p-10 relative">
+              <div className="stat-card p-12 relative">
                 <div className="absolute top-4 right-4 info-icon">
                   <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
                     ⓘ
@@ -206,32 +206,30 @@ export default function Home() {
 
             {/* Activity Section */}
             <div>
-              <h2 className="text-2xl font-bold text-white mb-16" title="Real-time trading activity from smart money wallets across spot markets (DEX) and perpetual futures (Hyperliquid)">Live Activity</h2>
+              <h2 className="text-2xl font-bold text-white mb-20" title="Real-time trading activity from smart money wallets across spot markets (DEX) and perpetual futures (Hyperliquid)">Live Activity</h2>
 
-              <div className="grid grid-cols-2 gap-32">
+              <div className="grid grid-cols-2 gap-40">
                 {/* Spot Trades */}
-                <div className="card">
-                  <div className="p-10 border-b border-white/5">
+                <div className="card relative">
+                  <div className="absolute top-6 right-6 info-icon z-10">
+                    <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
+                      ⓘ
+                    </div>
+                    <div className="tooltip-text">
+                      Real-time decentralized exchange (DEX) spot market trades from Nansen-identified smart money wallets. Tracks buying and selling activity across Ethereum, Base, Polygon, and other EVM-compatible chains. Updates every 2 minutes.
+                    </div>
+                  </div>
+                  <div className="p-12 border-b border-white/5">
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="text-lg font-bold text-white mb-1">Spot Trades</h3>
                         <p className="text-xs text-gray-500">DEX Activity</p>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <div className="info-icon">
-                          <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
-                            ⓘ
-                          </div>
-                          <div className="tooltip-text">
-                            Real-time decentralized exchange (DEX) spot market trades from Nansen-identified smart money wallets. Tracks buying and selling activity across Ethereum, Base, Polygon, and other EVM-compatible chains. Updates every 2 minutes.
-                          </div>
-                        </div>
-                        <div className="badge badge-success">Live</div>
-                      </div>
+                      <div className="badge badge-success">Live</div>
                     </div>
                   </div>
 
-                  <div className="p-10 space-y-8 max-h-[600px] overflow-y-auto">
+                  <div className="p-12 space-y-8 max-h-[600px] overflow-y-auto">
                     {trades.slice(0, 10).map((trade, index) => {
                       const isBuy = ['ETH', 'USDC', 'USDT', 'DAI'].includes(trade.token_sold_symbol);
                       const token = isBuy ? trade.token_bought_symbol : trade.token_sold_symbol;
@@ -239,7 +237,7 @@ export default function Home() {
                       return (
                         <div
                           key={index}
-                          className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/[0.04] hover:bg-white/[0.04] transition-all"
+                          className="flex items-center justify-between p-6 rounded-2xl bg-white/[0.02] border border-white/[0.04] hover:bg-white/[0.04] transition-all"
                           title={`Smart money ${isBuy ? 'bought' : 'sold'} ${token} for $${(trade.trade_value_usd / 1000).toFixed(1)}K on ${trade.chain} at ${new Date(trade.block_timestamp).toLocaleString()}`}
                         >
                           <div className="flex items-center gap-4">

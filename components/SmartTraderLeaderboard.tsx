@@ -39,35 +39,33 @@ export default function SmartTraderLeaderboard() {
   };
 
   return (
-    <div className="card">
-      <div className="p-10 border-b border-white/5">
+    <div className="card relative">
+      <div className="absolute top-6 right-6 info-icon z-10">
+        <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
+          ⓘ
+        </div>
+        <div className="tooltip-text">
+          Top 5 performing perpetual futures positions on Hyperliquid DEX from smart traders. Shows P&L (profit/loss in dollars) and ROI (return on investment as percentage). Positions are leveraged long or short trades on crypto perpetuals.
+        </div>
+      </div>
+      <div className="p-12 border-b border-white/5">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-bold text-white mb-1">Perps Positions</h3>
             <p className="text-xs text-gray-500">Hyperliquid Leaderboard</p>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="info-icon">
-              <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
-                ⓘ
-              </div>
-              <div className="tooltip-text">
-                Top 5 performing perpetual futures positions on Hyperliquid DEX from smart traders. Shows P&L (profit/loss in dollars) and ROI (return on investment as percentage). Positions are leveraged long or short trades on crypto perpetuals.
-              </div>
-            </div>
-            <div className="badge badge-success">Top 5</div>
-          </div>
+          <div className="badge badge-success">Top 5</div>
         </div>
       </div>
 
-      <div className="p-10 space-y-8 max-h-[600px] overflow-y-auto">
+      <div className="p-12 space-y-8 max-h-[600px] overflow-y-auto">
         {loading ? (
           <div className="text-gray-500 text-center py-20">Loading...</div>
         ) : traders.length > 0 ? (
           traders.slice(0, 5).map((trader, index) => (
             <div
               key={trader.address}
-              className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.04] hover:bg-white/[0.04] transition-all"
+              className="p-6 rounded-2xl bg-white/[0.02] border border-white/[0.04] hover:bg-white/[0.04] transition-all"
               title={`Trader ${trader.address}: ${trader.side.toUpperCase()} ${trader.leverage}x position with ${trader.pnl >= 0 ? '+' : ''}$${(trader.pnl / 1000).toFixed(1)}K P&L (${trader.roi >= 0 ? '+' : ''}${trader.roi.toFixed(1)}% ROI)`}
             >
               <div className="flex items-center gap-4 mb-4">
