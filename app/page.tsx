@@ -115,7 +115,7 @@ export default function Home() {
               )}
 
               {/* Three Cards Grid */}
-              <div className="grid grid-cols-3 gap-8">
+              <div className="grid grid-cols-3 gap-12">
                 <TopTokensWidget tokens={tokensData} />
                 <TopTradersWidget traders={tradersData} />
                 <LiveTradesWidget trades={tradesData} />
