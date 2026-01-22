@@ -51,14 +51,14 @@ export default function TopTradersWidget({ traders }: TopTradersWidgetProps) {
         <Tooltip text="Shows the most active smart money traders on Hyperliquid ranked by total trading volume. The bar shows their long/short ratio." />
       </div>
 
-      <div className="space-y-0 overflow-y-auto flex-1">
+      <div className="space-y-3 overflow-y-auto flex-1">
         {traders.length === 0 ? (
           <div className="text-slate-400 text-center py-8">No traders data available</div>
         ) : (
           traders.map((trader, index) => (
             <div
               key={trader.address}
-              className="py-4 border-b border-white/5 hover:bg-white/5 transition-colors cursor-pointer"
+              className="py-4 px-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-4 flex-1">

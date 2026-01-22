@@ -74,14 +74,14 @@ export default function LiveTradesWidget({ trades }: LiveTradesWidgetProps) {
         <Tooltip text="Real-time feed of smart money trades across DEX platforms and Hyperliquid perpetuals. Shows most recent trades first." />
       </div>
 
-      <div className="space-y-0 overflow-y-auto flex-1">
+      <div className="space-y-3 overflow-y-auto flex-1">
         {trades.length === 0 ? (
           <div className="text-slate-400 text-center py-8">No trades data available</div>
         ) : (
           trades.map((trade, index) => (
             <div
               key={`${trade.timestamp}-${index}`}
-              className="flex items-center justify-between py-4 border-b border-white/5 hover:bg-white/5 transition-colors cursor-pointer"
+              className="flex items-center justify-between py-4 px-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
             >
               <div className="flex items-center gap-3 flex-1">
                 <span

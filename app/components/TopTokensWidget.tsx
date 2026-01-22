@@ -53,14 +53,14 @@ export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
         <Tooltip text="Shows tokens with the highest net inflow from smart money wallets. Net inflow = total buy volume minus total sell volume across all chains." />
       </div>
 
-      <div className="space-y-0 overflow-y-auto flex-1">
+      <div className="space-y-3 overflow-y-auto flex-1">
         {tokens.length === 0 ? (
           <div className="text-slate-400 text-center py-8">No tokens data available</div>
         ) : (
           tokens.map((token, index) => (
             <div
               key={`${token.address}-${token.chain}`}
-              className="flex items-center justify-between py-4 border-b border-white/5 hover:bg-white/5 transition-colors cursor-pointer"
+              className="flex items-center justify-between py-4 px-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
             >
               <div className="flex items-center gap-4 flex-1">
                 <span className="text-white/40 text-sm font-medium w-6">{index + 1}</span>
