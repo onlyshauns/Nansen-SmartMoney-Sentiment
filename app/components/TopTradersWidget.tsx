@@ -20,6 +20,10 @@ interface TopTradersWidgetProps {
 }
 
 export default function TopTradersWidget({ traders }: TopTradersWidgetProps) {
+  const openWalletProfiler = (address: string) => {
+    window.open(`https://app.nansen.ai/wallet-profiler?address=${address}`, '_blank');
+  };
+
   const formatValue = (value: number) => {
     if (value >= 1000000) {
       return `$${(value / 1000000).toFixed(2)}M`;
@@ -70,6 +74,7 @@ export default function TopTradersWidget({ traders }: TopTradersWidgetProps) {
                 <div
                   key={trader.address}
                   className="py-5 px-6 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
+                  onClick={() => openWalletProfiler(trader.address)}
                 >
                   <div className="grid grid-cols-[0.5fr_2fr_1.5fr_1.5fr] gap-6 items-center mb-2">
                     <span className="text-white/40 text-sm font-medium">{index + 1}</span>

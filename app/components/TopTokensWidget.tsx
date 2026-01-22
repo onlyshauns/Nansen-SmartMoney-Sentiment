@@ -19,10 +19,23 @@ interface TopTokensWidgetProps {
 export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
   const [copiedAddress, setCopiedAddress] = useState<string | null>(null);
 
-  const copyAddress = (address: string) => {
+  const copyAddress = (address: string, e: React.MouseEvent) => {
+    e.stopPropagation();
     navigator.clipboard.writeText(address);
     setCopiedAddress(address);
     setTimeout(() => setCopiedAddress(null), 2000);
+  };
+
+  const openTokenGodMode = (address: string, chain: string) => {
+    const chainMap: Record<string, string> = {
+      ethereum: 'ethereum',
+      base: 'base',
+      polygon: 'polygon',
+      arbitrum: 'arbitrum',
+      optimism: 'optimism',
+    };
+    const nansenChain = chainMap[chain.toLowerCase()] || 'ethereum';
+    window.open(`https://app.nansen.ai/token/${address}?chain=${nansenChain}`, '_blank');
   };
 
   const formatChain = (chain: string) => {
@@ -59,7 +72,7 @@ export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
         ) : (
           <>
             {/* Header */}
-            <div className="grid grid-cols-[1fr_1.5fr_2fr_1fr] gap-6 py-4 px-6 text-xs font-semibold text-white/40 uppercase tracking-wider border-b border-white/10 mb-4">
+            <div className="grid grid-cols-[0.6fr_1.2fr_2.2fr_1fr] gap-6 py-4 px-6 text-xs font-semibold text-white/40 uppercase tracking-wider border-b border-white/10 mb-4">
               <div>Chain</div>
               <div>Token</div>
               <div>Contract Address</div>
@@ -71,12 +84,15 @@ export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
               {tokens.map((token) => (
                 <div
                   key={`${token.address}-${token.chain}`}
-                  className="grid grid-cols-[1fr_1.5fr_2fr_1fr] gap-6 items-center py-5 px-6 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
-                  onClick={() => copyAddress(token.address)}
+                  className="grid grid-cols-[0.6fr_1.2fr_2.2fr_1fr] gap-6 items-center py-5 px-6 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
+                  onClick={() => openTokenGodMode(token.address, token.chain)}
                 >
                   <div className="text-white/60 text-sm">{formatChain(token.chain)}</div>
                   <div className="text-white font-medium">{token.symbol}</div>
-                  <div className="text-white/40 text-xs font-mono overflow-hidden text-ellipsis">
+                  <div
+                    className="text-white/40 text-xs font-mono overflow-hidden text-ellipsis"
+                    onClick={(e) => copyAddress(token.address, e)}
+                  >
                     {token.address}
                     {copiedAddress === token.address && (
                       <span className="ml-2 text-[#00ffa7] text-xs">Copied!</span>
