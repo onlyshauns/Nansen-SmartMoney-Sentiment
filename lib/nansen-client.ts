@@ -71,6 +71,56 @@ export class NansenClient {
       },
     });
   }
+
+  /**
+   * Get recent perpetual trades by smart money wallets on Hyperliquid
+   * @param page - Page number for pagination
+   * @param perPage - Results per page
+   * @param filters - Optional filters for side, action, token, etc.
+   */
+  async getSmartMoneyPerpTrades(
+    page: number = 1,
+    perPage: number = 50,
+    filters: {
+      side?: 'long' | 'short';
+      action?: string;
+      token_symbol?: string;
+      min_value_usd?: number;
+      max_value_usd?: number;
+      show_new_positions_only?: boolean;
+    } = {}
+  ) {
+    return this.request('/smart-money/perp-trades', {
+      ...filters,
+      pagination: {
+        page,
+        per_page: perPage,
+      },
+    });
+  }
+
+  /**
+   * Get Hyperliquid PnL leaderboard for top traders
+   * @param token_symbol - Optional token symbol to filter by (e.g., 'BTC', 'ETH')
+   * @param period - Time period for PnL calculation
+   * @param page - Page number for pagination
+   * @param perPage - Results per page
+   */
+  async getHyperliquidLeaderboard(
+    token_symbol?: string,
+    period: '7d' | '30d' | 'all' = '7d',
+    page: number = 1,
+    perPage: number = 50
+  ) {
+    return this.request('/hyperliquid/perp-pnl-leaderboard', {
+      ...(token_symbol && { token_symbol }),
+      period,
+      pagination: {
+        page,
+        per_page: perPage,
+      },
+    });
+  }
 }
 
 // Singleton instance
