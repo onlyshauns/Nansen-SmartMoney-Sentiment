@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,158 +7,50 @@
 :root {
   --nansen-cyan: #00E2B3;
   --nansen-blue: #3298DA;
-  --nansen-dark: #0A0F1C;
-  --nansen-darker: #060A14;
 }
 
 body {
-  background: radial-gradient(ellipse at top, #0F1923 0%, #060A14 50%, #000000 100%);
-  background-attachment: fixed;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0B0E13;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
+  color: #FFFFFF;
 }
 
 @layer utilities {
-  /* Premium Glass Cards */
-  .premium-card {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.08) 0%,
-      rgba(255, 255, 255, 0.02) 100%
-    );
-    backdrop-filter: blur(24px);
-    border: 1px solid rgba(0, 226, 179, 0.15);
-    box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.4),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 0 0 1px rgba(0, 226, 179, 0.05);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Clean Card Style - SOLID backgrounds for readability */
+  .card {
+    background: #151922;
+    border: 1px solid #1F2937;
+    border-radius: 16px;
+    transition: all 0.2s ease;
   }
 
-  .premium-card:hover {
-    border-color: rgba(0, 226, 179, 0.4);
-    box-shadow:
-      0 12px 48px rgba(0, 226, 179, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15),
-      0 0 0 1px rgba(0, 226, 179, 0.1);
-    transform: translateY(-2px);
+  .card:hover {
+    border-color: #00E2B3;
   }
 
-  /* Gradient Text */
-  .gradient-text {
-    background: linear-gradient(135deg, #00E2B3 0%, #3298DA 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* Neon Glow Effects */
-  .neon-glow {
-    box-shadow:
-      0 0 20px rgba(0, 226, 179, 0.3),
-      0 0 40px rgba(0, 226, 179, 0.1),
-      inset 0 0 20px rgba(0, 226, 179, 0.05);
-  }
-
-  .neon-text {
-    text-shadow:
-      0 0 10px rgba(0, 226, 179, 0.5),
-      0 0 20px rgba(0, 226, 179, 0.3),
-      0 0 30px rgba(0, 226, 179, 0.1);
-  }
-
-  /* Shimmer Effect */
-  .shimmer {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .shimmer::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(0, 226, 179, 0.1),
-      transparent
-    );
-    animation: shimmer 3s infinite;
-  }
-
-  @keyframes shimmer {
-    to {
-      left: 100%;
-    }
-  }
-
-  /* Floating Animation */
-  .float {
-    animation: float 6s ease-in-out infinite;
-  }
-
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
-
-  /* Pulse Glow */
-  .pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse-glow {
-    0%, 100% {
-      box-shadow: 0 0 20px rgba(0, 226, 179, 0.3);
-    }
-    50% {
-      box-shadow: 0 0 40px rgba(0, 226, 179, 0.6);
-    }
+  /* Accent Card */
+  .card-accent {
+    background: linear-gradient(135deg, #151922 0%, #1A1F2E 100%);
+    border: 1px solid #2D3748;
   }
 }
 
-/* Custom Scrollbar */
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
+  background: #151922;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #00E2B3 0%, #3298DA 100%);
-  border-radius: 10px;
-  border: 2px solid rgba(0, 0, 0, 0.2);
+  background: #2D3748;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #3298DA 0%, #00E2B3 100%);
-}
-
-.scrollbar-thin::-webkit-scrollbar {
-  width: 6px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, rgba(0, 226, 179, 0.4) 0%, rgba(50, 152, 218, 0.4) 100%);
-  border-radius: 10px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, rgba(0, 226, 179, 0.7) 0%, rgba(50, 152, 218, 0.7) 100%);
+  background: #00E2B3;
 }

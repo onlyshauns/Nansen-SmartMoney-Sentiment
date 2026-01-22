@@ -39,28 +39,26 @@ export default function SmartTraderLeaderboard() {
   };
 
   return (
-    <div className="premium-card rounded-3xl p-6 flex-1 flex flex-col overflow-hidden shimmer">
-      <div className="flex items-center justify-between mb-5">
-        <h2 className="text-xl font-black text-white flex items-center gap-3">
-          <span className="gradient-text">Hyperliquid Positions</span>
-        </h2>
-        <span className="text-white/30 text-xs uppercase tracking-wider font-bold">Top 5</span>
+    <div className="card p-6 h-full flex flex-col">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-bold text-white">Hyperliquid Positions</h2>
+        <span className="text-gray-500 text-xs uppercase tracking-wider font-semibold">Top 5</span>
       </div>
 
-      <div className="flex-1 overflow-y-auto space-y-3 pr-2 scrollbar-thin">
+      <div className="flex-1 overflow-y-auto space-y-3">
         {loading ? (
-          <div className="text-white/50 text-center py-12 text-sm">Loading...</div>
+          <div className="text-gray-400 text-center py-20">Loading...</div>
         ) : traders.length > 0 ? (
           traders.slice(0, 5).map((trader, index) => (
-            <div key={trader.address} className="bg-white/5 rounded-2xl p-4 border border-white/10 hover:border-nansen-cyan/50 hover:bg-white/10 transition-all duration-300 group">
+            <div key={trader.address} className="card-accent p-4 hover:border-[#00E2B3] transition-colors">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <span className="gradient-text neon-text font-black text-lg">#{index + 1}</span>
+                  <span className="text-[#00E2B3] font-bold text-lg">#{index + 1}</span>
                   <div>
-                    <div className="text-white/80 font-mono text-xs group-hover:text-white transition-colors">{trader.address}</div>
+                    <div className="text-gray-300 font-mono text-xs">{trader.address}</div>
                     <div className="flex items-center gap-2 mt-1.5">
-                      <span className={`px-2.5 py-1 rounded-lg text-xs font-bold shadow-lg ${
-                        trader.side === 'long' ? 'bg-nansen-cyan/20 text-nansen-cyan border border-nansen-cyan/30' : 'bg-red-400/20 text-red-400 border border-red-400/30'
+                      <span className={`px-2.5 py-1 rounded-lg text-xs font-bold ${
+                        trader.side === 'long' ? 'bg-[#00E2B3]/20 text-[#00E2B3] border border-[#00E2B3]/30' : 'bg-red-400/20 text-red-400 border border-red-400/30'
                       }`}>
                         {trader.side.toUpperCase()} {trader.leverage}x
                       </span>
@@ -68,10 +66,10 @@ export default function SmartTraderLeaderboard() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className={`text-xl font-black ${trader.pnl >= 0 ? 'gradient-text neon-text' : 'text-red-400 neon-text'}`}>
+                  <div className={`text-xl font-bold ${trader.pnl >= 0 ? 'text-[#00E2B3]' : 'text-red-400'}`}>
                     {trader.pnl >= 0 ? '+' : ''}{(trader.pnl / 1000).toFixed(1)}K
                   </div>
-                  <div className={`text-xs font-semibold ${trader.roi >= 0 ? 'text-nansen-cyan/70' : 'text-red-400/70'}`}>
+                  <div className={`text-xs font-semibold ${trader.roi >= 0 ? 'text-[#00E2B3]/70' : 'text-red-400/70'}`}>
                     {trader.roi >= 0 ? '+' : ''}{trader.roi.toFixed(1)}% ROI
                   </div>
                 </div>
@@ -79,7 +77,7 @@ export default function SmartTraderLeaderboard() {
             </div>
           ))
         ) : (
-          <div className="text-white/50 text-center py-12 text-sm">No positions available</div>
+          <div className="text-gray-400 text-center py-20">No positions available</div>
         )}
       </div>
     </div>
