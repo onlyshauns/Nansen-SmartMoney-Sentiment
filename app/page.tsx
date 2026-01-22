@@ -58,11 +58,11 @@ export default function Home() {
   };
 
   return (
-    <div className="h-screen bg-[#000000] p-16 overflow-hidden">
+    <div className="h-screen bg-[#000000] p-8 overflow-hidden">
       <div className="h-full bg-[#061019] flex flex-col overflow-hidden rounded-3xl border-4 border-[#00ffa7]/30 shadow-2xl shadow-[#00ffa7]/20">
         {/* Header */}
         <header className="border-b border-[#00ffa7]/20 bg-[#0a1420] flex-shrink-0 rounded-t-3xl">
-          <div className="px-12 py-6 flex items-center justify-between">
+          <div className="px-10 py-5 flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-white" style={{ fontFamily: 'Arial, sans-serif' }}>
               Smart Money Dashboard
@@ -89,9 +89,9 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 px-12 py-10 overflow-hidden">
+      <main className="flex-1 p-10 overflow-hidden">
         {error && (
-          <div className="mb-4 p-3 bg-red-900/20 border border-red-900/50 rounded-lg text-red-400 text-sm">
+          <div className="mb-6 p-4 bg-red-900/20 border border-red-900/50 rounded-lg text-red-400 text-sm">
             {error}
           </div>
         )}
@@ -101,7 +101,7 @@ export default function Home() {
             <div className="text-white text-lg">Loading dashboard...</div>
           </div>
         ) : (
-          <div className="h-full flex flex-col gap-8">
+          <div className="h-full flex flex-col gap-10">
             {/* Sentiment Hero - Full Width */}
             {sentimentData && !sentimentData.error && (
               <div className="flex-shrink-0">
@@ -117,7 +117,7 @@ export default function Home() {
             )}
 
             {/* Three Separate Cards Layout */}
-            <div className="flex items-stretch flex-1 min-h-0" style={{ gap: '40px' }}>
+            <div className="flex items-stretch flex-1 min-h-0 gap-8">
               <div className="flex-1 min-w-0">
                 <TopTokensWidget tokens={tokensData} />
               </div>
