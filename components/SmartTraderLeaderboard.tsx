@@ -39,14 +39,22 @@ export default function SmartTraderLeaderboard() {
   };
 
   return (
-    <div className="card" title="Top 5 performing perpetual futures positions on Hyperliquid from smart traders. Shows P&L (profit/loss) and ROI (return on investment).">
+    <div className="card">
       <div className="p-8 border-b border-white/5">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-bold text-white mb-1" title="Perpetual futures trading positions">Perps Positions</h3>
-            <p className="text-xs text-gray-500" title="Data from Hyperliquid DEX - a decentralized perpetuals exchange">Hyperliquid Leaderboard</p>
+            <h3 className="text-lg font-bold text-white mb-1">Perps Positions</h3>
+            <p className="text-xs text-gray-500">Hyperliquid Leaderboard</p>
           </div>
-          <div className="badge badge-success" title="Top 5 positions ranked by profit & loss">Top 5</div>
+          <div className="flex items-center gap-3">
+            <div
+              className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-xs"
+              title="Top 5 performing perpetual futures positions on Hyperliquid DEX from smart traders. Shows P&L (profit/loss in dollars) and ROI (return on investment as percentage). Positions are leveraged long or short trades on crypto perpetuals."
+            >
+              ⓘ
+            </div>
+            <div className="badge badge-success">Top 5</div>
+          </div>
         </div>
       </div>
 
