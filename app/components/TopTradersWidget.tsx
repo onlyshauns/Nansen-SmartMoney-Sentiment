@@ -50,9 +50,9 @@ export default function TopTradersWidget({ traders }: TopTradersWidgetProps) {
 
   return (
     <div className="rounded-xl p-6 bg-white/[0.02] border border-white/[0.05] h-full flex flex-col">
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-sm font-medium text-white mb-0.5">Top Traders</h3>
+          <h3 className="text-xl font-semibold text-white mb-1">Top Traders</h3>
           <p className="text-xs text-gray-600">By trading volume</p>
         </div>
         <Tooltip text="Most active Hyperliquid traders by volume." />

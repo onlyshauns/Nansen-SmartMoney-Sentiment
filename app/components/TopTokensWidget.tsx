@@ -62,9 +62,9 @@ export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
 
   return (
     <div className="rounded-xl p-6 bg-white/[0.02] border border-white/[0.05] h-full flex flex-col">
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-sm font-medium text-white mb-0.5">Top Tokens Bought</h3>
+          <h3 className="text-xl font-semibold text-white mb-1">Top Tokens Bought</h3>
           <p className="text-xs text-gray-600">Highest net inflows</p>
         </div>
         <Tooltip text="Tokens with highest net inflow from smart money." />
