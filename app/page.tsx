@@ -32,7 +32,7 @@ export default function Home() {
   useEffect(() => {
     setMounted(true);
     fetchData();
-    const interval = setInterval(fetchData, 120000);
+    const interval = setInterval(fetchData, 3600000); // 1 hour
     return () => clearInterval(interval);
   }, []);
 
@@ -91,7 +91,7 @@ export default function Home() {
         {/* Header */}
         <div className="mb-32">
           <h1 className="text-3xl font-bold text-white mb-2" title="Dashboard tracking trading activity from wallets identified by Nansen as 'smart money' - experienced and successful traders">Smart Money Dashboard</h1>
-          <p className="text-gray-500 text-sm" title="Data updates every 2 minutes from Nansen API">Real-time sentiment from Nansen smart money wallets</p>
+          <p className="text-gray-500 text-sm" title="Data updates every hour from Nansen API">Real-time sentiment from Nansen smart money wallets</p>
         </div>
 
         {loading ? (
@@ -99,7 +99,7 @@ export default function Home() {
             <div className="text-gray-500">Loading data...</div>
           </div>
         ) : sentiment ? (
-          <div className="space-y-48">
+          <div className="space-y-64">
 
             {/* Hero Sentiment Indicator */}
             <div className="max-w-3xl mx-auto">
@@ -140,7 +140,7 @@ export default function Home() {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-3 gap-20">
+            <div className="grid grid-cols-3 gap-24">
               {/* Buy Ratio */}
               <div className="stat-card p-12 relative">
                 <div className="absolute top-4 right-4 info-icon">
@@ -151,9 +151,9 @@ export default function Home() {
                     Buy Ratio shows the percentage of buy volume compared to total trading volume (buys + sells). A higher percentage indicates more bullish sentiment. Calculated from 24h DEX trading data.
                   </div>
                 </div>
-                <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-6">Buy Ratio</div>
+                <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-8">Buy Ratio</div>
                 <div
-                  className="text-6xl font-black mb-6"
+                  className="text-6xl font-black mb-8"
                   style={{ color: getSentimentColor(sentiment.overall) }}
                 >
                   {sentiment.buy_ratio}%
@@ -179,8 +179,8 @@ export default function Home() {
                     Total USD value of tokens purchased by smart money wallets in the last 24 hours via DEX trades. This represents the aggregate buying power and bullish conviction of smart money traders.
                   </div>
                 </div>
-                <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-6">24h Buy Volume</div>
-                <div className="text-6xl font-black text-green-500 mb-2">
+                <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-8">24h Buy Volume</div>
+                <div className="text-6xl font-black text-green-500 mb-4">
                   ${(sentiment.buy_volume_24h / 1000000).toFixed(1)}M
                 </div>
                 <div className="text-sm text-gray-500">{sentiment.buy_count.toLocaleString()} buy trades</div>
@@ -196,8 +196,8 @@ export default function Home() {
                     Net Flow = Buy volume minus Sell volume. Positive (green) means more capital flowing IN (bullish). Negative (red) means more capital flowing OUT (bearish). Shows the net directional flow of smart money capital.
                   </div>
                 </div>
-                <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-6">24h Net Flow</div>
-                <div className={`text-6xl font-black mb-2 ${sentiment.net_flow >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-8">24h Net Flow</div>
+                <div className={`text-6xl font-black mb-4 ${sentiment.net_flow >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                   {sentiment.net_flow >= 0 ? '+' : ''}{(sentiment.net_flow / 1000000).toFixed(1)}M
                 </div>
                 <div className="text-sm text-gray-500">{sentiment.trade_count.toLocaleString()} total trades</div>
@@ -216,7 +216,7 @@ export default function Home() {
                       ⓘ
                     </div>
                     <div className="tooltip-text">
-                      Real-time decentralized exchange (DEX) spot market trades from Nansen-identified smart money wallets. Tracks buying and selling activity across Ethereum, Base, Polygon, and other EVM-compatible chains. Updates every 2 minutes.
+                      Real-time decentralized exchange (DEX) spot market trades from Nansen-identified smart money wallets. Tracks buying and selling activity across Ethereum, Base, Polygon, and other EVM-compatible chains. Updates every hour.
                     </div>
                   </div>
                   <div className="p-12 border-b border-white/5">
@@ -281,7 +281,7 @@ export default function Home() {
 
         {/* Footer */}
         <div className="mt-20 text-center text-xs text-gray-600">
-          Powered by Nansen API • Updates every 2 minutes
+          Powered by Nansen API • Updates every hour
         </div>
       </div>
     </main>

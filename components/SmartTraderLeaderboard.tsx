@@ -19,7 +19,7 @@ export default function SmartTraderLeaderboard() {
 
   useEffect(() => {
     fetchTraders();
-    const interval = setInterval(fetchTraders, 60000);
+    const interval = setInterval(fetchTraders, 3600000); // 1 hour
     return () => clearInterval(interval);
   }, []);
 
