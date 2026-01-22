@@ -39,18 +39,18 @@ export default function SmartTraderLeaderboard() {
   };
 
   return (
-    <div className="glass-card rounded-xl p-5">
+    <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-5 border border-white/10 flex-1 flex flex-col overflow-hidden">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-bold text-white">Smart Traders</h2>
-        <span className="text-nansen-light/40 text-xs uppercase tracking-wider">Hyperliquid</span>
+        <h2 className="text-lg font-bold text-white">Hyperliquid Positions</h2>
+        <span className="text-white/40 text-xs uppercase tracking-wider">Top 5</span>
       </div>
 
-      <div className="space-y-2">
+      <div className="flex-1 overflow-y-auto space-y-2 pr-2 scrollbar-thin">
         {loading ? (
-          <div className="text-nansen-light/50 text-center py-8 text-sm">Loading traders...</div>
+          <div className="text-white/50 text-center py-8 text-sm">Loading...</div>
         ) : traders.length > 0 ? (
           traders.slice(0, 5).map((trader, index) => (
-            <div key={trader.address} className="bg-nansen-darker/70 rounded-lg p-3 border border-nansen-cyan/10 hover:border-nansen-cyan/30 transition-colors">
+            <div key={trader.address} className="bg-white/5 rounded-xl p-3 border border-white/5 hover:border-nansen-cyan/30 transition-all">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-3">
                   <span className="gradient-text font-bold text-sm">#{index + 1}</span>
@@ -74,15 +74,10 @@ export default function SmartTraderLeaderboard() {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-between text-xs text-nansen-light/40 mt-2 pt-2 border-t border-nansen-cyan/10">
-                <span>${(trader.position_size / 1000).toFixed(0)}K</span>
-                <span>${trader.entry_price.toFixed(0)}</span>
-                <span>${trader.current_price.toFixed(0)}</span>
-              </div>
             </div>
           ))
         ) : (
-          <div className="text-nansen-light/50 text-center py-8 text-sm">No traders data available</div>
+          <div className="text-white/50 text-center py-8 text-sm">No positions available</div>
         )}
       </div>
     </div>
