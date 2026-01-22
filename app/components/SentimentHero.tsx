@@ -20,12 +20,21 @@ export default function SentimentHero({
   const isBullish = sentiment === 'bullish';
   const isBearish = sentiment === 'bearish';
 
+  const glowColor = isBullish ? '#00ffa7' : isBearish ? '#ff4444' : '#888';
+  const glowRgba = isBullish ? 'rgba(0, 255, 167, 0.3)' : isBearish ? 'rgba(255, 68, 68, 0.3)' : 'rgba(136, 136, 136, 0.3)';
+
   return (
-    <div className="relative overflow-hidden rounded-2xl p-8 bg-[#0a1420] border border-[#00ffa7]/20 shadow-lg shadow-[#00ffa7]/10">
+    <div
+      className="relative overflow-hidden rounded-2xl p-8 bg-[#0a1420] border shadow-lg"
+      style={{
+        borderColor: `${glowColor}33`,
+        boxShadow: `0 10px 15px -3px ${glowColor}1a, 0 4px 6px -4px ${glowColor}1a`
+      }}
+    >
       {/* Centered Content */}
       <div className="flex flex-col items-center justify-center text-center">
         {/* Animal Icon - Large Emoji */}
-        <div className="mb-4 text-[140px] leading-none" style={{ filter: 'drop-shadow(0 0 20px rgba(0, 255, 167, 0.3))' }}>
+        <div className="mb-4 text-[140px] leading-none" style={{ filter: `drop-shadow(0 0 20px ${glowRgba})` }}>
           {isBullish ? '🐂' : isBearish ? '🐻' : '😐'}
         </div>
 
