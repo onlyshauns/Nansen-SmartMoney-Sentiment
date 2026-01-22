@@ -58,10 +58,11 @@ export default function Home() {
   };
 
   return (
-    <div className="h-screen bg-[#061019] flex flex-col overflow-hidden">
-      {/* Header */}
-      <header className="border-b border-[#00ffa7]/20 bg-[#0a1420] flex-shrink-0">
-        <div className="px-6 py-3 flex items-center justify-between">
+    <div className="h-screen bg-[#061019] p-6 overflow-hidden">
+      <div className="h-full bg-[#061019] flex flex-col overflow-hidden rounded-2xl border border-white/10">
+        {/* Header */}
+        <header className="border-b border-[#00ffa7]/20 bg-[#0a1420] flex-shrink-0 rounded-t-2xl">
+          <div className="px-8 py-4 flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-white" style={{ fontFamily: 'Arial, sans-serif' }}>
               Smart Money Dashboard
@@ -88,7 +89,7 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 px-8 py-6 overflow-hidden">
+      <main className="flex-1 px-10 py-8 overflow-hidden">
         {error && (
           <div className="mb-4 p-3 bg-red-900/20 border border-red-900/50 rounded-lg text-red-400 text-sm">
             {error}
@@ -130,6 +131,7 @@ export default function Home() {
           </div>
         )}
       </main>
+      </div>
     </div>
   );
 }
