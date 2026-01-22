@@ -5,28 +5,99 @@
 :root {
   --background: #0a0e1a;
   --foreground: #e8ecf4;
+  --nansen-green: #00ff88;
+  --nansen-green-glow: rgba(0, 255, 136, 0.15);
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: linear-gradient(180deg, #0a0e1a 0%, #060912 100%);
+  background-attachment: fixed;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @layer utilities {
   .glass-card {
-    background: rgba(10, 14, 26, 0.7);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(0, 255, 136, 0.1);
+    background: rgba(10, 14, 26, 0.8);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(0, 255, 136, 0.15);
+    box-shadow: 0 4px 24px rgba(0, 255, 136, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .glass-card:hover {
+    border-color: rgba(0, 255, 136, 0.25);
+    box-shadow: 0 8px 32px rgba(0, 255, 136, 0.1);
   }
 
   .hover-lift {
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   }
 
   .hover-lift:hover {
-    transform: translateY(-2px);
+    transform: translateY(-4px);
   }
+
+  .animate-enter {
+    animation: enter 0.2s ease-out;
+  }
+
+  .animate-leave {
+    animation: leave 0.15s ease-in forwards;
+  }
+
+  .glow-green {
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #00ff88 0%, #00d9ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes leave {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(10, 14, 26, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 136, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 136, 0.5);
 }

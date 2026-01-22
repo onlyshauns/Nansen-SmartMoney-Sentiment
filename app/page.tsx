@@ -1,6 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import AlertNotification from '@/components/AlertNotification';
+import SentimentChart from '@/components/SentimentChart';
+import SmartTraderLeaderboard from '@/components/SmartTraderLeaderboard';
 
 interface SmartMoneyTrade {
   token: string;
@@ -41,6 +44,7 @@ export default function Home() {
   const [netflows, setNetflows] = useState<NetflowData[]>([]);
   const [sentiment, setSentiment] = useState<SentimentData | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [alertsEnabled, setAlertsEnabled] = useState(true);
 
   useEffect(() => {
     setMounted(true);
@@ -287,10 +291,28 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Charts and Analytics */}
+        <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {sentiment && <SentimentChart currentScore={sentiment.score} />}
+          <SmartTraderLeaderboard />
+        </div>
+
+        {/* Alerts */}
+        <div className="mt-6">
+          <AlertNotification enabled={alertsEnabled} />
+        </div>
+
         {/* Footer */}
         <div className="mt-12 text-center">
           <div className="inline-flex items-center gap-2 text-nansen-light/40 text-sm">
             <span>Powered by Nansen & Hyperliquid APIs</span>
+            <span>•</span>
+            <button
+              onClick={() => setAlertsEnabled(!alertsEnabled)}
+              className="text-nansen-green hover:text-nansen-green/80 transition-colors"
+            >
+              Alerts: {alertsEnabled ? 'ON' : 'OFF'}
+            </button>
           </div>
         </div>
       </div>
