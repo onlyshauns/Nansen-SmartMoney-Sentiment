@@ -77,11 +77,11 @@ export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
           <table className="w-full">
             <thead>
               <tr className="border-b border-white/10">
-                <th className="text-left pb-3 pt-2 text-xs font-medium text-gray-600 uppercase tracking-wider">#</th>
-                <th className="text-left pb-3 pt-2 text-xs font-medium text-gray-600 uppercase tracking-wider">Token</th>
-                <th className="text-left pb-3 pt-2 text-xs font-medium text-gray-600 uppercase tracking-wider">Chain</th>
-                <th className="text-left pb-3 pt-2 text-xs font-medium text-gray-600 uppercase tracking-wider">Address</th>
-                <th className="text-right pb-3 pt-2 text-xs font-medium text-gray-600 uppercase tracking-wider">Inflow</th>
+                <th className="text-left pb-4 pt-2 text-sm font-semibold text-gray-400 uppercase tracking-wider">#</th>
+                <th className="text-left pb-4 pt-2 text-sm font-semibold text-gray-400 uppercase tracking-wider">Token</th>
+                <th className="text-left pb-4 pt-2 text-sm font-semibold text-gray-400 uppercase tracking-wider">Chain</th>
+                <th className="text-left pb-4 pt-2 text-sm font-semibold text-gray-400 uppercase tracking-wider">Address</th>
+                <th className="text-right pb-4 pt-2 text-sm font-semibold text-gray-400 uppercase tracking-wider">Inflow</th>
               </tr>
             </thead>
             <tbody>
