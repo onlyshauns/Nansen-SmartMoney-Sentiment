@@ -58,8 +58,8 @@ export default function Home() {
   };
 
   return (
-    <div className="h-screen bg-[#061019] p-16 overflow-hidden">
-      <div className="h-full bg-[#061019] flex flex-col overflow-hidden rounded-3xl border-2 border-white/10">
+    <div className="h-screen bg-[#000000] p-16 overflow-hidden">
+      <div className="h-full bg-[#061019] flex flex-col overflow-hidden rounded-3xl border-4 border-[#00ffa7]/30 shadow-2xl shadow-[#00ffa7]/20">
         {/* Header */}
         <header className="border-b border-[#00ffa7]/20 bg-[#0a1420] flex-shrink-0 rounded-t-3xl">
           <div className="px-12 py-6 flex items-center justify-between">
