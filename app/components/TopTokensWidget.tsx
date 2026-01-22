@@ -47,20 +47,20 @@ export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
   };
 
   return (
-    <div className="bg-[#0a1420] rounded-2xl p-4 border border-[#00ffa7]/20 h-full flex flex-col transition-all duration-300 hover:scale-[1.01] hover:shadow-xl hover:shadow-[#00ffa7]/30 hover:border-[#00ffa7]/50 shadow-md shadow-[#00ffa7]/5">
-      <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#00ffa7]/20">
+    <div className="bg-[#0a1420] rounded-2xl p-5 border border-[#00ffa7]/20 h-full flex flex-col transition-all duration-300 hover:scale-[1.01] hover:shadow-xl hover:shadow-[#00ffa7]/30 hover:border-[#00ffa7]/50 shadow-md shadow-[#00ffa7]/5">
+      <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#00ffa7]/20">
         <h3 className="text-lg font-bold text-white">Top Tokens Bought</h3>
         <Tooltip text="Shows tokens with the highest net inflow from smart money wallets. Net inflow = total buy volume minus total sell volume across all chains." />
       </div>
 
-      <div className="space-y-1.5 overflow-y-auto flex-1">
+      <div className="space-y-3 overflow-y-auto flex-1">
         {tokens.length === 0 ? (
           <div className="text-slate-400 text-center py-8">No tokens data available</div>
         ) : (
           tokens.map((token, index) => (
             <div
               key={`${token.address}-${token.chain}`}
-              className="flex items-center justify-between p-2 rounded-lg bg-[#061019] hover:bg-[#0d1a2a] transition-all duration-200 hover:scale-[1.02] hover:shadow-md hover:shadow-[#00ffa7]/20 group cursor-pointer"
+              className="flex items-center justify-between p-3 rounded-lg bg-[#061019] hover:bg-[#0d1a2a] transition-all duration-200 hover:scale-[1.02] hover:shadow-md hover:shadow-[#00ffa7]/20 group cursor-pointer"
               style={{ animationDelay: `${index * 50}ms` }}
             >
               <div className="flex items-center gap-2 flex-1 min-w-0">
