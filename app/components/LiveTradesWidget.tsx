@@ -68,55 +68,54 @@ export default function LiveTradesWidget({ trades }: LiveTradesWidgetProps) {
   };
 
   return (
-    <div className="rounded-2xl p-6 h-full flex flex-col shadow-2xl backdrop-blur-xl"
-      style={{
-        background: 'linear-gradient(135deg, rgba(15, 25, 40, 0.7) 0%, rgba(10, 20, 32, 0.8) 100%)',
-        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
-      }}
-    >
-      <div className="flex items-center justify-between mb-6">
+    <div className="rounded-xl p-6 bg-white/[0.02] border border-white/[0.05] h-full flex flex-col">
+      <div className="flex items-center justify-between mb-5">
         <div>
-          <h3 className="text-base font-semibold text-white/90 mb-1">Live Trades</h3>
-          <p className="text-xs text-gray-500">Recent activity</p>
+          <h3 className="text-sm font-medium text-white mb-0.5">Live Trade Feed</h3>
+          <p className="text-xs text-gray-600">Recent activity</p>
         </div>
         <Tooltip text="Real-time smart money trades across all platforms." />
       </div>
 
-      <div className="overflow-y-auto flex-1 -mx-2">
+      <div className="overflow-y-auto flex-1">
         {trades.length === 0 ? (
-          <div className="text-slate-400 text-center py-12 text-sm">No trades data available</div>
+          <div className="text-gray-500 text-center py-12 text-sm">No trades data available</div>
         ) : (
-          <div className="space-y-2">
-            {trades.map((trade, index) => (
-              <div
-                key={`${trade.timestamp}-${index}`}
-                className="group px-4 py-4 rounded-xl hover:bg-white/5 transition-all cursor-pointer"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3 flex-1 min-w-0">
-                    <div
-                      className={`px-2.5 py-1 rounded-lg text-xs font-bold ${
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-white/[0.05]">
+                <th className="text-left pb-3 text-xs font-medium text-gray-600 uppercase tracking-wider">Action</th>
+                <th className="text-left pb-3 text-xs font-medium text-gray-600 uppercase tracking-wider">Token</th>
+                <th className="text-left pb-3 text-xs font-medium text-gray-600 uppercase tracking-wider">Time</th>
+                <th className="text-right pb-3 text-xs font-medium text-gray-600 uppercase tracking-wider">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              {trades.map((trade, index) => (
+                <tr
+                  key={`${trade.timestamp}-${index}`}
+                  className="hover:bg-white/[0.02] cursor-pointer"
+                >
+                  <td className="py-4">
+                    <span
+                      className={`text-xs font-semibold ${
                         trade.action === 'buy' || trade.action === 'long'
-                          ? 'bg-[#00ffa7]/20 text-[#00ffa7]'
-                          : 'bg-[#ff4444]/20 text-[#ff4444]'
+                          ? 'text-[#00ffa7]'
+                          : 'text-[#ff4444]'
                       }`}
                     >
                       {getActionText(trade.action, trade.type)}
-                    </div>
-                    <div className="flex flex-col min-w-0 flex-1">
-                      <div className="text-white font-semibold text-sm truncate">{trade.tokenSymbol}</div>
-                      <div className="text-gray-500 text-xs">{formatTimeAgo(trade.timestamp)}</div>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-white font-bold text-base">
-                      {formatValue(trade.valueUsd)}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+                    </span>
+                  </td>
+                  <td className="py-4 text-sm text-white font-medium">{trade.tokenSymbol}</td>
+                  <td className="py-4 text-sm text-gray-500">{formatTimeAgo(trade.timestamp)}</td>
+                  <td className="py-4 text-sm text-white font-semibold text-right tabular-nums">
+                    {formatValue(trade.valueUsd)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
       </div>
     </div>

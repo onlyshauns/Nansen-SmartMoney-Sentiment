@@ -58,29 +58,29 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0f1a] via-[#0d1421] to-[#0a0f1a] p-12">
-      <div className="max-w-[1400px] mx-auto">
+    <div className="min-h-screen bg-[#0a0e16] py-14 px-14">
+      <div className="max-w-[1280px] mx-auto">
         {/* Header */}
-        <header className="mb-10">
+        <header className="mb-12">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-1" style={{ fontFamily: 'Arial, sans-serif' }}>
+              <h1 className="text-2xl font-semibold text-white mb-1">
                 Smart Money Dashboard
               </h1>
-              <p className="text-gray-400 text-sm">Real-time Nansen analytics</p>
+              <p className="text-gray-500 text-sm">Real-time Nansen analytics</p>
             </div>
 
             <div className="flex items-center gap-6">
               {lastUpdated && (
-                <div className="text-sm text-gray-400 flex items-center gap-2">
-                  <span className="inline-block w-2 h-2 bg-[#00ffa7] rounded-full animate-pulse" />
+                <div className="text-sm text-gray-500 flex items-center gap-2">
+                  <span className="inline-block w-1.5 h-1.5 bg-[#00ffa7] rounded-full animate-pulse" />
                   Updated {formatLastUpdated()}
                 </div>
               )}
               <button
                 onClick={fetchAllData}
                 disabled={isLoading}
-                className="px-6 py-2.5 bg-gradient-to-r from-[#00ffa7]/20 to-[#00ffa7]/10 hover:from-[#00ffa7]/30 hover:to-[#00ffa7]/20 text-[#00ffa7] rounded-xl transition-all disabled:opacity-50 text-sm font-medium shadow-lg shadow-[#00ffa7]/10"
+                className="px-5 py-2 bg-white/5 hover:bg-white/10 text-white rounded-lg transition-colors disabled:opacity-50 text-sm border border-white/10"
               >
                 {isLoading ? 'Refreshing...' : 'Refresh'}
               </button>
@@ -89,7 +89,7 @@ export default function Home() {
         </header>
 
         {/* Main Content */}
-        <main className="space-y-8">
+        <main className="space-y-10">
         {error && (
           <div className="mb-6 p-4 bg-red-900/20 border border-red-900/50 rounded-lg text-red-400 text-sm">
             {error}

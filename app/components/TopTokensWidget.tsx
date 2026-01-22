@@ -61,57 +61,57 @@ export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
   };
 
   return (
-    <div className="rounded-2xl p-6 h-full flex flex-col shadow-2xl backdrop-blur-xl"
-      style={{
-        background: 'linear-gradient(135deg, rgba(15, 25, 40, 0.7) 0%, rgba(10, 20, 32, 0.8) 100%)',
-        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
-      }}
-    >
-      <div className="flex items-center justify-between mb-6">
+    <div className="rounded-xl p-6 bg-white/[0.02] border border-white/[0.05] h-full flex flex-col">
+      <div className="flex items-center justify-between mb-5">
         <div>
-          <h3 className="text-base font-semibold text-white/90 mb-1">Top Tokens</h3>
-          <p className="text-xs text-gray-500">Highest inflows</p>
+          <h3 className="text-sm font-medium text-white mb-0.5">Top Tokens Bought</h3>
+          <p className="text-xs text-gray-600">Highest net inflows</p>
         </div>
         <Tooltip text="Tokens with highest net inflow from smart money." />
       </div>
 
-      <div className="overflow-y-auto flex-1 -mx-2">
+      <div className="overflow-y-auto flex-1">
         {tokens.length === 0 ? (
-          <div className="text-slate-400 text-center py-12 text-sm">No tokens data available</div>
+          <div className="text-gray-500 text-center py-12 text-sm">No tokens data available</div>
         ) : (
-          <div className="space-y-2">
-            {tokens.map((token, index) => (
-              <div
-                key={`${token.address}-${token.chain}`}
-                className="group px-4 py-4 rounded-xl hover:bg-white/5 transition-all cursor-pointer"
-                onClick={() => openTokenGodMode(token.address, token.chain)}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-3 flex-1 min-w-0">
-                    <span className="text-gray-600 text-xs font-medium w-4">{index + 1}</span>
-                    <div className="flex flex-col min-w-0 flex-1">
-                      <div className="text-white font-semibold text-sm truncate">{token.symbol}</div>
-                      <div className="text-gray-500 text-xs">{formatChain(token.chain)}</div>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-[#00ffa7] font-bold text-base">
-                      +{formatValue(token.netInflow)}
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="text-gray-600 hover:text-gray-400 text-xs font-mono truncate cursor-pointer transition-colors pl-7"
-                  onClick={(e) => copyAddressAndOpenGodMode(token.address, token.chain, e)}
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-white/[0.05]">
+                <th className="text-left pb-3 text-xs font-medium text-gray-600 uppercase tracking-wider">#</th>
+                <th className="text-left pb-3 text-xs font-medium text-gray-600 uppercase tracking-wider">Token</th>
+                <th className="text-left pb-3 text-xs font-medium text-gray-600 uppercase tracking-wider">Chain</th>
+                <th className="text-left pb-3 text-xs font-medium text-gray-600 uppercase tracking-wider">Address</th>
+                <th className="text-right pb-3 text-xs font-medium text-gray-600 uppercase tracking-wider">Inflow</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tokens.map((token, index) => (
+                <tr
+                  key={`${token.address}-${token.chain}`}
+                  className="hover:bg-white/[0.02] cursor-pointer"
+                  onClick={() => openTokenGodMode(token.address, token.chain)}
                 >
-                  {token.address}
-                  {copiedAddress === token.address && (
-                    <span className="ml-2 text-[#00ffa7]">Copied!</span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+                  <td className="py-4 text-sm text-gray-500">{index + 1}</td>
+                  <td className="py-4 text-sm text-white font-medium">{token.symbol}</td>
+                  <td className="py-4 text-sm text-gray-500">{formatChain(token.chain)}</td>
+                  <td
+                    className="py-4 text-xs text-gray-600 font-mono hover:text-gray-400 transition-colors"
+                    onClick={(e) => copyAddressAndOpenGodMode(token.address, token.chain, e)}
+                  >
+                    <span className="inline-block max-w-[180px] truncate align-bottom">
+                      {token.address}
+                    </span>
+                    {copiedAddress === token.address && (
+                      <span className="ml-2 text-[#00ffa7]">Copied!</span>
+                    )}
+                  </td>
+                  <td className="py-4 text-sm text-[#00ffa7] font-semibold text-right tabular-nums">
+                    +{formatValue(token.netInflow)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
       </div>
     </div>
