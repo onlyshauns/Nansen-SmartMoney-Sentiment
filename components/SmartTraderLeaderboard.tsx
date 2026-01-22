@@ -43,14 +43,14 @@ export default function SmartTraderLeaderboard() {
       <div className="p-8 border-b border-white/5">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-bold text-white mb-1">Perps Positions</h3>
-            <p className="text-xs text-gray-500">Hyperliquid Leaderboard</p>
+            <h3 className="text-lg font-bold text-white mb-1" title="Perpetual futures trading positions">Perps Positions</h3>
+            <p className="text-xs text-gray-500" title="Data from Hyperliquid DEX - a decentralized perpetuals exchange">Hyperliquid Leaderboard</p>
           </div>
-          <div className="badge badge-success">Top 5</div>
+          <div className="badge badge-success" title="Top 5 positions ranked by profit & loss">Top 5</div>
         </div>
       </div>
 
-      <div className="p-6 space-y-4 max-h-[600px] overflow-y-auto">
+      <div className="p-8 space-y-6 max-h-[600px] overflow-y-auto">
         {loading ? (
           <div className="text-gray-500 text-center py-20">Loading...</div>
         ) : traders.length > 0 ? (
@@ -79,13 +79,13 @@ export default function SmartTraderLeaderboard() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <div className="text-xs text-gray-500 mb-1">P&L</div>
+                  <div className="text-xs text-gray-500 mb-1" title="Profit & Loss - total dollar gain or loss on this position">P&L</div>
                   <div className={`text-2xl font-black ${trader.pnl >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                     {trader.pnl >= 0 ? '+' : ''}{(trader.pnl / 1000).toFixed(1)}K
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-xs text-gray-500 mb-1">ROI</div>
+                  <div className="text-xs text-gray-500 mb-1" title="Return on Investment - percentage gain or loss relative to position size">ROI</div>
                   <div className={`text-2xl font-black ${trader.roi >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                     {trader.roi >= 0 ? '+' : ''}{trader.roi.toFixed(1)}%
                   </div>
