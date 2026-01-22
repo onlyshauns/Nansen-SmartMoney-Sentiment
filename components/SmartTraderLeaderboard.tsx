@@ -19,7 +19,7 @@ export default function SmartTraderLeaderboard() {
 
   useEffect(() => {
     fetchTraders();
-    const interval = setInterval(fetchTraders, 60000); // Refresh every minute
+    const interval = setInterval(fetchTraders, 60000);
     return () => clearInterval(interval);
   }, []);
 
@@ -39,83 +39,53 @@ export default function SmartTraderLeaderboard() {
   };
 
   return (
-    <div
-      className="dashboard-card p-10 h-[700px] flex flex-col shadow-2xl"
-      style={{ boxShadow: '0 10px 50px rgba(0,0,0,0.4), 0 0 60px rgba(255,215,0,0.08)' }}
-    >
-      <div className="flex items-center justify-between mb-10">
-        <div>
-          <h3 className="text-3xl font-bold text-white mb-2">Perps Positions</h3>
-          <p className="text-gray-500 text-sm">Hyperliquid Leaderboard</p>
+    <div className="card">
+      <div className="p-8 border-b border-white/5">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-lg font-bold text-white mb-1">Perps Positions</h3>
+            <p className="text-xs text-gray-500">Hyperliquid Leaderboard</p>
+          </div>
+          <div className="badge badge-success">Top 5</div>
         </div>
-        <span className="text-gray-500 text-xs font-semibold uppercase tracking-wider">Top 5</span>
       </div>
 
-      <div className="flex-1 overflow-y-auto space-y-10 pr-1">
+      <div className="p-6 space-y-4 max-h-[600px] overflow-y-auto">
         {loading ? (
-          <div className="text-gray-400 text-center py-24">Loading...</div>
+          <div className="text-gray-500 text-center py-20">Loading...</div>
         ) : traders.length > 0 ? (
           traders.slice(0, 5).map((trader, index) => (
             <div
               key={trader.address}
-              className="trade-item p-6 hover:shadow-lg transition-all"
-              style={{
-                boxShadow: index < 3
-                  ? '0 4px 20px rgba(0,0,0,0.2), 0 0 20px rgba(255,215,0,0.1)'
-                  : '0 4px 20px rgba(0,0,0,0.2)'
-              }}
-              title={`${trader.side.toUpperCase()} ${trader.leverage}x position - P&L: ${trader.pnl >= 0 ? '+' : ''}${(trader.pnl / 1000).toFixed(1)}K - ROI: ${trader.roi >= 0 ? '+' : ''}${trader.roi.toFixed(1)}%`}
+              className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.04] hover:bg-white/[0.04] transition-all"
             >
-              <div className="flex items-center justify-between mb-5">
-                <div className="flex items-center gap-4">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-black text-lg ${
-                    index === 0 ? 'bg-gradient-to-br from-[#FFD700] to-[#FFA500] text-black shadow-lg' :
-                    index === 1 ? 'bg-gradient-to-br from-[#C0C0C0] to-[#808080] text-black shadow-lg' :
-                    index === 2 ? 'bg-gradient-to-br from-[#CD7F32] to-[#8B4513] text-black shadow-lg' :
-                    'bg-[#252A3C] text-gray-400'
-                  }`}
-                    style={{
-                      boxShadow: index === 0 ? '0 0 25px rgba(255,215,0,0.4)' :
-                                 index === 1 ? '0 0 20px rgba(192,192,192,0.3)' :
-                                 index === 2 ? '0 0 15px rgba(205,127,50,0.3)' : 'none'
-                    }}
-                  >
-                    {index + 1}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-gray-300 font-mono text-xs truncate mb-2">{trader.address}</div>
-                    <div className="flex items-center gap-2">
-                      <span className={`badge ${trader.side === 'long' ? 'badge-success' : 'badge-danger'}`}>
-                        {trader.side.toUpperCase()} {trader.leverage}x
-                      </span>
-                    </div>
+              <div className="flex items-center gap-4 mb-4">
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm ${
+                  index === 0 ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-black' :
+                  index === 1 ? 'bg-gradient-to-br from-gray-300 to-gray-500 text-black' :
+                  index === 2 ? 'bg-gradient-to-br from-orange-400 to-orange-600 text-black' :
+                  'bg-white/5 text-gray-400'
+                }`}>
+                  {index + 1}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-white/60 font-mono text-xs truncate mb-2">{trader.address}</div>
+                  <div className={`badge ${trader.side === 'long' ? 'badge-success' : 'badge-danger'}`}>
+                    {trader.side.toUpperCase()} {trader.leverage}x
                   </div>
                 </div>
               </div>
-              <div className="flex items-center justify-between pl-16">
+
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <div className="text-gray-500 text-xs font-semibold uppercase tracking-wider mb-2">P&L</div>
-                  <div
-                    className={`text-3xl font-black ${trader.pnl >= 0 ? 'text-green-500' : 'text-red-500'}`}
-                    style={{
-                      textShadow: trader.pnl >= 0
-                        ? '0 0 20px rgba(16,185,129,0.2)'
-                        : '0 0 20px rgba(239,68,68,0.2)'
-                    }}
-                  >
+                  <div className="text-xs text-gray-500 mb-1">P&L</div>
+                  <div className={`text-2xl font-black ${trader.pnl >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                     {trader.pnl >= 0 ? '+' : ''}{(trader.pnl / 1000).toFixed(1)}K
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-gray-500 text-xs font-semibold uppercase tracking-wider mb-2">ROI</div>
-                  <div
-                    className={`text-3xl font-black ${trader.roi >= 0 ? 'text-green-500' : 'text-red-500'}`}
-                    style={{
-                      textShadow: trader.roi >= 0
-                        ? '0 0 20px rgba(16,185,129,0.2)'
-                        : '0 0 20px rgba(239,68,68,0.2)'
-                    }}
-                  >
+                  <div className="text-xs text-gray-500 mb-1">ROI</div>
+                  <div className={`text-2xl font-black ${trader.roi >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                     {trader.roi >= 0 ? '+' : ''}{trader.roi.toFixed(1)}%
                   </div>
                 </div>
@@ -123,7 +93,7 @@ export default function SmartTraderLeaderboard() {
             </div>
           ))
         ) : (
-          <div className="text-gray-400 text-center py-24">No positions available</div>
+          <div className="text-gray-500 text-center py-20">No positions available</div>
         )}
       </div>
     </div>

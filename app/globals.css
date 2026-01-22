@@ -22,72 +22,172 @@ body {
 }
 
 @layer utilities {
-  /* Modern Card Style - Apeboard aesthetic */
-  .dashboard-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  /* Clean Modern Cards */
+  .card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 24px;
+    backdrop-filter: blur(20px);
     transition: all 0.3s ease;
   }
 
-  .dashboard-card:hover {
-    border-color: rgba(0, 226, 179, 0.4);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-    transform: translateY(-2px);
+  .card:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+    transform: translateY(-4px);
   }
 
-  /* Metric Card */
-  .metric-card {
-    background: linear-gradient(135deg, rgba(91, 141, 238, 0.1) 0%, rgba(0, 226, 179, 0.05) 100%);
-    border: 1px solid rgba(91, 141, 238, 0.2);
-    border-radius: 16px;
-    backdrop-filter: blur(10px);
+  /* Hero Card */
+  .hero-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 32px;
+    backdrop-filter: blur(40px);
   }
 
-  /* Trade Item */
-  .trade-item {
-    background: rgba(26, 31, 46, 0.6);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    transition: all 0.2s ease;
+  /* Stat Card */
+  .stat-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    transition: all 0.3s ease;
   }
 
-  .trade-item:hover {
-    background: rgba(26, 31, 46, 0.9);
-    border-color: rgba(0, 226, 179, 0.3);
+  .stat-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.1);
   }
 
   /* Gradient Text */
   .gradient-text {
-    background: linear-gradient(135deg, #00E2B3 0%, #5B8DEE 100%);
+    background: linear-gradient(135deg, #10B981 0%, #3B82F6 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  /* Bull Icon - CSS Art */
+  .bull-icon {
+    width: 200px;
+    height: 200px;
+    position: relative;
+  }
+
+  .bull-body {
+    width: 140px;
+    height: 100px;
+    background: linear-gradient(180deg, #10B981 0%, #059669 100%);
+    border-radius: 50px;
+    position: absolute;
+    bottom: 40px;
+    left: 30px;
+    box-shadow: 0 20px 60px rgba(16, 185, 129, 0.4);
+  }
+
+  .bull-head {
+    width: 80px;
+    height: 70px;
+    background: linear-gradient(180deg, #10B981 0%, #059669 100%);
+    border-radius: 40px 40px 20px 20px;
+    position: absolute;
+    top: 20px;
+    left: 15px;
+    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+  }
+
+  .bull-horn-left {
+    width: 8px;
+    height: 35px;
+    background: linear-gradient(180deg, #34D399 0%, #10B981 100%);
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    left: 15px;
+    transform: rotate(-20deg);
+  }
+
+  .bull-horn-right {
+    width: 8px;
+    height: 35px;
+    background: linear-gradient(180deg, #34D399 0%, #10B981 100%);
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    right: 15px;
+    transform: rotate(20deg);
+  }
+
+  /* Bear Icon - CSS Art */
+  .bear-icon {
+    width: 200px;
+    height: 200px;
+    position: relative;
+  }
+
+  .bear-body {
+    width: 140px;
+    height: 100px;
+    background: linear-gradient(180deg, #EF4444 0%, #DC2626 100%);
+    border-radius: 50px;
+    position: absolute;
+    top: 60px;
+    left: 30px;
+    box-shadow: 0 20px 60px rgba(239, 68, 68, 0.4);
+  }
+
+  .bear-head {
+    width: 80px;
+    height: 70px;
+    background: linear-gradient(180deg, #EF4444 0%, #DC2626 100%);
+    border-radius: 40px 40px 20px 20px;
+    position: absolute;
+    bottom: 30px;
+    left: 15px;
+    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+  }
+
+  .bear-ear-left {
+    width: 25px;
+    height: 25px;
+    background: linear-gradient(135deg, #F87171 0%, #EF4444 100%);
+    border-radius: 50%;
+    position: absolute;
+    bottom: 85px;
+    left: 10px;
+  }
+
+  .bear-ear-right {
+    width: 25px;
+    height: 25px;
+    background: linear-gradient(135deg, #F87171 0%, #EF4444 100%);
+    border-radius: 50%;
+    position: absolute;
+    bottom: 85px;
+    right: 10px;
   }
 
   /* Badge */
   .badge {
     display: inline-flex;
     align-items: center;
-    padding: 4px 12px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
   }
 
   .badge-success {
-    background: rgba(16, 185, 129, 0.15);
+    background: rgba(16, 185, 129, 0.12);
     color: #10B981;
-    border: 1px solid rgba(16, 185, 129, 0.3);
+    border: 1px solid rgba(16, 185, 129, 0.25);
   }
 
   .badge-danger {
-    background: rgba(239, 68, 68, 0.15);
+    background: rgba(239, 68, 68, 0.12);
     color: #EF4444;
-    border: 1px solid rgba(239, 68, 68, 0.3);
+    border: 1px solid rgba(239, 68, 68, 0.25);
   }
 }
 
