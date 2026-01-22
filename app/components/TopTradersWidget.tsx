@@ -45,55 +45,47 @@ export default function TopTradersWidget({ traders }: TopTradersWidgetProps) {
   };
 
   return (
-    <div className="bg-[#0a1420] rounded-3xl p-6 border-2 border-[#00ffa7]/20 h-full flex flex-col transition-all duration-300 hover:scale-[1.01] hover:shadow-xl hover:shadow-[#00ffa7]/30 hover:border-[#00ffa7]/50 shadow-lg shadow-[#00ffa7]/10">
-      <div className="flex items-center justify-between mb-5 pb-4 border-b-2 border-[#00ffa7]/10">
-        <h3 className="text-xl font-bold text-white tracking-tight">Top Traders</h3>
+    <div className="bg-[#0a1420]/80 backdrop-blur-sm rounded-3xl p-8 border border-white/10 h-full flex flex-col">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-lg font-semibold text-white/90">Top Traders</h3>
         <Tooltip text="Shows the most active smart money traders on Hyperliquid ranked by total trading volume. The bar shows their long/short ratio." />
       </div>
 
-      <div className="space-y-4 overflow-y-auto flex-1 pr-2" style={{ scrollbarGutter: 'stable' }}>
+      <div className="space-y-0 overflow-y-auto flex-1">
         {traders.length === 0 ? (
           <div className="text-slate-400 text-center py-8">No traders data available</div>
         ) : (
           traders.map((trader, index) => (
             <div
               key={trader.address}
-              className="p-4 rounded-xl bg-[#061019]/50 hover:bg-[#0d1a2a] transition-all duration-200 hover:scale-[1.01] hover:shadow-md hover:shadow-[#00ffa7]/20 border border-[#00ffa7]/5 hover:border-[#00ffa7]/20 cursor-pointer"
-              style={{ animationDelay: `${index * 50}ms` }}
+              className="py-4 border-b border-white/5 hover:bg-white/5 transition-colors cursor-pointer"
             >
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2 flex-1 min-w-0">
-                  <span className="text-base">{getRankIcon(index)}</span>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-white font-bold text-base truncate">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-4 flex-1">
+                  <span className="text-white/40 text-sm font-medium w-6">{index + 1}</span>
+                  <div className="flex-1">
+                    <div className="text-white font-medium truncate">
                       {truncateAddress(trader.address, trader.label)}
                     </div>
-                    <div className="text-xs text-gray-400">
-                      {trader.tradeCount} trades · {trader.tokensTraded.slice(0, 2).join(', ')}
-                    </div>
+                    <div className="text-white/40 text-sm">{trader.tradeCount} trades</div>
                   </div>
                 </div>
-
                 <div className="text-right">
-                  <div className="text-white font-bold text-base">{formatValue(trader.totalVolume)}</div>
+                  <div className="text-white font-semibold">{formatValue(trader.totalVolume)}</div>
                   <div
-                    className={`text-xs font-semibold ${
+                    className={`text-sm ${
                       trader.dominantSide === 'long'
                         ? 'text-[#00ffa7]'
                         : trader.dominantSide === 'short'
                         ? 'text-[#ff4444]'
-                        : 'text-gray-500'
+                        : 'text-white/40'
                     }`}
                   >
-                    {trader.dominantSide === 'long' && '↗ Long'}
-                    {trader.dominantSide === 'short' && '↘ Short'}
-                    {trader.dominantSide === 'neutral' && '↔ Mixed'}
+                    {trader.longRatio}% / {trader.shortRatio}%
                   </div>
                 </div>
               </div>
-
-              {/* Long/Short ratio bar */}
-              <div className="relative h-2 bg-[#0a1420] rounded-full overflow-hidden">
+              <div className="relative h-1 bg-white/5 rounded-full overflow-hidden ml-10">
                 <div
                   className="absolute left-0 top-0 h-full bg-[#00ffa7]"
                   style={{ width: `${trader.longRatio}%` }}
@@ -102,10 +94,6 @@ export default function TopTradersWidget({ traders }: TopTradersWidgetProps) {
                   className="absolute right-0 top-0 h-full bg-[#ff4444]"
                   style={{ width: `${trader.shortRatio}%` }}
                 />
-              </div>
-              <div className="flex justify-between text-xs text-gray-500 mt-1.5">
-                <span>{trader.longRatio}% long</span>
-                <span>{trader.shortRatio}% short</span>
               </div>
             </div>
           ))
