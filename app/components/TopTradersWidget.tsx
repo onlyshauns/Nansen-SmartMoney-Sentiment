@@ -49,68 +49,71 @@ export default function TopTradersWidget({ traders }: TopTradersWidgetProps) {
   };
 
   return (
-    <div className="bg-[#0a1420]/80 backdrop-blur-sm rounded-3xl p-8 border border-white/10 h-full flex flex-col">
+    <div className="rounded-2xl p-6 h-full flex flex-col shadow-2xl backdrop-blur-xl"
+      style={{
+        background: 'linear-gradient(135deg, rgba(15, 25, 40, 0.7) 0%, rgba(10, 20, 32, 0.8) 100%)',
+        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+      }}
+    >
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-white/90">Top Traders</h3>
+        <div>
+          <h3 className="text-base font-semibold text-white/90 mb-1">Top Traders</h3>
+          <p className="text-xs text-gray-500">By volume</p>
+        </div>
         <Tooltip text="Most active Hyperliquid traders by volume." />
       </div>
 
-      <div className="overflow-y-auto flex-1">
+      <div className="overflow-y-auto flex-1 -mx-2">
         {traders.length === 0 ? (
-          <div className="text-slate-400 text-center py-8">No traders data available</div>
+          <div className="text-slate-400 text-center py-12 text-sm">No traders data available</div>
         ) : (
-          <>
-            {/* Header */}
-            <div className="grid grid-cols-[0.5fr_2fr_1.5fr_1.5fr] gap-6 py-4 px-6 text-xs font-semibold text-white/40 uppercase tracking-wider border-b border-white/10 mb-4">
-              <div>Rank</div>
-              <div>Trader</div>
-              <div className="text-right">Volume</div>
-              <div className="text-right">Long/Short</div>
-            </div>
-
-            {/* Rows */}
-            <div className="space-y-3">
-              {traders.map((trader, index) => (
-                <div
-                  key={trader.address}
-                  className="py-5 px-6 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
-                  onClick={() => openWalletProfiler(trader.address)}
-                >
-                  <div className="grid grid-cols-[0.5fr_2fr_1.5fr_1.5fr] gap-6 items-center mb-2">
-                    <span className="text-white/40 text-sm font-medium">{index + 1}</span>
-                    <div>
-                      <div className="text-white font-medium overflow-hidden text-ellipsis">
+          <div className="space-y-2">
+            {traders.map((trader, index) => (
+              <div
+                key={trader.address}
+                className="group px-4 py-4 rounded-xl hover:bg-white/5 transition-all cursor-pointer"
+                onClick={() => openWalletProfiler(trader.address)}
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <span className="text-gray-600 text-xs font-medium w-4">{index + 1}</span>
+                    <div className="flex flex-col min-w-0 flex-1">
+                      <div className="text-white font-semibold text-sm truncate">
                         {truncateAddress(trader.address, trader.label)}
                       </div>
-                      <div className="text-white/40 text-xs">{trader.tradeCount} trades</div>
+                      <div className="text-gray-500 text-xs">{trader.tradeCount} trades</div>
                     </div>
-                    <div className="text-white font-semibold text-right">{formatValue(trader.totalVolume)}</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-white font-bold text-base mb-1">
+                      {formatValue(trader.totalVolume)}
+                    </div>
                     <div
-                      className={`text-sm text-right ${
+                      className={`text-xs font-medium ${
                         trader.dominantSide === 'long'
                           ? 'text-[#00ffa7]'
                           : trader.dominantSide === 'short'
                           ? 'text-[#ff4444]'
-                          : 'text-white/40'
+                          : 'text-gray-500'
                       }`}
                     >
                       {trader.longRatio}% / {trader.shortRatio}%
                     </div>
                   </div>
-                  <div className="relative h-1 bg-white/5 rounded-full overflow-hidden">
-                    <div
-                      className="absolute left-0 top-0 h-full bg-[#00ffa7]"
-                      style={{ width: `${trader.longRatio}%` }}
-                    />
-                    <div
-                      className="absolute right-0 top-0 h-full bg-[#ff4444]"
-                      style={{ width: `${trader.shortRatio}%` }}
-                    />
-                  </div>
                 </div>
-              ))}
-            </div>
-          </>
+                <div className="relative h-1.5 bg-gray-900/50 rounded-full overflow-hidden pl-7">
+                  <div
+                    className="absolute left-0 top-0 h-full bg-gradient-to-r from-[#00ffa7] to-[#00ffa7]/70 transition-all"
+                    style={{ width: `${trader.longRatio}%` }}
+                  />
+                  <div
+                    className="absolute right-0 top-0 h-full bg-gradient-to-l from-[#ff4444] to-[#ff4444]/70 transition-all"
+                    style={{ width: `${trader.shortRatio}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
         )}
       </div>
     </div>

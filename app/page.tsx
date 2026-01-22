@@ -58,53 +58,52 @@ export default function Home() {
   };
 
   return (
-    <div className="h-screen bg-[#000000] p-8 overflow-hidden">
-      <div className="h-full bg-[#061019] flex flex-col overflow-hidden rounded-3xl border-4 border-[#00ffa7]/30 shadow-2xl shadow-[#00ffa7]/20">
+    <div className="min-h-screen bg-gradient-to-br from-[#0a0f1a] via-[#0d1421] to-[#0a0f1a] p-12">
+      <div className="max-w-[1400px] mx-auto">
         {/* Header */}
-        <header className="border-b border-[#00ffa7]/20 bg-[#0a1420] flex-shrink-0 rounded-t-3xl">
-          <div className="px-10 py-5 flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-bold text-white" style={{ fontFamily: 'Arial, sans-serif' }}>
-              Smart Money Dashboard
-            </h1>
-            <p className="text-gray-500 text-xs">Real-time Nansen analytics</p>
-          </div>
+        <header className="mb-10">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-white mb-1" style={{ fontFamily: 'Arial, sans-serif' }}>
+                Smart Money Dashboard
+              </h1>
+              <p className="text-gray-400 text-sm">Real-time Nansen analytics</p>
+            </div>
 
-          <div className="flex items-center gap-4">
-            {lastUpdated && (
-              <div className="text-sm text-gray-400">
-                <span className="inline-block w-2 h-2 bg-[#00ffa7] rounded-full mr-2 animate-pulse" />
-                Updated {formatLastUpdated()}
-              </div>
-            )}
-            <button
-              onClick={fetchAllData}
-              disabled={isLoading}
-              className="px-4 py-1.5 bg-[#00ffa7]/10 hover:bg-[#00ffa7]/20 text-[#00ffa7] rounded-lg transition-colors disabled:opacity-50 text-sm border border-[#00ffa7]/30"
-            >
-              {isLoading ? 'Refreshing...' : 'Refresh'}
-            </button>
+            <div className="flex items-center gap-6">
+              {lastUpdated && (
+                <div className="text-sm text-gray-400 flex items-center gap-2">
+                  <span className="inline-block w-2 h-2 bg-[#00ffa7] rounded-full animate-pulse" />
+                  Updated {formatLastUpdated()}
+                </div>
+              )}
+              <button
+                onClick={fetchAllData}
+                disabled={isLoading}
+                className="px-6 py-2.5 bg-gradient-to-r from-[#00ffa7]/20 to-[#00ffa7]/10 hover:from-[#00ffa7]/30 hover:to-[#00ffa7]/20 text-[#00ffa7] rounded-xl transition-all disabled:opacity-50 text-sm font-medium shadow-lg shadow-[#00ffa7]/10"
+              >
+                {isLoading ? 'Refreshing...' : 'Refresh'}
+              </button>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* Main Content */}
-      <main className="flex-1 p-10 overflow-hidden">
+        {/* Main Content */}
+        <main className="space-y-8">
         {error && (
           <div className="mb-6 p-4 bg-red-900/20 border border-red-900/50 rounded-lg text-red-400 text-sm">
             {error}
           </div>
         )}
 
-        {isLoading && !sentimentData ? (
-          <div className="flex items-center justify-center h-full">
-            <div className="text-white text-lg">Loading dashboard...</div>
-          </div>
-        ) : (
-          <div className="h-full flex flex-col gap-10">
-            {/* Sentiment Hero - Full Width */}
-            {sentimentData && !sentimentData.error && (
-              <div className="flex-shrink-0">
+          {isLoading && !sentimentData ? (
+            <div className="flex items-center justify-center py-32">
+              <div className="text-white text-lg">Loading dashboard...</div>
+            </div>
+          ) : (
+            <>
+              {/* Sentiment Hero - Full Width */}
+              {sentimentData && !sentimentData.error && (
                 <SentimentHero
                   sentiment={sentimentData.sentiment}
                   longRatio={sentimentData.longRatio}
@@ -113,24 +112,17 @@ export default function Home() {
                   longCount={sentimentData.longCount}
                   shortCount={sentimentData.shortCount}
                 />
-              </div>
-            )}
+              )}
 
-            {/* Three Separate Cards Layout */}
-            <div className="flex items-stretch flex-1 min-h-0 gap-8">
-              <div className="flex-1 min-w-0">
+              {/* Three Cards Grid */}
+              <div className="grid grid-cols-3 gap-8">
                 <TopTokensWidget tokens={tokensData} />
-              </div>
-              <div className="flex-1 min-w-0">
                 <TopTradersWidget traders={tradersData} />
-              </div>
-              <div className="flex-1 min-w-0">
                 <LiveTradesWidget trades={tradesData} />
               </div>
-            </div>
-          </div>
-        )}
-      </main>
+            </>
+          )}
+        </main>
       </div>
     </div>
   );

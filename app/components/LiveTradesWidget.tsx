@@ -68,48 +68,55 @@ export default function LiveTradesWidget({ trades }: LiveTradesWidgetProps) {
   };
 
   return (
-    <div className="bg-[#0a1420]/80 backdrop-blur-sm rounded-3xl p-8 border border-white/10 h-full flex flex-col">
+    <div className="rounded-2xl p-6 h-full flex flex-col shadow-2xl backdrop-blur-xl"
+      style={{
+        background: 'linear-gradient(135deg, rgba(15, 25, 40, 0.7) 0%, rgba(10, 20, 32, 0.8) 100%)',
+        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+      }}
+    >
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-white/90">Live Trade Feed</h3>
+        <div>
+          <h3 className="text-base font-semibold text-white/90 mb-1">Live Trades</h3>
+          <p className="text-xs text-gray-500">Recent activity</p>
+        </div>
         <Tooltip text="Real-time smart money trades across all platforms." />
       </div>
 
-      <div className="overflow-y-auto flex-1">
+      <div className="overflow-y-auto flex-1 -mx-2">
         {trades.length === 0 ? (
-          <div className="text-slate-400 text-center py-8">No trades data available</div>
+          <div className="text-slate-400 text-center py-12 text-sm">No trades data available</div>
         ) : (
-          <>
-            {/* Header */}
-            <div className="grid grid-cols-[1fr_2fr_1fr_1.2fr] gap-6 py-4 px-6 text-xs font-semibold text-white/40 uppercase tracking-wider border-b border-white/10 mb-4">
-              <div>Action</div>
-              <div>Token</div>
-              <div>Time</div>
-              <div className="text-right">Value</div>
-            </div>
-
-            {/* Rows */}
-            <div className="space-y-3">
-              {trades.map((trade, index) => (
-                <div
-                  key={`${trade.timestamp}-${index}`}
-                  className="grid grid-cols-[1fr_2fr_1fr_1.2fr] gap-6 items-center py-5 px-6 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
-                >
-                  <span
-                    className={`font-semibold text-sm ${
-                      trade.action === 'buy' || trade.action === 'long'
-                        ? 'text-[#00ffa7]'
-                        : 'text-[#ff4444]'
-                    }`}
-                  >
-                    {getActionText(trade.action, trade.type)}
-                  </span>
-                  <div className="text-white font-medium overflow-hidden text-ellipsis">{trade.tokenSymbol}</div>
-                  <div className="text-white/40 text-sm">{formatTimeAgo(trade.timestamp)}</div>
-                  <div className="text-white font-semibold text-right">{formatValue(trade.valueUsd)}</div>
+          <div className="space-y-2">
+            {trades.map((trade, index) => (
+              <div
+                key={`${trade.timestamp}-${index}`}
+                className="group px-4 py-4 rounded-xl hover:bg-white/5 transition-all cursor-pointer"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <div
+                      className={`px-2.5 py-1 rounded-lg text-xs font-bold ${
+                        trade.action === 'buy' || trade.action === 'long'
+                          ? 'bg-[#00ffa7]/20 text-[#00ffa7]'
+                          : 'bg-[#ff4444]/20 text-[#ff4444]'
+                      }`}
+                    >
+                      {getActionText(trade.action, trade.type)}
+                    </div>
+                    <div className="flex flex-col min-w-0 flex-1">
+                      <div className="text-white font-semibold text-sm truncate">{trade.tokenSymbol}</div>
+                      <div className="text-gray-500 text-xs">{formatTimeAgo(trade.timestamp)}</div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-white font-bold text-base">
+                      {formatValue(trade.valueUsd)}
+                    </div>
+                  </div>
                 </div>
-              ))}
-            </div>
-          </>
+              </div>
+            ))}
+          </div>
         )}
       </div>
     </div>
