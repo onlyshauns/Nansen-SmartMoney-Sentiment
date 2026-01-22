@@ -23,7 +23,7 @@ export default function SentimentHero({
   const glowRgba = isBullish ? 'rgba(0, 255, 167, 0.8)' : isBearish ? 'rgba(255, 68, 68, 0.8)' : 'rgba(136, 136, 136, 0.3)';
 
   return (
-    <div className="relative overflow-hidden rounded-2xl p-8 bg-[#0a1420] border border-white/10">
+    <div className="relative overflow-hidden rounded-2xl p-10 bg-[#0a1420] border border-white/10">
       {/* Centered Content */}
       <div className="flex flex-col items-center justify-center text-center">
         {/* Animal Icon - Large Emoji */}

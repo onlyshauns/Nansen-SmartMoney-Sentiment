@@ -20,7 +20,7 @@ export default function Tooltip({ text }: TooltipProps) {
       </button>
 
       {isVisible && (
-        <div className="absolute right-0 top-8 z-50 w-48 p-2 bg-[#0a1420] border border-[#00ffa7]/50 rounded-lg shadow-lg">
+        <div className="absolute right-0 top-8 z-50 w-48 p-4 bg-[#0a1420] border border-[#00ffa7]/50 rounded-lg shadow-lg">
           <div className="text-xs text-gray-300 leading-snug">
             {text}
           </div>

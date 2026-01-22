@@ -88,7 +88,7 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 px-6 py-4 overflow-hidden">
+      <main className="flex-1 px-8 py-6 overflow-hidden">
         {error && (
           <div className="mb-4 p-3 bg-red-900/20 border border-red-900/50 rounded-lg text-red-400 text-sm">
             {error}
@@ -100,7 +100,7 @@ export default function Home() {
             <div className="text-white text-lg">Loading dashboard...</div>
           </div>
         ) : (
-          <div className="h-full flex flex-col gap-4">
+          <div className="h-full flex flex-col gap-6">
             {/* Sentiment Hero - Full Width */}
             {sentimentData && !sentimentData.error && (
               <div className="flex-shrink-0">

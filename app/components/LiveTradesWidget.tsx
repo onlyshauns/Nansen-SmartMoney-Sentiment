@@ -68,44 +68,52 @@ export default function LiveTradesWidget({ trades }: LiveTradesWidgetProps) {
   };
 
   return (
-    <div className="bg-[#0a1420]/80 backdrop-blur-sm rounded-3xl p-8 border border-white/10 h-full flex flex-col">
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-[#0a1420]/80 backdrop-blur-sm rounded-3xl p-10 border border-white/10 h-full flex flex-col">
+      <div className="flex items-center justify-between mb-8">
         <h3 className="text-lg font-semibold text-white/90">Live Trade Feed</h3>
         <Tooltip text="Real-time smart money trades across all platforms." />
       </div>
 
-      <div className="space-y-3 overflow-y-auto flex-1">
+      <div className="overflow-y-auto flex-1">
         {trades.length === 0 ? (
           <div className="text-slate-400 text-center py-8">No trades data available</div>
         ) : (
-          trades.map((trade, index) => (
-            <div
-              key={`${trade.timestamp}-${index}`}
-              className="flex items-center justify-between py-4 px-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
-            >
-              <div className="flex items-center gap-3 flex-1">
-                <span
-                  className={`font-semibold text-sm ${
-                    trade.action === 'buy' || trade.action === 'long'
-                      ? 'text-[#00ffa7]'
-                      : 'text-[#ff4444]'
-                  }`}
-                >
-                  {getActionText(trade.action, trade.type)}
-                </span>
-                <div className="flex-1">
-                  <div className="text-white font-medium">{trade.tokenSymbol}</div>
-                  <div className="text-white/40 text-sm">{formatTimeAgo(trade.timestamp)}</div>
-                </div>
-                {trade.chain && (
-                  <span className="text-white/40 text-sm">{formatChain(trade.chain)}</span>
-                )}
-              </div>
-              <div className="text-right">
-                <div className="text-white font-semibold">{formatValue(trade.valueUsd)}</div>
-              </div>
+          <>
+            {/* Header */}
+            <div className="grid grid-cols-[1fr_1.5fr_1fr_1fr_1fr] gap-4 py-3 px-4 text-xs font-semibold text-white/40 uppercase tracking-wider border-b border-white/10 mb-3">
+              <div>Action</div>
+              <div>Token</div>
+              <div>Chain</div>
+              <div>Time</div>
+              <div className="text-right">Value</div>
             </div>
-          ))
+
+            {/* Rows */}
+            <div className="space-y-3">
+              {trades.map((trade, index) => (
+                <div
+                  key={`${trade.timestamp}-${index}`}
+                  className="grid grid-cols-[1fr_1.5fr_1fr_1fr_1fr] gap-4 items-center py-4 px-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
+                >
+                  <span
+                    className={`font-semibold text-sm ${
+                      trade.action === 'buy' || trade.action === 'long'
+                        ? 'text-[#00ffa7]'
+                        : 'text-[#ff4444]'
+                    }`}
+                  >
+                    {getActionText(trade.action, trade.type)}
+                  </span>
+                  <div className="text-white font-medium truncate">{trade.tokenSymbol}</div>
+                  <div className="text-white/60 text-sm">
+                    {trade.chain ? formatChain(trade.chain) : '-'}
+                  </div>
+                  <div className="text-white/40 text-sm">{formatTimeAgo(trade.timestamp)}</div>
+                  <div className="text-white font-semibold text-right">{formatValue(trade.valueUsd)}</div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </div>
