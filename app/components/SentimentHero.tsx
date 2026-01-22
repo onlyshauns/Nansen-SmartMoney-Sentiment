@@ -20,30 +20,13 @@ export default function SentimentHero({
   const isBullish = sentiment === 'bullish';
   const isBearish = sentiment === 'bearish';
 
-  // Simple SVG silhouettes for bull and bear
-  const BullIcon = () => (
-    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
-      <path d="M30 40 L35 30 L40 40 M80 40 L85 30 L90 40 M20 50 Q25 45 35 48 L85 48 Q95 45 100 50 L95 70 Q90 90 60 95 Q30 90 25 70 Z"
-            fill="#00ffa7" opacity="0.3" stroke="#00ffa7" strokeWidth="2"/>
-    </svg>
-  );
-
-  const BearIcon = () => (
-    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
-      <circle cx="35" cy="35" r="8" fill="#ff4444" opacity="0.3" stroke="#ff4444" strokeWidth="2"/>
-      <circle cx="85" cy="35" r="8" fill="#ff4444" opacity="0.3" stroke="#ff4444" strokeWidth="2"/>
-      <path d="M25 50 Q30 45 40 48 L80 48 Q90 45 95 50 L90 75 Q85 95 60 98 Q35 95 30 75 Z"
-            fill="#ff4444" opacity="0.3" stroke="#ff4444" strokeWidth="2"/>
-    </svg>
-  );
-
   return (
-    <div className="relative overflow-hidden rounded-2xl p-8 bg-[#0a1420] border border-[#00ffa7]/20">
+    <div className="relative overflow-hidden rounded-2xl p-8 bg-[#0a1420] border border-[#00ffa7]/20 shadow-lg shadow-[#00ffa7]/10">
       {/* Centered Content */}
       <div className="flex flex-col items-center justify-center text-center">
-        {/* Animal Icon */}
-        <div className="mb-4">
-          {isBullish ? <BullIcon /> : isBearish ? <BearIcon /> : <div className="w-[120px] h-[120px]" />}
+        {/* Animal Icon - Large Emoji */}
+        <div className="mb-4 text-[140px] leading-none" style={{ filter: 'drop-shadow(0 0 20px rgba(0, 255, 167, 0.3))' }}>
+          {isBullish ? '🐂' : isBearish ? '🐻' : '😐'}
         </div>
 
         {/* Large Sentiment Text */}
