@@ -69,21 +69,15 @@ export default function Home() {
   const renderBullBearIcon = (sentiment: string) => {
     if (sentiment === 'bullish') {
       return (
-        <div className="bull-icon mx-auto mb-8">
-          <div className="bull-horn-left"></div>
-          <div className="bull-horn-right"></div>
-          <div className="bull-head"></div>
-          <div className="bull-body"></div>
+        <div className="bull-icon mb-12">
+          <div className="bull-arrow"></div>
         </div>
       );
     }
     if (sentiment === 'bearish') {
       return (
-        <div className="bear-icon mx-auto mb-8">
-          <div className="bear-ear-left"></div>
-          <div className="bear-ear-right"></div>
-          <div className="bear-head"></div>
-          <div className="bear-body"></div>
+        <div className="bear-icon mb-12">
+          <div className="bear-arrow"></div>
         </div>
       );
     }
@@ -114,6 +108,7 @@ export default function Home() {
                 style={{
                   boxShadow: `0 30px 90px ${getSentimentColor(sentiment.overall)}25`,
                 }}
+                title="Overall market sentiment determined by analyzing smart money wallet activity. Bullish means more buying than selling, bearish means more selling than buying."
               >
                 {renderBullBearIcon(sentiment.overall)}
 
@@ -140,7 +135,7 @@ export default function Home() {
             {/* Stats Grid */}
             <div className="grid grid-cols-3 gap-8">
               {/* Buy Ratio */}
-              <div className="stat-card p-8">
+              <div className="stat-card p-8" title="Percentage of buy volume compared to total trading volume (buys + sells). Higher percentage = more bullish.">
                 <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-6">Buy Ratio</div>
                 <div
                   className="text-6xl font-black mb-6"
@@ -160,7 +155,7 @@ export default function Home() {
               </div>
 
               {/* Buy Volume */}
-              <div className="stat-card p-8">
+              <div className="stat-card p-8" title="Total USD value of tokens purchased by smart money wallets in the last 24 hours via DEX trades.">
                 <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-6">24h Buy Volume</div>
                 <div className="text-6xl font-black text-green-500 mb-2">
                   ${(sentiment.buy_volume_24h / 1000000).toFixed(1)}M
@@ -169,7 +164,7 @@ export default function Home() {
               </div>
 
               {/* Net Flow */}
-              <div className="stat-card p-8">
+              <div className="stat-card p-8" title="Net flow = Buy volume minus Sell volume. Positive means more money flowing in (bullish), negative means more flowing out (bearish).">
                 <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-6">24h Net Flow</div>
                 <div className={`text-6xl font-black mb-2 ${sentiment.net_flow >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                   {sentiment.net_flow >= 0 ? '+' : ''}{(sentiment.net_flow / 1000000).toFixed(1)}M
@@ -184,7 +179,7 @@ export default function Home() {
 
               <div className="grid grid-cols-2 gap-8">
                 {/* Spot Trades */}
-                <div className="card">
+                <div className="card" title="Real-time decentralized exchange (DEX) trades from Nansen-identified smart money wallets. These are spot market transactions.">
                   <div className="p-8 border-b border-white/5">
                     <div className="flex items-center justify-between">
                       <div>
@@ -201,7 +196,11 @@ export default function Home() {
                       const token = isBuy ? trade.token_bought_symbol : trade.token_sold_symbol;
 
                       return (
-                        <div key={index} className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/[0.04] hover:bg-white/[0.04] transition-all">
+                        <div
+                          key={index}
+                          className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/[0.04] hover:bg-white/[0.04] transition-all"
+                          title={`Smart money ${isBuy ? 'bought' : 'sold'} ${token} for $${(trade.trade_value_usd / 1000).toFixed(1)}K on ${trade.chain} at ${new Date(trade.block_timestamp).toLocaleString()}`}
+                        >
                           <div className="flex items-center gap-4">
                             <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg font-bold ${
                               isBuy ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'

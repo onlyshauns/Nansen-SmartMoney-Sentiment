@@ -39,7 +39,7 @@ export default function SmartTraderLeaderboard() {
   };
 
   return (
-    <div className="card">
+    <div className="card" title="Top 5 performing perpetual futures positions on Hyperliquid from smart traders. Shows P&L (profit/loss) and ROI (return on investment).">
       <div className="p-8 border-b border-white/5">
         <div className="flex items-center justify-between">
           <div>
@@ -58,6 +58,7 @@ export default function SmartTraderLeaderboard() {
             <div
               key={trader.address}
               className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.04] hover:bg-white/[0.04] transition-all"
+              title={`Trader ${trader.address}: ${trader.side.toUpperCase()} ${trader.leverage}x position with ${trader.pnl >= 0 ? '+' : ''}$${(trader.pnl / 1000).toFixed(1)}K P&L (${trader.roi >= 0 ? '+' : ''}${trader.roi.toFixed(1)}% ROI)`}
             >
               <div className="flex items-center gap-4 mb-4">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm ${

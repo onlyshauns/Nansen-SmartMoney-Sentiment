@@ -66,104 +66,60 @@ body {
     background-clip: text;
   }
 
-  /* Bull Icon - CSS Art */
+  /* Bull Icon - Simple Upward Arrow */
   .bull-icon {
-    width: 200px;
-    height: 200px;
+    width: 160px;
+    height: 160px;
+    margin: 0 auto;
     position: relative;
   }
 
-  .bull-body {
-    width: 140px;
-    height: 100px;
-    background: linear-gradient(180deg, #10B981 0%, #059669 100%);
-    border-radius: 50px;
-    position: absolute;
-    bottom: 40px;
-    left: 30px;
-    box-shadow: 0 20px 60px rgba(16, 185, 129, 0.4);
+  .bull-arrow {
+    width: 0;
+    height: 0;
+    border-left: 80px solid transparent;
+    border-right: 80px solid transparent;
+    border-bottom: 120px solid #10B981;
+    position: relative;
+    filter: drop-shadow(0 20px 40px rgba(16, 185, 129, 0.5));
   }
 
-  .bull-head {
+  .bull-arrow::before {
+    content: '';
+    position: absolute;
     width: 80px;
-    height: 70px;
-    background: linear-gradient(180deg, #10B981 0%, #059669 100%);
-    border-radius: 40px 40px 20px 20px;
-    position: absolute;
-    top: 20px;
-    left: 15px;
-    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+    height: 60px;
+    background: #10B981;
+    bottom: -120px;
+    left: -40px;
   }
 
-  .bull-horn-left {
-    width: 8px;
-    height: 35px;
-    background: linear-gradient(180deg, #34D399 0%, #10B981 100%);
-    border-radius: 10px;
-    position: absolute;
-    top: 0;
-    left: 15px;
-    transform: rotate(-20deg);
-  }
-
-  .bull-horn-right {
-    width: 8px;
-    height: 35px;
-    background: linear-gradient(180deg, #34D399 0%, #10B981 100%);
-    border-radius: 10px;
-    position: absolute;
-    top: 0;
-    right: 15px;
-    transform: rotate(20deg);
-  }
-
-  /* Bear Icon - CSS Art */
+  /* Bear Icon - Simple Downward Arrow */
   .bear-icon {
-    width: 200px;
-    height: 200px;
+    width: 160px;
+    height: 160px;
+    margin: 0 auto;
     position: relative;
   }
 
-  .bear-body {
-    width: 140px;
-    height: 100px;
-    background: linear-gradient(180deg, #EF4444 0%, #DC2626 100%);
-    border-radius: 50px;
-    position: absolute;
-    top: 60px;
-    left: 30px;
-    box-shadow: 0 20px 60px rgba(239, 68, 68, 0.4);
+  .bear-arrow {
+    width: 0;
+    height: 0;
+    border-left: 80px solid transparent;
+    border-right: 80px solid transparent;
+    border-top: 120px solid #EF4444;
+    position: relative;
+    filter: drop-shadow(0 20px 40px rgba(239, 68, 68, 0.5));
   }
 
-  .bear-head {
+  .bear-arrow::before {
+    content: '';
+    position: absolute;
     width: 80px;
-    height: 70px;
-    background: linear-gradient(180deg, #EF4444 0%, #DC2626 100%);
-    border-radius: 40px 40px 20px 20px;
-    position: absolute;
-    bottom: 30px;
-    left: 15px;
-    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
-  }
-
-  .bear-ear-left {
-    width: 25px;
-    height: 25px;
-    background: linear-gradient(135deg, #F87171 0%, #EF4444 100%);
-    border-radius: 50%;
-    position: absolute;
-    bottom: 85px;
-    left: 10px;
-  }
-
-  .bear-ear-right {
-    width: 25px;
-    height: 25px;
-    background: linear-gradient(135deg, #F87171 0%, #EF4444 100%);
-    border-radius: 50%;
-    position: absolute;
-    bottom: 85px;
-    right: 10px;
+    height: 60px;
+    background: #EF4444;
+    top: -120px;
+    left: -40px;
   }
 
   /* Badge */
