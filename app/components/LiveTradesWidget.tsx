@@ -83,11 +83,11 @@ export default function LiveTradesWidget({ trades }: LiveTradesWidgetProps) {
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="border-b border-white/[0.05]">
-                <th className="text-left pb-3 text-xs font-medium text-gray-600 uppercase tracking-wider">Action</th>
-                <th className="text-left pb-3 text-xs font-medium text-gray-600 uppercase tracking-wider">Token</th>
-                <th className="text-left pb-3 text-xs font-medium text-gray-600 uppercase tracking-wider">Time</th>
-                <th className="text-right pb-3 text-xs font-medium text-gray-600 uppercase tracking-wider">Value</th>
+              <tr className="border-b border-white/10">
+                <th className="text-left pb-3 pt-2 text-xs font-medium text-gray-600 uppercase tracking-wider">Action</th>
+                <th className="text-left pb-3 pt-2 text-xs font-medium text-gray-600 uppercase tracking-wider">Token</th>
+                <th className="text-left pb-3 pt-2 text-xs font-medium text-gray-600 uppercase tracking-wider">Time</th>
+                <th className="text-right pb-3 pt-2 text-xs font-medium text-gray-600 uppercase tracking-wider">Value</th>
               </tr>
             </thead>
             <tbody>
