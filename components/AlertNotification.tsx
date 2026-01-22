@@ -53,14 +53,14 @@ export default function AlertNotification({ enabled }: AlertNotificationProps) {
                     className={`${
                       t.visible ? 'animate-enter' : 'animate-leave'
                     } max-w-md w-full bg-nansen-darker border ${
-                      newAlert.type === 'buy' ? 'border-nansen-green' : 'border-red-400'
+                      newAlert.type === 'buy' ? 'border-nansen-cyan' : 'border-red-400'
                     } rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 shadow-lg`}
                   >
                     <div className="flex-1 w-0 p-4">
                       <div className="flex items-start">
                         <div className="ml-3 flex-1">
-                          <p className="text-sm font-medium text-white">
-                            {newAlert.type === 'buy' ? '🟢' : '🔴'} Large {newAlert.type.toUpperCase()} Alert
+                          <p className="text-sm font-semibold text-white">
+                            {newAlert.type === 'buy' ? '●' : '●'} Large {newAlert.type.toUpperCase()}
                           </p>
                           <p className="mt-1 text-sm text-nansen-light/70">
                             {newAlert.token}: ${(newAlert.amount / 1000).toFixed(0)}K
@@ -68,10 +68,10 @@ export default function AlertNotification({ enabled }: AlertNotificationProps) {
                         </div>
                       </div>
                     </div>
-                    <div className="flex border-l border-nansen-green/20">
+                    <div className="flex border-l border-nansen-cyan/20">
                       <button
                         onClick={() => toast.dismiss(t.id)}
-                        className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-nansen-green hover:text-nansen-green/80"
+                        className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-xs font-medium text-nansen-cyan hover:text-nansen-blue"
                       >
                         Close
                       </button>
@@ -101,19 +101,19 @@ export default function AlertNotification({ enabled }: AlertNotificationProps) {
       <div className="glass-card rounded-xl p-4">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-white font-semibold">Alerts</h3>
-            <p className="text-nansen-light/50 text-xs">Get notified of large moves</p>
+            <h3 className="text-white font-semibold text-sm">Alerts</h3>
+            <p className="text-nansen-light/40 text-xs">Notify on large moves</p>
           </div>
           <div className="flex items-center gap-3">
             <input
               type="number"
               value={threshold / 1000}
               onChange={(e) => setThreshold(Number(e.target.value) * 1000)}
-              className="w-20 bg-nansen-darker border border-nansen-green/20 rounded px-2 py-1 text-white text-sm"
+              className="w-20 bg-nansen-darker border border-nansen-cyan/20 rounded px-2 py-1 text-white text-sm focus:border-nansen-cyan/50 focus:outline-none"
               placeholder="100"
             />
-            <span className="text-nansen-light/50 text-xs">$K</span>
-            <div className={`w-3 h-3 rounded-full ${enabled ? 'bg-nansen-green animate-pulse' : 'bg-nansen-light/30'}`} />
+            <span className="text-nansen-light/40 text-xs">$K</span>
+            <div className={`w-2.5 h-2.5 rounded-full ${enabled ? 'bg-nansen-cyan animate-pulse' : 'bg-nansen-light/30'}`} />
           </div>
         </div>
       </div>

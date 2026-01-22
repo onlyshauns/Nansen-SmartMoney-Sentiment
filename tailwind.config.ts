@@ -10,12 +10,16 @@ const config: Config = {
     extend: {
       colors: {
         nansen: {
-          dark: "#0a0e1a",
-          darker: "#060912",
-          green: "#00ff88",
-          blue: "#4a90ff",
-          light: "#e8ecf4",
+          dark: "#08283B",
+          darker: "#042133",
+          darkest: "#093A57",
+          cyan: "#00E2B3",
+          blue: "#3298DA",
+          light: "#E8ECF4",
         },
+      },
+      fontFamily: {
+        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
       },
     },
   },

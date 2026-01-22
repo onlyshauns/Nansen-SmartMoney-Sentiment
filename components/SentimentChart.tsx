@@ -42,42 +42,42 @@ export default function SentimentChart({ currentScore }: SentimentChartProps) {
   }, [currentScore]);
 
   return (
-    <div className="glass-card rounded-xl p-6">
-      <h3 className="text-white font-bold text-lg mb-4">Sentiment Trend (24h)</h3>
-      <ResponsiveContainer width="100%" height={250}>
+    <div className="glass-card rounded-xl p-5">
+      <h3 className="text-white font-bold text-xl mb-4">Sentiment Trend (24h)</h3>
+      <ResponsiveContainer width="100%" height={220}>
         <AreaChart data={data}>
           <defs>
             <linearGradient id="sentimentGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#00ff88" stopOpacity={0.3} />
-              <stop offset="95%" stopColor="#00ff88" stopOpacity={0} />
+              <stop offset="5%" stopColor="#00E2B3" stopOpacity={0.4} />
+              <stop offset="95%" stopColor="#3298DA" stopOpacity={0.1} />
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" />
+          <CartesianGrid strokeDasharray="3 3" stroke="rgba(0, 226, 179, 0.1)" />
           <XAxis
             dataKey="time"
-            stroke="#e8ecf4"
-            opacity={0.5}
-            tick={{ fill: '#e8ecf4', fontSize: 12 }}
+            stroke="#E8ECF4"
+            opacity={0.4}
+            tick={{ fill: '#E8ECF4', fontSize: 11 }}
           />
           <YAxis
-            stroke="#e8ecf4"
-            opacity={0.5}
+            stroke="#E8ECF4"
+            opacity={0.4}
             domain={[-100, 100]}
-            tick={{ fill: '#e8ecf4', fontSize: 12 }}
+            tick={{ fill: '#E8ECF4', fontSize: 11 }}
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: '#060912',
-              border: '1px solid #00ff88',
+              backgroundColor: '#042133',
+              border: '1px solid #00E2B3',
               borderRadius: '8px',
-              color: '#e8ecf4',
+              color: '#E8ECF4',
             }}
             formatter={(value: number | undefined) => value !== undefined ? [`${value}`, 'Score'] : ['', 'Score']}
           />
           <Area
             type="monotone"
             dataKey="score"
-            stroke="#00ff88"
+            stroke="#00E2B3"
             strokeWidth={2}
             fill="url(#sentimentGradient)"
           />

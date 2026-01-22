@@ -39,26 +39,26 @@ export default function SmartTraderLeaderboard() {
   };
 
   return (
-    <div className="glass-card rounded-xl p-6">
+    <div className="glass-card rounded-xl p-5">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold text-white">Smart Trader Leaderboard</h2>
-        <span className="text-nansen-light/50 text-sm">Hyperliquid</span>
+        <h2 className="text-xl font-bold text-white">Smart Traders</h2>
+        <span className="text-nansen-light/40 text-xs uppercase tracking-wider">Hyperliquid</span>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-2">
         {loading ? (
-          <div className="text-nansen-light/50 text-center py-8">Loading traders...</div>
+          <div className="text-nansen-light/50 text-center py-8 text-sm">Loading traders...</div>
         ) : traders.length > 0 ? (
-          traders.map((trader, index) => (
-            <div key={trader.address} className="bg-nansen-darker/50 rounded-lg p-4 border border-nansen-green/10">
+          traders.slice(0, 5).map((trader, index) => (
+            <div key={trader.address} className="bg-nansen-darker/70 rounded-lg p-3 border border-nansen-cyan/10 hover:border-nansen-cyan/30 transition-colors">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-3">
-                  <span className="text-nansen-green font-bold text-lg">#{index + 1}</span>
+                  <span className="gradient-text font-bold text-sm">#{index + 1}</span>
                   <div>
-                    <div className="text-white font-mono text-sm">{trader.address}</div>
+                    <div className="text-white font-mono text-xs">{trader.address}</div>
                     <div className="flex items-center gap-2 mt-1">
                       <span className={`px-2 py-0.5 rounded text-xs font-semibold ${
-                        trader.side === 'long' ? 'bg-nansen-green/20 text-nansen-green' : 'bg-red-400/20 text-red-400'
+                        trader.side === 'long' ? 'bg-nansen-cyan/20 text-nansen-cyan' : 'bg-red-400/20 text-red-400'
                       }`}>
                         {trader.side.toUpperCase()} {trader.leverage}x
                       </span>
@@ -66,23 +66,23 @@ export default function SmartTraderLeaderboard() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className={`text-xl font-bold ${trader.pnl >= 0 ? 'text-nansen-green' : 'text-red-400'}`}>
+                  <div className={`text-lg font-bold ${trader.pnl >= 0 ? 'text-nansen-cyan' : 'text-red-400'}`}>
                     {trader.pnl >= 0 ? '+' : ''}{(trader.pnl / 1000).toFixed(1)}K
                   </div>
-                  <div className={`text-sm ${trader.roi >= 0 ? 'text-nansen-green' : 'text-red-400'}`}>
+                  <div className={`text-xs ${trader.roi >= 0 ? 'text-nansen-cyan' : 'text-red-400'}`}>
                     {trader.roi >= 0 ? '+' : ''}{trader.roi.toFixed(1)}% ROI
                   </div>
                 </div>
               </div>
-              <div className="flex justify-between text-xs text-nansen-light/50 mt-2 pt-2 border-t border-nansen-green/10">
-                <span>Size: ${(trader.position_size / 1000).toFixed(0)}K</span>
-                <span>Entry: ${trader.entry_price.toFixed(0)}</span>
-                <span>Current: ${trader.current_price.toFixed(0)}</span>
+              <div className="flex justify-between text-xs text-nansen-light/40 mt-2 pt-2 border-t border-nansen-cyan/10">
+                <span>${(trader.position_size / 1000).toFixed(0)}K</span>
+                <span>${trader.entry_price.toFixed(0)}</span>
+                <span>${trader.current_price.toFixed(0)}</span>
               </div>
             </div>
           ))
         ) : (
-          <div className="text-nansen-light/50 text-center py-8">No traders data available</div>
+          <div className="text-nansen-light/50 text-center py-8 text-sm">No traders data available</div>
         )}
       </div>
     </div>
