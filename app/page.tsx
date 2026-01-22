@@ -2,12 +2,58 @@
 
 import { useState, useEffect } from 'react';
 
+interface SmartMoneyTrade {
+  token: string;
+  type: string;
+  amount_usd: number;
+  timestamp: string;
+}
+
+interface SmartMoneyHolding {
+  token: string;
+  balance_usd: number;
+  change_24h: number;
+}
+
 export default function Home() {
   const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [trades, setTrades] = useState<SmartMoneyTrade[]>([]);
+  const [holdings, setHoldings] = useState<SmartMoneyHolding[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
+    fetchSmartMoneyData();
   }, []);
+
+  const fetchSmartMoneyData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      // Fetch DEX trades
+      const tradesResponse = await fetch('/api/nansen/dex-trades?limit=10');
+      const tradesData = await tradesResponse.json();
+
+      if (tradesData.success) {
+        setTrades(tradesData.data || []);
+      }
+
+      // Fetch holdings
+      const holdingsResponse = await fetch('/api/nansen/holdings?limit=10');
+      const holdingsData = await holdingsResponse.json();
+
+      if (holdingsData.success) {
+        setHoldings(holdingsData.data || []);
+      }
+    } catch (err: any) {
+      console.error('Error fetching smart money data:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (!mounted) return null;
 
@@ -55,21 +101,76 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Nansen Smart Money Activity */}
           <div className="glass-card rounded-xl p-6">
-            <h2 className="text-2xl font-bold text-white mb-4">Nansen Smart Money</h2>
-            <div className="space-y-4">
-              <div className="text-nansen-light/50 text-center py-8">
-                Connect Nansen API to see live data
-              </div>
+            <h2 className="text-2xl font-bold text-white mb-4">Recent Smart Money Trades</h2>
+            <div className="space-y-3">
+              {loading ? (
+                <div className="text-nansen-light/50 text-center py-8">Loading...</div>
+              ) : error ? (
+                <div className="text-red-400 text-center py-8">{error}</div>
+              ) : trades.length > 0 ? (
+                trades.map((trade, index) => (
+                  <div key={index} className="bg-nansen-darker/50 rounded-lg p-4 border border-nansen-green/10">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-white font-semibold">{trade.token}</div>
+                        <div className="text-nansen-light/50 text-sm">{trade.type}</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-nansen-green font-semibold">
+                          ${(trade.amount_usd / 1000).toFixed(1)}K
+                        </div>
+                        <div className="text-nansen-light/50 text-xs">
+                          {new Date(trade.timestamp).toLocaleTimeString()}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-nansen-light/50 text-center py-8">
+                  No recent trades available
+                </div>
+              )}
             </div>
+            <button
+              onClick={fetchSmartMoneyData}
+              className="mt-4 w-full px-4 py-2 bg-nansen-green/10 hover:bg-nansen-green/20 text-nansen-green rounded-lg transition-all border border-nansen-green/30"
+            >
+              Refresh Data
+            </button>
           </div>
 
-          {/* Hyperliquid Positions */}
+          {/* Smart Money Holdings */}
           <div className="glass-card rounded-xl p-6">
-            <h2 className="text-2xl font-bold text-white mb-4">Hyperliquid Smart Traders</h2>
-            <div className="space-y-4">
-              <div className="text-nansen-light/50 text-center py-8">
-                Connect Hyperliquid API to see live positions
-              </div>
+            <h2 className="text-2xl font-bold text-white mb-4">Top Smart Money Holdings</h2>
+            <div className="space-y-3">
+              {loading ? (
+                <div className="text-nansen-light/50 text-center py-8">Loading...</div>
+              ) : error ? (
+                <div className="text-red-400 text-center py-8">{error}</div>
+              ) : holdings.length > 0 ? (
+                holdings.map((holding, index) => (
+                  <div key={index} className="bg-nansen-darker/50 rounded-lg p-4 border border-nansen-green/10">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-white font-semibold">{holding.token}</div>
+                        <div className="text-nansen-light/50 text-sm">
+                          ${(holding.balance_usd / 1000000).toFixed(2)}M
+                        </div>
+                      </div>
+                      <div className={`text-right font-semibold ${
+                        holding.change_24h >= 0 ? 'text-nansen-green' : 'text-red-400'
+                      }`}>
+                        {holding.change_24h >= 0 ? '↑' : '↓'} {Math.abs(holding.change_24h).toFixed(1)}%
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-nansen-light/50 text-center py-8">
+                  No holdings data available
+                </div>
+              )}
             </div>
           </div>
         </div>
