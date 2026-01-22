@@ -71,7 +71,7 @@ export default function LiveTradesWidget({ trades }: LiveTradesWidgetProps) {
     <div className="bg-[#0a1420]/80 backdrop-blur-sm rounded-3xl p-8 border border-white/10 h-full flex flex-col">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold text-white/90">Live Trade Feed</h3>
-        <Tooltip text="Real-time feed of smart money trades across DEX platforms and Hyperliquid perpetuals. Shows most recent trades first." />
+        <Tooltip text="Real-time smart money trades across all platforms." />
       </div>
 
       <div className="space-y-3 overflow-y-auto flex-1">
