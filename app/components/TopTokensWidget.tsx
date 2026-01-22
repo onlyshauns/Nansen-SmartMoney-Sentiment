@@ -19,11 +19,12 @@ interface TopTokensWidgetProps {
 export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
   const [copiedAddress, setCopiedAddress] = useState<string | null>(null);
 
-  const copyAddress = (address: string, e: React.MouseEvent) => {
+  const copyAddressAndOpenGodMode = (address: string, chain: string, e: React.MouseEvent) => {
     e.stopPropagation();
     navigator.clipboard.writeText(address);
     setCopiedAddress(address);
     setTimeout(() => setCopiedAddress(null), 2000);
+    openTokenGodMode(address, chain);
   };
 
   const openTokenGodMode = (address: string, chain: string) => {
@@ -91,7 +92,7 @@ export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
                   <div className="text-white font-medium">{token.symbol}</div>
                   <div
                     className="text-white/40 hover:text-white/60 text-xs font-mono overflow-hidden text-ellipsis cursor-pointer"
-                    onClick={(e) => copyAddress(token.address, e)}
+                    onClick={(e) => copyAddressAndOpenGodMode(token.address, token.chain, e)}
                   >
                     {token.address}
                     {copiedAddress === token.address && (
