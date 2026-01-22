@@ -1,5 +1,7 @@
 'use client';
 
+import Tooltip from './Tooltip';
+
 interface LiveTrade {
   type: 'dex' | 'perp';
   action: 'buy' | 'sell' | 'long' | 'short';
@@ -66,8 +68,11 @@ export default function LiveTradesWidget({ trades }: LiveTradesWidgetProps) {
   };
 
   return (
-    <div className="bg-[#0a1420] rounded-2xl p-4 border border-[#00ffa7]/20 h-full flex flex-col">
-      <h3 className="text-lg font-bold text-white mb-3 pb-2 border-b border-[#00ffa7]/20">Live Trade Feed</h3>
+    <div className="bg-[#0a1420] rounded-2xl p-4 border border-[#00ffa7]/20 h-full flex flex-col transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#00ffa7]/20 hover:border-[#00ffa7]/50 hover:-translate-y-1">
+      <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#00ffa7]/20">
+        <h3 className="text-lg font-bold text-white">Live Trade Feed</h3>
+        <Tooltip text="Real-time feed of smart money trades across DEX platforms and Hyperliquid perpetuals. Shows most recent trades first." />
+      </div>
 
       <div className="space-y-1.5 overflow-y-auto flex-1">
         {trades.length === 0 ? (
@@ -76,7 +81,8 @@ export default function LiveTradesWidget({ trades }: LiveTradesWidgetProps) {
           trades.map((trade, index) => (
             <div
               key={`${trade.timestamp}-${index}`}
-              className="flex items-center gap-2 p-2 rounded-lg bg-[#061019] hover:bg-[#0d1a2a] transition-all"
+              className="flex items-center gap-2 p-2 rounded-lg bg-[#061019] hover:bg-[#0d1a2a] transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-[#00ffa7]/10 cursor-pointer animate-fade-in"
+              style={{ animationDelay: `${index * 30}ms` }}
             >
               <span className="text-base">{getActionIcon(trade.action)}</span>
 

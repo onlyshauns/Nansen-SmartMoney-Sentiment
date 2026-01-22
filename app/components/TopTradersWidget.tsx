@@ -1,5 +1,7 @@
 'use client';
 
+import Tooltip from './Tooltip';
+
 interface Trader {
   address: string;
   label: string;
@@ -43,8 +45,11 @@ export default function TopTradersWidget({ traders }: TopTradersWidgetProps) {
   };
 
   return (
-    <div className="bg-[#0a1420] rounded-2xl p-4 border border-[#00ffa7]/20 h-full flex flex-col">
-      <h3 className="text-lg font-bold text-white mb-3 pb-2 border-b border-[#00ffa7]/20">Top Traders</h3>
+    <div className="bg-[#0a1420] rounded-2xl p-4 border border-[#00ffa7]/20 h-full flex flex-col transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#00ffa7]/20 hover:border-[#00ffa7]/50 hover:-translate-y-1">
+      <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#00ffa7]/20">
+        <h3 className="text-lg font-bold text-white">Top Traders</h3>
+        <Tooltip text="Shows the most active smart money traders on Hyperliquid ranked by total trading volume. The bar shows their long/short ratio." />
+      </div>
 
       <div className="space-y-1.5 overflow-y-auto flex-1">
         {traders.length === 0 ? (
@@ -53,7 +58,8 @@ export default function TopTradersWidget({ traders }: TopTradersWidgetProps) {
           traders.map((trader, index) => (
             <div
               key={trader.address}
-              className="p-2 rounded-lg bg-[#061019] hover:bg-[#0d1a2a] transition-colors"
+              className="p-2 rounded-lg bg-[#061019] hover:bg-[#0d1a2a] transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-[#00ffa7]/10 cursor-pointer"
+              style={{ animationDelay: `${index * 50}ms` }}
             >
               <div className="flex items-center justify-between mb-1.5">
                 <div className="flex items-center gap-1.5 flex-1 min-w-0">
