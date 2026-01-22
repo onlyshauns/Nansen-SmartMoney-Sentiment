@@ -115,15 +115,15 @@ export default function Home() {
               </div>
             )}
 
-            {/* Three Column Layout - Takes remaining space */}
-            <div className="flex flex-1 min-h-0 space-x-8">
-              <div className="flex-1 min-w-0 px-2">
+            {/* Three Separate Cards Layout */}
+            <div className="flex justify-between items-stretch flex-1 min-h-0" style={{ gap: '48px' }}>
+              <div className="flex-1" style={{ maxWidth: '32%' }}>
                 <TopTokensWidget tokens={tokensData} />
               </div>
-              <div className="flex-1 min-w-0 px-2">
+              <div className="flex-1" style={{ maxWidth: '32%' }}>
                 <TopTradersWidget traders={tradersData} />
               </div>
-              <div className="flex-1 min-w-0 px-2">
+              <div className="flex-1" style={{ maxWidth: '32%' }}>
                 <LiveTradesWidget trades={tradesData} />
               </div>
             </div>
