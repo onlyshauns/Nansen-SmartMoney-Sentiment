@@ -51,7 +51,7 @@ export default function SmartTraderLeaderboard() {
         <span className="text-gray-500 text-xs font-semibold uppercase tracking-wider">Top 5</span>
       </div>
 
-      <div className="flex-1 overflow-y-auto space-y-6 pr-1">
+      <div className="flex-1 overflow-y-auto space-y-10 pr-1">
         {loading ? (
           <div className="text-gray-400 text-center py-24">Loading...</div>
         ) : traders.length > 0 ? (

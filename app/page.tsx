@@ -68,9 +68,28 @@ export default function Home() {
   };
 
   const getSentimentIcon = (sentiment: string) => {
-    if (sentiment === 'bullish') return '🐂'; // Bull
-    if (sentiment === 'bearish') return '🐻'; // Bear
-    return '😐'; // Neutral
+    if (sentiment === 'bullish') {
+      return (
+        <div className="flex flex-col items-center gap-4">
+          <div className="text-9xl font-black text-green-500" style={{ textShadow: '0 0 60px rgba(16,185,129,0.6)' }}>▲</div>
+          <div className="text-6xl font-black text-green-500 tracking-wider">BULL</div>
+        </div>
+      );
+    }
+    if (sentiment === 'bearish') {
+      return (
+        <div className="flex flex-col items-center gap-4">
+          <div className="text-9xl font-black text-red-500" style={{ textShadow: '0 0 60px rgba(239,68,68,0.6)' }}>▼</div>
+          <div className="text-6xl font-black text-red-500 tracking-wider">BEAR</div>
+        </div>
+      );
+    }
+    return (
+      <div className="flex flex-col items-center gap-4">
+        <div className="text-9xl font-black text-amber-500">─</div>
+        <div className="text-6xl font-black text-amber-500 tracking-wider">NEUTRAL</div>
+      </div>
+    );
   };
 
   const getSentimentGradient = (sentiment: string) => {
@@ -80,11 +99,11 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen p-10 bg-[#0A0E15]">
+    <main className="min-h-screen p-16 bg-[#0A0E15]">
       <div className="max-w-[1900px] mx-auto">
 
         {/* Header */}
-        <div className="flex items-center justify-between mb-12">
+        <div className="flex items-center justify-between mb-20">
           <div>
             <h1 className="text-4xl font-bold gradient-text mb-2">Smart Money Sentiment</h1>
             <p className="text-gray-400 text-sm">Real-time insights from Nansen smart money wallets</p>
@@ -96,7 +115,7 @@ export default function Home() {
         </div>
 
         {/* Main Content */}
-        <div className="space-y-12">
+        <div className="space-y-32">
           {loading ? (
             <div className="dashboard-card p-8 h-[700px] flex items-center justify-center shadow-2xl">
               <div className="text-gray-400">Loading...</div>
@@ -113,7 +132,7 @@ export default function Home() {
                   <div className={`absolute inset-0 bg-gradient-to-br ${getSentimentGradient(sentiment.overall)}`}></div>
                   <div className="relative p-16">
                     <div className="text-center">
-                      <div className="text-9xl mb-8 animate-bounce">
+                      <div className="mb-12">
                         {getSentimentIcon(sentiment.overall)}
                       </div>
                       <div className="text-gray-400 text-lg font-bold uppercase tracking-widest mb-6">
@@ -137,7 +156,7 @@ export default function Home() {
               </div>
 
               {/* Middle: Sentiment Meter & Stats */}
-              <div className="grid grid-cols-12 gap-10">
+              <div className="grid grid-cols-12 gap-20">
                 {/* Sentiment Meter */}
                 <div className="col-span-7">
                   <div
@@ -183,7 +202,7 @@ export default function Home() {
                 </div>
 
                 {/* Stats Cards */}
-                <div className="col-span-5 space-y-6">
+                <div className="col-span-5 space-y-10">
                   <div
                     className="dashboard-card p-8 shadow-xl hover:shadow-2xl transition-shadow"
                     style={{ boxShadow: '0 10px 40px rgba(0,0,0,0.3), 0 0 40px rgba(16,185,129,0.1)' }}
@@ -237,8 +256,8 @@ export default function Home() {
 
               {/* Bottom: Spot Trades & Perps Positions */}
               <div>
-                <h2 className="text-3xl font-bold text-white mb-8 text-center">Activity Breakdown</h2>
-                <div className="grid grid-cols-2 gap-12">
+                <h2 className="text-3xl font-bold text-white mb-16 text-center">Activity Breakdown</h2>
+                <div className="grid grid-cols-2 gap-24">
                   {/* Left: Spot Trades */}
                   <div>
                     <div
@@ -253,7 +272,7 @@ export default function Home() {
                         </div>
                         <span className="text-gray-500 text-xs font-semibold uppercase tracking-wider">Live Feed</span>
                       </div>
-                      <div className="flex-1 overflow-y-auto space-y-5 pr-2">
+                      <div className="flex-1 overflow-y-auto space-y-8 pr-2">
                         {trades.length > 0 ? (
                           trades.slice(0, 10).map((trade, index) => {
                             const isBuy = trade.token_sold_symbol === 'ETH' || trade.token_sold_symbol === 'USDC' || trade.token_sold_symbol === 'USDT' || trade.token_sold_symbol === 'DAI';
@@ -323,7 +342,7 @@ export default function Home() {
         </div>
 
         {/* Footer */}
-        <div className="mt-10 text-center">
+        <div className="mt-32 text-center">
           <div className="text-gray-600 text-xs font-medium">
             Powered by <span className="text-green-500 font-semibold">Nansen API</span> • Data refreshes every 2 minutes
           </div>
