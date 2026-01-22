@@ -80,10 +80,9 @@ export default function LiveTradesWidget({ trades }: LiveTradesWidgetProps) {
         ) : (
           <>
             {/* Header */}
-            <div className="grid grid-cols-[1.2fr_2fr_1fr_1fr_1.2fr] gap-6 py-4 px-6 text-xs font-semibold text-white/40 uppercase tracking-wider border-b border-white/10 mb-4">
+            <div className="grid grid-cols-[1fr_2fr_1fr_1.2fr] gap-6 py-4 px-6 text-xs font-semibold text-white/40 uppercase tracking-wider border-b border-white/10 mb-4">
               <div>Action</div>
               <div>Token</div>
-              <div>Chain</div>
               <div>Time</div>
               <div className="text-right">Value</div>
             </div>
@@ -93,7 +92,7 @@ export default function LiveTradesWidget({ trades }: LiveTradesWidgetProps) {
               {trades.map((trade, index) => (
                 <div
                   key={`${trade.timestamp}-${index}`}
-                  className="grid grid-cols-[1.2fr_2fr_1fr_1fr_1.2fr] gap-6 items-center py-5 px-6 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
+                  className="grid grid-cols-[1fr_2fr_1fr_1.2fr] gap-6 items-center py-5 px-6 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
                 >
                   <span
                     className={`font-semibold text-sm ${
@@ -105,9 +104,6 @@ export default function LiveTradesWidget({ trades }: LiveTradesWidgetProps) {
                     {getActionText(trade.action, trade.type)}
                   </span>
                   <div className="text-white font-medium overflow-hidden text-ellipsis">{trade.tokenSymbol}</div>
-                  <div className="text-white/60 text-sm">
-                    {trade.chain ? formatChain(trade.chain) : 'HYPE'}
-                  </div>
                   <div className="text-white/40 text-sm">{formatTimeAgo(trade.timestamp)}</div>
                   <div className="text-white font-semibold text-right">{formatValue(trade.valueUsd)}</div>
                 </div>

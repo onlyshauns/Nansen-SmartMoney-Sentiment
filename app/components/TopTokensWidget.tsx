@@ -90,7 +90,7 @@ export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
                   <div className="text-white/60 text-sm">{formatChain(token.chain)}</div>
                   <div className="text-white font-medium">{token.symbol}</div>
                   <div
-                    className="text-white/40 text-xs font-mono overflow-hidden text-ellipsis"
+                    className="text-white/40 hover:text-white/60 text-xs font-mono overflow-hidden text-ellipsis cursor-pointer"
                     onClick={(e) => copyAddress(token.address, e)}
                   >
                     {token.address}
