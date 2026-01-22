@@ -6,24 +6,25 @@ import SentimentChart from '@/components/SentimentChart';
 import SmartTraderLeaderboard from '@/components/SmartTraderLeaderboard';
 
 interface SmartMoneyTrade {
-  token: string;
-  type: string;
-  amount_usd: number;
-  timestamp: string;
+  chain: string;
+  block_timestamp: string;
+  trader_address: string;
+  trader_address_label: string;
+  token_bought_symbol: string;
+  token_sold_symbol: string;
+  token_bought_amount: number;
+  token_sold_amount: number;
+  trade_value_usd: number;
 }
 
 interface SmartMoneyHolding {
-  token: string;
-  balance_usd: number;
-  change_24h: number;
-}
-
-interface NetflowData {
-  token: string;
-  net_flow: number;
-  buy_volume: number;
-  sell_volume: number;
-  unique_wallets: number;
+  chain: string;
+  token_symbol: string;
+  value_usd: number;
+  balance_24h_percent_change: number;
+  holders_count: number;
+  share_of_holdings_percent: number;
+  market_cap_usd: number;
 }
 
 interface SentimentData {
@@ -41,7 +42,6 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [trades, setTrades] = useState<SmartMoneyTrade[]>([]);
   const [holdings, setHoldings] = useState<SmartMoneyHolding[]>([]);
-  const [netflows, setNetflows] = useState<NetflowData[]>([]);
   const [sentiment, setSentiment] = useState<SentimentData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [alertsEnabled, setAlertsEnabled] = useState(true);
@@ -49,6 +49,10 @@ export default function Home() {
   useEffect(() => {
     setMounted(true);
     fetchSmartMoneyData();
+
+    // Auto-refresh every 30 seconds
+    const interval = setInterval(fetchSmartMoneyData, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchSmartMoneyData = async () => {
@@ -57,17 +61,15 @@ export default function Home() {
       setError(null);
 
       // Fetch all data in parallel
-      const [tradesResponse, holdingsResponse, netflowsResponse, sentimentResponse] = await Promise.all([
-        fetch('/api/nansen/dex-trades?limit=10'),
-        fetch('/api/nansen/holdings?limit=10'),
-        fetch('/api/nansen/netflows?limit=10'),
+      const [tradesResponse, holdingsResponse, sentimentResponse] = await Promise.all([
+        fetch('/api/nansen/dex-trades'),
+        fetch('/api/nansen/holdings'),
         fetch('/api/sentiment'),
       ]);
 
-      const [tradesData, holdingsData, netflowsData, sentimentData] = await Promise.all([
+      const [tradesData, holdingsData, sentimentData] = await Promise.all([
         tradesResponse.json(),
         holdingsResponse.json(),
-        netflowsResponse.json(),
         sentimentResponse.json(),
       ]);
 
@@ -79,12 +81,10 @@ export default function Home() {
         setHoldings(holdingsData.data || []);
       }
 
-      if (netflowsData.success) {
-        setNetflows(netflowsData.data || []);
-      }
-
       if (sentimentData.success) {
         setSentiment(sentimentData.data);
+      } else {
+        setError(sentimentData.error);
       }
     } catch (err: any) {
       console.error('Error fetching smart money data:', err);
@@ -190,27 +190,31 @@ export default function Home() {
               ) : error ? (
                 <div className="text-red-400 text-center py-8 text-sm">{error}</div>
               ) : trades.length > 0 ? (
-                trades.slice(0, 8).map((trade, index) => (
-                  <div key={index} className="bg-nansen-darker/70 rounded-lg p-3 border border-nansen-cyan/10 hover:border-nansen-cyan/30 transition-colors">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className={`w-1.5 h-1.5 rounded-full ${trade.type === 'buy' ? 'bg-nansen-cyan' : 'bg-red-400'}`}></div>
-                        <div>
-                          <div className="text-white font-semibold text-sm">{trade.token}</div>
-                          <div className="text-nansen-light/40 text-xs uppercase">{trade.type}</div>
+                trades.slice(0, 10).map((trade, index) => {
+                  const isBuy = trade.token_sold_symbol === 'ETH' || trade.token_sold_symbol === 'USDC' || trade.token_sold_symbol === 'USDT';
+                  const mainToken = isBuy ? trade.token_bought_symbol : trade.token_sold_symbol;
+                  return (
+                    <div key={index} className="bg-nansen-darker/70 rounded-lg p-3 border border-nansen-cyan/10 hover:border-nansen-cyan/30 transition-colors">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className={`w-1.5 h-1.5 rounded-full ${isBuy ? 'bg-nansen-cyan' : 'bg-red-400'}`}></div>
+                          <div>
+                            <div className="text-white font-semibold text-sm">{mainToken}</div>
+                            <div className="text-nansen-light/40 text-xs uppercase">{isBuy ? 'buy' : 'sell'}</div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-white font-bold text-sm">
-                          ${(trade.amount_usd / 1000).toFixed(0)}K
-                        </div>
-                        <div className="text-nansen-light/40 text-xs">
-                          {new Date(trade.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        <div className="text-right">
+                          <div className="text-white font-bold text-sm">
+                            ${(trade.trade_value_usd / 1000).toFixed(0)}K
+                          </div>
+                          <div className="text-nansen-light/40 text-xs">
+                            {new Date(trade.block_timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))
+                  );
+                })
               ) : (
                 <div className="text-nansen-light/50 text-center py-8 text-sm">
                   No recent trades available
@@ -234,19 +238,19 @@ export default function Home() {
               ) : error ? (
                 <div className="text-red-400 text-center py-8 text-sm">{error}</div>
               ) : holdings.length > 0 ? (
-                holdings.slice(0, 8).map((holding, index) => (
+                holdings.slice(0, 10).map((holding, index) => (
                   <div key={index} className="bg-nansen-darker/70 rounded-lg p-3 border border-nansen-cyan/10 hover:border-nansen-cyan/30 transition-colors">
                     <div className="flex items-center justify-between">
                       <div>
-                        <div className="text-white font-semibold text-sm">{holding.token}</div>
+                        <div className="text-white font-semibold text-sm">{holding.token_symbol}</div>
                         <div className="text-nansen-light/40 text-xs">
-                          ${(holding.balance_usd / 1000000).toFixed(2)}M balance
+                          ${(holding.value_usd / 1000000).toFixed(1)}M • {holding.holders_count} holders
                         </div>
                       </div>
                       <div className={`text-right font-bold text-sm ${
-                        holding.change_24h >= 0 ? 'text-nansen-cyan' : 'text-red-400'
+                        holding.balance_24h_percent_change >= 0 ? 'text-nansen-cyan' : 'text-red-400'
                       }`}>
-                        {holding.change_24h >= 0 ? '+' : ''}{holding.change_24h.toFixed(1)}%
+                        {holding.balance_24h_percent_change >= 0 ? '+' : ''}{holding.balance_24h_percent_change.toFixed(1)}%
                       </div>
                     </div>
                   </div>
@@ -257,42 +261,6 @@ export default function Home() {
                 </div>
               )}
             </div>
-          </div>
-        </div>
-
-        {/* Token Netflows */}
-        <div className="glass-card rounded-xl p-5 mb-4">
-          <h2 className="text-xl font-bold text-white mb-4">Token Netflows (24h)</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            {loading ? (
-              <div className="text-nansen-light/50 text-center py-8 col-span-full text-sm">Loading...</div>
-            ) : error ? (
-              <div className="text-red-400 text-center py-8 col-span-full text-sm">{error}</div>
-            ) : netflows.length > 0 ? (
-              netflows.slice(0, 6).map((flow, index) => (
-                <div key={index} className="bg-nansen-darker/70 rounded-lg p-4 border border-nansen-cyan/10 hover:border-nansen-cyan/30 transition-colors">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="text-white font-semibold text-sm">{flow.token}</div>
-                    <div className={`text-xl font-bold ${
-                      flow.net_flow >= 0 ? 'text-nansen-cyan' : 'text-red-400'
-                    }`}>
-                      {flow.net_flow >= 0 ? '+' : ''}{(flow.net_flow / 1000000).toFixed(1)}M
-                    </div>
-                  </div>
-                  <div className="flex justify-between text-xs text-nansen-light/50 mb-2">
-                    <span>Buy ${(flow.buy_volume / 1000000).toFixed(1)}M</span>
-                    <span>Sell ${(flow.sell_volume / 1000000).toFixed(1)}M</span>
-                  </div>
-                  <div className="text-xs text-nansen-light/40">
-                    {flow.unique_wallets} wallets
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="text-nansen-light/50 text-center py-8 col-span-full text-sm">
-                No netflow data available
-              </div>
-            )}
           </div>
         </div>
 

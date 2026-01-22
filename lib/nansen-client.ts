@@ -1,13 +1,17 @@
 /**
  * Nansen API Client
- * Documentation: https://docs.nansen.ai/api/smart-money
+ * Documentation: https://docs.nansen.ai
  */
 
-const NANSEN_API_BASE = 'https://api.nansen.ai/api/beta';
+const NANSEN_API_BASE = 'https://api.nansen.ai/api/v1';
 
 interface NansenApiResponse<T> {
   data: T;
-  error?: string;
+  pagination?: {
+    page: number;
+    per_page: number;
+    is_last_page: boolean;
+  };
 }
 
 export class NansenClient {
@@ -17,69 +21,54 @@ export class NansenClient {
     this.apiKey = apiKey;
   }
 
-  private async request<T>(endpoint: string, params?: Record<string, string>): Promise<T> {
-    const url = new URL(`${NANSEN_API_BASE}${endpoint}`);
-
-    if (params) {
-      Object.entries(params).forEach(([key, value]) => {
-        url.searchParams.append(key, value);
-      });
-    }
-
-    const response = await fetch(url.toString(), {
-      method: 'GET',
+  private async request<T>(endpoint: string, body: Record<string, any> = {}): Promise<T> {
+    const response = await fetch(`${NANSEN_API_BASE}${endpoint}`, {
+      method: 'POST',
       headers: {
-        'X-API-KEY': this.apiKey,
         'Content-Type': 'application/json',
+        'apikey': this.apiKey,
       },
+      body: JSON.stringify(body),
     });
 
     if (!response.ok) {
-      throw new Error(`Nansen API error: ${response.status} ${response.statusText}`);
+      const errorText = await response.text();
+      throw new Error(`Nansen API error: ${response.status} ${errorText}`);
     }
 
     const data: NansenApiResponse<T> = await response.json();
-
-    if (data.error) {
-      throw new Error(`Nansen API error: ${data.error}`);
-    }
-
     return data.data;
   }
 
   /**
-   * Get aggregated smart trader and fund token balances with 24h changes
-   * @param chain - Blockchain network (e.g., 'ethereum', 'polygon')
-   * @param limit - Number of results to return
+   * Get aggregated smart money holdings across chains
+   * @param chains - Array of blockchain networks (e.g., ['ethereum', 'base', 'polygon'])
+   * @param page - Page number for pagination
+   * @param perPage - Results per page
    */
-  async getSmartMoneyHoldings(chain: string = 'ethereum', limit: number = 20) {
+  async getSmartMoneyHoldings(chains: string[] = ['ethereum'], page: number = 1, perPage: number = 20) {
     return this.request('/smart-money/holdings', {
-      chain,
-      limit: limit.toString(),
+      chains,
+      pagination: {
+        page,
+        per_page: perPage,
+      },
     });
   }
 
   /**
-   * Get individual smart trader and fund DEX trade transactions in the last 24h
-   * @param chain - Blockchain network
-   * @param limit - Number of results to return
+   * Get recent DEX trades by smart money wallets
+   * @param chains - Array of blockchain networks
+   * @param page - Page number for pagination
+   * @param perPage - Results per page
    */
-  async getSmartMoneyDexTrades(chain: string = 'ethereum', limit: number = 50) {
+  async getSmartMoneyDexTrades(chains: string[] = ['ethereum'], page: number = 1, perPage: number = 50) {
     return this.request('/smart-money/dex-trades', {
-      chain,
-      limit: limit.toString(),
-    });
-  }
-
-  /**
-   * Get aggregated token flow analysis for smart money wallets
-   * @param chain - Blockchain network
-   * @param timeframe - Time period (e.g., '24h', '7d')
-   */
-  async getSmartMoneyNetflows(chain: string = 'ethereum', timeframe: string = '24h') {
-    return this.request('/smart-money/netflows', {
-      chain,
-      timeframe,
+      chains,
+      pagination: {
+        page,
+        per_page: perPage,
+      },
     });
   }
 }

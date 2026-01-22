@@ -4,11 +4,12 @@ import { getNansenClient } from '@/lib/nansen-client';
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const chain = searchParams.get('chain') || 'ethereum';
-    const limit = parseInt(searchParams.get('limit') || '50');
+    const chains = searchParams.get('chains')?.split(',') || ['ethereum'];
+    const page = parseInt(searchParams.get('page') || '1');
+    const perPage = parseInt(searchParams.get('per_page') || '50');
 
     const client = getNansenClient();
-    const trades = await client.getSmartMoneyDexTrades(chain, limit);
+    const trades = await client.getSmartMoneyDexTrades(chains, page, perPage);
 
     return NextResponse.json({
       success: true,
