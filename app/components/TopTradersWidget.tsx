@@ -57,7 +57,7 @@ export default function TopTradersWidget({ traders }: TopTradersWidgetProps) {
         ) : (
           <>
             {/* Header */}
-            <div className="grid grid-cols-[0.5fr_2fr_1.5fr_1.5fr] gap-4 py-3 px-4 text-xs font-semibold text-white/40 uppercase tracking-wider border-b border-white/10 mb-3">
+            <div className="grid grid-cols-[0.5fr_2fr_1.5fr_1.5fr] gap-6 py-4 px-6 text-xs font-semibold text-white/40 uppercase tracking-wider border-b border-white/10 mb-4">
               <div>Rank</div>
               <div>Trader</div>
               <div className="text-right">Volume</div>
@@ -69,12 +69,12 @@ export default function TopTradersWidget({ traders }: TopTradersWidgetProps) {
               {traders.map((trader, index) => (
                 <div
                   key={trader.address}
-                  className="py-4 px-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
+                  className="py-5 px-6 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
                 >
-                  <div className="grid grid-cols-[0.5fr_2fr_1.5fr_1.5fr] gap-4 items-center mb-2">
+                  <div className="grid grid-cols-[0.5fr_2fr_1.5fr_1.5fr] gap-6 items-center mb-2">
                     <span className="text-white/40 text-sm font-medium">{index + 1}</span>
                     <div>
-                      <div className="text-white font-medium truncate">
+                      <div className="text-white font-medium overflow-hidden text-ellipsis">
                         {truncateAddress(trader.address, trader.label)}
                       </div>
                       <div className="text-white/40 text-xs">{trader.tradeCount} trades</div>

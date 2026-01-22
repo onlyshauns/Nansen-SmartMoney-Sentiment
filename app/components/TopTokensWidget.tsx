@@ -59,7 +59,7 @@ export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
         ) : (
           <>
             {/* Header */}
-            <div className="grid grid-cols-[1fr_1.5fr_2fr_1fr] gap-4 py-3 px-4 text-xs font-semibold text-white/40 uppercase tracking-wider border-b border-white/10 mb-3">
+            <div className="grid grid-cols-[1fr_1.5fr_2fr_1fr] gap-6 py-4 px-6 text-xs font-semibold text-white/40 uppercase tracking-wider border-b border-white/10 mb-4">
               <div>Chain</div>
               <div>Token</div>
               <div>Contract Address</div>
@@ -71,12 +71,12 @@ export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
               {tokens.map((token) => (
                 <div
                   key={`${token.address}-${token.chain}`}
-                  className="grid grid-cols-[1fr_1.5fr_2fr_1fr] gap-4 items-center py-4 px-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
+                  className="grid grid-cols-[1fr_1.5fr_2fr_1fr] gap-6 items-center py-5 px-6 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
                   onClick={() => copyAddress(token.address)}
                 >
                   <div className="text-white/60 text-sm">{formatChain(token.chain)}</div>
                   <div className="text-white font-medium">{token.symbol}</div>
-                  <div className="text-white/40 text-xs font-mono truncate">
+                  <div className="text-white/40 text-xs font-mono overflow-hidden text-ellipsis">
                     {token.address}
                     {copiedAddress === token.address && (
                       <span className="ml-2 text-[#00ffa7] text-xs">Copied!</span>
