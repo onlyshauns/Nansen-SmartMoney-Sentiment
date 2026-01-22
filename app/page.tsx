@@ -116,14 +116,14 @@ export default function Home() {
             )}
 
             {/* Three Separate Cards Layout */}
-            <div className="flex justify-between items-stretch flex-1 min-h-0" style={{ gap: '48px' }}>
-              <div className="flex-1" style={{ maxWidth: '32%' }}>
+            <div className="flex items-stretch flex-1 min-h-0" style={{ gap: '40px' }}>
+              <div className="flex-1 min-w-0">
                 <TopTokensWidget tokens={tokensData} />
               </div>
-              <div className="flex-1" style={{ maxWidth: '32%' }}>
+              <div className="flex-1 min-w-0">
                 <TopTradersWidget traders={tradersData} />
               </div>
-              <div className="flex-1" style={{ maxWidth: '32%' }}>
+              <div className="flex-1 min-w-0">
                 <LiveTradesWidget trades={tradesData} />
               </div>
             </div>
