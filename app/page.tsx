@@ -67,128 +67,163 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen p-6 bg-[#0B0E13]">
-      <div className="max-w-[1600px] mx-auto">
+    <main className="min-h-screen p-8 bg-[#0A0E15]">
+      <div className="max-w-[1800px] mx-auto">
 
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-10">
           <div>
-            <h1 className="text-3xl font-bold text-white">Smart Money Sentiment</h1>
-            <p className="text-gray-400 text-sm mt-1">Real-time Nansen Intelligence</p>
+            <h1 className="text-4xl font-bold gradient-text mb-2">Smart Money Sentiment</h1>
+            <p className="text-gray-400 text-sm">Real-time insights from Nansen smart money wallets</p>
           </div>
-          <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#151922] border border-[#1F2937]">
-            <div className="w-2 h-2 rounded-full bg-[#00E2B3] animate-pulse"></div>
-            <span className="text-[#00E2B3] font-semibold text-sm uppercase tracking-wide">Live</span>
+          <div className="flex items-center gap-3 px-5 py-3 rounded-xl bg-[#1A1F2E] border border-[#252A3C] shadow-lg">
+            <div className="w-2.5 h-2.5 rounded-full bg-[#00E2B3] animate-pulse shadow-[0_0_10px_rgba(0,226,179,0.5)]"></div>
+            <span className="text-[#00E2B3] font-bold text-sm uppercase tracking-wider">Live Data</span>
           </div>
         </div>
 
         {/* Main Grid */}
         <div className="grid grid-cols-12 gap-6">
 
-          {/* Left: Big Sentiment Display */}
-          <div className="col-span-4">
-            <div className="card p-8">
-              {loading ? (
-                <div className="text-gray-400 text-center py-20">Loading...</div>
-              ) : sentiment ? (
-                <>
-                  {/* Main Sentiment */}
-                  <div className="text-center mb-8">
-                    <div className="text-gray-400 text-sm font-semibold uppercase tracking-wider mb-4">
-                      Current Sentiment
+          {/* Left: Sentiment Overview */}
+          <div className="col-span-4 space-y-6">
+            {loading ? (
+              <div className="dashboard-card p-8 h-[600px] flex items-center justify-center">
+                <div className="text-gray-400">Loading...</div>
+              </div>
+            ) : sentiment ? (
+              <>
+                {/* Main Sentiment Card */}
+                <div className="dashboard-card p-8">
+                  <div className="text-center">
+                    <div className="text-gray-400 text-xs font-semibold uppercase tracking-widest mb-6">
+                      Market Sentiment
                     </div>
                     <div
-                      className="text-8xl font-bold mb-4"
-                      style={{ color: getSentimentColor(sentiment.overall) }}
+                      className="text-7xl font-black mb-3"
+                      style={{
+                        color: getSentimentColor(sentiment.overall),
+                        textShadow: `0 0 40px ${getSentimentColor(sentiment.overall)}40`
+                      }}
                     >
                       {sentiment.buy_ratio}%
                     </div>
-                    <div
-                      className="text-3xl font-bold uppercase tracking-wide"
-                      style={{ color: getSentimentColor(sentiment.overall) }}
-                    >
-                      {sentiment.overall}
-                    </div>
-                  </div>
-
-                  {/* Progress Bar */}
-                  <div className="mb-8">
-                    <div className="flex justify-between text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">
-                      <span>Bearish</span>
-                      <span>Bullish</span>
-                    </div>
-                    <div className="h-3 bg-[#1F2937] rounded-full overflow-hidden">
-                      <div
-                        className="h-full transition-all duration-1000 rounded-full"
+                    <div className="mb-8">
+                      <span
+                        className="inline-block px-6 py-2 rounded-full text-xl font-bold uppercase tracking-wider"
                         style={{
-                          width: `${sentiment.buy_ratio}%`,
-                          background: `linear-gradient(90deg, #EF4444 0%, #FCD34D 50%, #00E2B3 100%)`,
+                          background: `${getSentimentColor(sentiment.overall)}20`,
+                          color: getSentimentColor(sentiment.overall),
+                          border: `2px solid ${getSentimentColor(sentiment.overall)}40`
                         }}
-                      />
+                      >
+                        {sentiment.overall}
+                      </span>
+                    </div>
+
+                    {/* Progress Bar */}
+                    <div>
+                      <div className="flex justify-between text-[10px] font-bold text-gray-500 mb-3 uppercase tracking-widest px-1">
+                        <span>🐻 Bearish</span>
+                        <span>🚀 Bullish</span>
+                      </div>
+                      <div className="h-4 bg-[#131722] rounded-full overflow-hidden border border-[#252A3C] shadow-inner">
+                        <div
+                          className="h-full transition-all duration-1000 rounded-full relative"
+                          style={{
+                            width: `${sentiment.buy_ratio}%`,
+                            background: `linear-gradient(90deg, #EF4444 0%, #FCD34D 50%, #00E2B3 100%)`,
+                            boxShadow: `0 0 20px ${getSentimentColor(sentiment.overall)}60`
+                          }}
+                        >
+                          <div className="absolute right-0 top-0 bottom-0 w-1 bg-white opacity-50"></div>
+                        </div>
+                      </div>
                     </div>
                   </div>
+                </div>
 
-                  {/* Stats */}
-                  <div className="space-y-4">
-                    <div className="card-accent p-4">
-                      <div className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">
-                        24h Spot Buys
+                {/* Stats Cards */}
+                <div className="space-y-4">
+                  <div className="dashboard-card p-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="text-gray-400 text-xs font-bold uppercase tracking-wider">
+                        24h Buy Volume
                       </div>
-                      <div className="text-3xl font-bold text-[#00E2B3] mb-1">
-                        ${(sentiment.buy_volume_24h / 1000000).toFixed(2)}M
-                      </div>
-                      <div className="text-gray-500 text-sm">
+                      <div className="badge badge-success">
                         {sentiment.buy_count} trades
                       </div>
                     </div>
-
-                    <div className="card-accent p-4">
-                      <div className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">
-                        Net Flow 24h
-                      </div>
-                      <div className={`text-3xl font-bold mb-1 ${sentiment.net_flow >= 0 ? 'text-[#00E2B3]' : 'text-red-400'}`}>
-                        {sentiment.net_flow >= 0 ? '+' : ''}{(sentiment.net_flow / 1000000).toFixed(2)}M
-                      </div>
-                      <div className="text-gray-500 text-sm">
-                        {sentiment.trade_count} total trades
-                      </div>
+                    <div className="text-4xl font-black text-[#00E2B3] mb-1">
+                      ${(sentiment.buy_volume_24h / 1000000).toFixed(2)}M
+                    </div>
+                    <div className="text-gray-500 text-sm font-medium">
+                      Spot purchases by smart money
                     </div>
                   </div>
-                </>
-              ) : (
-                <div className="text-gray-400 text-center py-20">No data available</div>
-              )}
-            </div>
+
+                  <div className="dashboard-card p-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="text-gray-400 text-xs font-bold uppercase tracking-wider">
+                        24h Net Flow
+                      </div>
+                      <div className={`badge ${sentiment.net_flow >= 0 ? 'badge-success' : 'badge-danger'}`}>
+                        {sentiment.trade_count} total
+                      </div>
+                    </div>
+                    <div className={`text-4xl font-black mb-1 ${sentiment.net_flow >= 0 ? 'text-[#00E2B3]' : 'text-[#EF4444]'}`}>
+                      {sentiment.net_flow >= 0 ? '+' : ''}{(sentiment.net_flow / 1000000).toFixed(2)}M
+                    </div>
+                    <div className="text-gray-500 text-sm font-medium">
+                      Buy volume - Sell volume
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="dashboard-card p-8 h-[600px] flex items-center justify-center">
+                <div className="text-gray-400">No data available</div>
+              </div>
+            )}
           </div>
 
           {/* Middle: Recent Trades */}
           <div className="col-span-5">
-            <div className="card p-6 h-full flex flex-col">
-              <h2 className="text-xl font-bold text-white mb-4">Recent Spot Trades</h2>
-              <div className="flex-1 overflow-y-auto space-y-3">
+            <div className="dashboard-card p-6 flex flex-col h-full">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-white">Recent Smart Money Trades</h2>
+                <span className="text-gray-500 text-xs font-semibold uppercase tracking-wider">Live Feed</span>
+              </div>
+              <div className="flex-1 overflow-y-auto space-y-2.5 pr-2">
                 {loading ? (
-                  <div className="text-gray-400 text-center py-20">Loading...</div>
+                  <div className="text-gray-400 text-center py-24">Loading trades...</div>
                 ) : trades.length > 0 ? (
-                  trades.slice(0, 12).map((trade, index) => {
+                  trades.slice(0, 14).map((trade, index) => {
                     const isBuy = trade.token_sold_symbol === 'ETH' || trade.token_sold_symbol === 'USDC' || trade.token_sold_symbol === 'USDT' || trade.token_sold_symbol === 'DAI';
                     const mainToken = isBuy ? trade.token_bought_symbol : trade.token_sold_symbol;
                     return (
-                      <div key={index} className="card-accent p-4 hover:border-[#00E2B3] transition-colors">
+                      <div key={index} className="trade-item p-4">
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <div className={`w-2.5 h-2.5 rounded-full ${isBuy ? 'bg-[#00E2B3]' : 'bg-red-400'}`}></div>
+                          <div className="flex items-center gap-4">
+                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm border-2 ${
+                              isBuy
+                                ? 'bg-[#00E2B3]/10 border-[#00E2B3]/30 text-[#00E2B3]'
+                                : 'bg-[#EF4444]/10 border-[#EF4444]/30 text-[#EF4444]'
+                            }`}>
+                              {isBuy ? '↗' : '↘'}
+                            </div>
                             <div>
-                              <div className="text-white font-semibold text-base">{mainToken}</div>
-                              <div className={`text-xs font-medium uppercase ${isBuy ? 'text-[#00E2B3]' : 'text-red-400'}`}>
-                                {isBuy ? 'buy' : 'sell'}
+                              <div className="text-white font-bold text-base mb-1">{mainToken}</div>
+                              <div className={`text-xs font-bold uppercase tracking-wider ${isBuy ? 'text-[#00E2B3]' : 'text-[#EF4444]'}`}>
+                                {isBuy ? 'Buy' : 'Sell'}
                               </div>
                             </div>
                           </div>
                           <div className="text-right">
-                            <div className="text-white font-bold text-lg">
-                              ${(trade.trade_value_usd / 1000).toFixed(0)}K
+                            <div className="text-white font-black text-lg mb-1">
+                              ${(trade.trade_value_usd / 1000).toFixed(1)}K
                             </div>
-                            <div className="text-gray-500 text-xs">
+                            <div className="text-gray-500 text-xs font-medium">
                               {new Date(trade.block_timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </div>
                           </div>
@@ -197,7 +232,7 @@ export default function Home() {
                     );
                   })
                 ) : (
-                  <div className="text-gray-400 text-center py-20">No trades available</div>
+                  <div className="text-gray-400 text-center py-24">No trades available</div>
                 )}
               </div>
             </div>
@@ -210,8 +245,10 @@ export default function Home() {
         </div>
 
         {/* Footer */}
-        <div className="mt-6 text-center">
-          <div className="text-gray-600 text-xs">Powered by Nansen API</div>
+        <div className="mt-8 text-center">
+          <div className="text-gray-600 text-xs font-medium">
+            Powered by <span className="text-[#00E2B3] font-semibold">Nansen API</span> • Data refreshes every 30s
+          </div>
         </div>
       </div>
     </main>
