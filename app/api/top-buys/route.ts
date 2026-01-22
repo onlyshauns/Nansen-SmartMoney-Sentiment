@@ -15,13 +15,13 @@ export async function GET() {
   try {
     const nansenClient = getNansenClient();
 
-    // Fetch DEX trades from multiple chains
+    // Fetch DEX trades
     const chains = ['ethereum', 'base', 'polygon', 'arbitrum', 'optimism'];
     const allTrades: any[] = [];
 
     for (const chain of chains) {
       try {
-        const trades = await nansenClient.getSmartMoneyDexTrades([chain], 1, 100);
+        const trades = await nansenClient.getSmartMoneyDexTrades([chain], 1, 200);
         if (Array.isArray(trades)) {
           allTrades.push(...trades.map((trade: any) => ({ ...trade, chain })));
         }
@@ -30,22 +30,45 @@ export async function GET() {
       }
     }
 
+    console.log(`Total trades fetched: ${allTrades.length}`);
+
     // Aggregate by token
     const tokenMap = new Map<string, TokenInflow>();
-    const stablecoins = ['USDC', 'USDT', 'DAI', 'USDE', 'FDUSD'];
+    const stablecoins = ['USDC', 'USDT', 'DAI', 'USDE', 'FDUSD', 'BUSD', 'FRAX'];
+    const nativeTokens = ['ETH', 'WETH', 'MATIC', 'WMATIC', 'BNB', 'WBNB'];
 
     allTrades.forEach((trade: any) => {
-      // Determine if this is a buy or sell
-      const isBuy = stablecoins.includes(trade.token_sold_symbol);
-      const token = isBuy ? trade.token_bought_symbol : trade.token_sold_symbol;
-      const tokenAddress = isBuy ? trade.token_bought_address : trade.token_sold_address;
+      // Determine buy/sell based on which side has stablecoin
+      const soldIsStable = stablecoins.includes(trade.token_sold_symbol?.toUpperCase());
+      const boughtIsStable = stablecoins.includes(trade.token_bought_symbol?.toUpperCase());
 
-      // Skip stablecoins and native tokens
-      if (stablecoins.includes(token) || token === 'ETH' || token === 'MATIC' || token === 'WETH') {
+      let isBuy = false;
+      let token = '';
+      let tokenAddress = '';
+
+      if (soldIsStable && !boughtIsStable) {
+        // Sold stablecoin, bought token = BUY
+        isBuy = true;
+        token = trade.token_bought_symbol;
+        tokenAddress = trade.token_bought_address;
+      } else if (!soldIsStable && boughtIsStable) {
+        // Sold token, bought stablecoin = SELL
+        isBuy = false;
+        token = trade.token_sold_symbol;
+        tokenAddress = trade.token_sold_address;
+      } else {
+        // Skip token-to-token or stablecoin-to-stablecoin swaps
         return;
       }
 
-      const key = `${token}-${trade.chain}`;
+      // Skip if token is native or stablecoin
+      if (stablecoins.includes(token?.toUpperCase()) || nativeTokens.includes(token?.toUpperCase())) {
+        return;
+      }
+
+      if (!token) return;
+
+      const key = `${token}-${tokenAddress}-${trade.chain}`;
       const tradeValue = trade.trade_value_usd || 0;
 
       if (!tokenMap.has(key)) {
@@ -77,9 +100,15 @@ export async function GET() {
       .sort((a, b) => b.net_inflow_usd - a.net_inflow_usd)
       .slice(0, 20);
 
+    console.log(`Top buys count: ${topBuys.length}`);
+
     return NextResponse.json({
       success: true,
       data: topBuys,
+      metadata: {
+        total_trades: allTrades.length,
+        unique_tokens: tokenMap.size,
+      },
     });
   } catch (error) {
     console.error('Error in top-buys API:', error);
