@@ -58,26 +58,28 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+    <div className="h-screen bg-[#061019] flex flex-col overflow-hidden">
       {/* Header */}
-      <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <header className="border-b border-[#00ffa7]/20 bg-[#0a1420] flex-shrink-0">
+        <div className="px-6 py-3 flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-white">Smart Money Dashboard</h1>
-            <p className="text-slate-400 text-sm">Real-time Nansen analytics</p>
+            <h1 className="text-xl font-bold text-white" style={{ fontFamily: 'Arial, sans-serif' }}>
+              Smart Money Dashboard
+            </h1>
+            <p className="text-gray-500 text-xs">Real-time Nansen analytics</p>
           </div>
 
           <div className="flex items-center gap-4">
             {lastUpdated && (
-              <div className="text-sm text-slate-400">
-                <span className="inline-block w-2 h-2 bg-emerald-400 rounded-full mr-2 animate-pulse" />
+              <div className="text-sm text-gray-400">
+                <span className="inline-block w-2 h-2 bg-[#00ffa7] rounded-full mr-2 animate-pulse" />
                 Updated {formatLastUpdated()}
               </div>
             )}
             <button
               onClick={fetchAllData}
               disabled={isLoading}
-              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition-colors disabled:opacity-50"
+              className="px-4 py-1.5 bg-[#00ffa7]/10 hover:bg-[#00ffa7]/20 text-[#00ffa7] rounded-lg transition-colors disabled:opacity-50 text-sm border border-[#00ffa7]/30"
             >
               {isLoading ? 'Refreshing...' : 'Refresh'}
             </button>
@@ -86,39 +88,39 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 py-8">
+      <main className="flex-1 px-6 py-4 overflow-hidden">
         {error && (
-          <div className="mb-6 p-4 bg-red-900/20 border border-red-900/50 rounded-lg text-red-400">
+          <div className="mb-4 p-3 bg-red-900/20 border border-red-900/50 rounded-lg text-red-400 text-sm">
             {error}
           </div>
         )}
 
         {isLoading && !sentimentData ? (
-          <div className="flex items-center justify-center py-20">
+          <div className="flex items-center justify-center h-full">
             <div className="text-white text-lg">Loading dashboard...</div>
           </div>
         ) : (
-          <div className="space-y-6">
+          <div className="h-full flex flex-col gap-4">
             {/* Sentiment Hero - Full Width */}
             {sentimentData && !sentimentData.error && (
-              <SentimentHero
-                sentiment={sentimentData.sentiment}
-                longRatio={sentimentData.longRatio}
-                shortRatio={sentimentData.shortRatio}
-                totalPositions={sentimentData.totalPositions}
-                longCount={sentimentData.longCount}
-                shortCount={sentimentData.shortCount}
-              />
+              <div className="flex-shrink-0">
+                <SentimentHero
+                  sentiment={sentimentData.sentiment}
+                  longRatio={sentimentData.longRatio}
+                  shortRatio={sentimentData.shortRatio}
+                  totalPositions={sentimentData.totalPositions}
+                  longCount={sentimentData.longCount}
+                  shortCount={sentimentData.shortCount}
+                />
+              </div>
             )}
 
-            {/* Two Column Layout */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Three Column Layout - Takes remaining space */}
+            <div className="grid grid-cols-3 gap-4 flex-1 min-h-0">
               <TopTokensWidget tokens={tokensData} />
               <TopTradersWidget traders={tradersData} />
+              <LiveTradesWidget trades={tradesData} />
             </div>
-
-            {/* Live Trades - Full Width */}
-            <LiveTradesWidget trades={tradesData} />
           </div>
         )}
       </main>

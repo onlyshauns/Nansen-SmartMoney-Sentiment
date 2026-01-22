@@ -66,51 +66,46 @@ export default function LiveTradesWidget({ trades }: LiveTradesWidgetProps) {
   };
 
   return (
-    <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50">
-      <h3 className="text-xl font-bold text-white mb-4">Live Trade Feed</h3>
+    <div className="bg-[#0a1420] rounded-2xl p-4 border border-[#00ffa7]/20 h-full flex flex-col">
+      <h3 className="text-lg font-bold text-white mb-3 pb-2 border-b border-[#00ffa7]/20">Live Trade Feed</h3>
 
-      <div className="space-y-2 max-h-96 overflow-y-auto">
+      <div className="space-y-1.5 overflow-y-auto flex-1">
         {trades.length === 0 ? (
           <div className="text-slate-400 text-center py-8">No trades data available</div>
         ) : (
           trades.map((trade, index) => (
             <div
               key={`${trade.timestamp}-${index}`}
-              className="flex items-center gap-3 p-3 rounded-lg bg-slate-900/50 hover:bg-slate-900/80 transition-all animate-fade-in"
+              className="flex items-center gap-2 p-2 rounded-lg bg-[#061019] hover:bg-[#0d1a2a] transition-all"
             >
-              <span className="text-xl">{getActionIcon(trade.action)}</span>
+              <span className="text-base">{getActionIcon(trade.action)}</span>
 
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5">
                   <span
-                    className={`font-bold text-sm ${
+                    className={`font-bold text-xs ${
                       trade.action === 'buy' || trade.action === 'long'
-                        ? 'text-emerald-400'
-                        : 'text-red-400'
+                        ? 'text-[#00ffa7]'
+                        : 'text-[#ff4444]'
                     }`}
                   >
                     {getActionText(trade.action, trade.type)}
                   </span>
-                  <span className="font-bold text-white">{trade.tokenSymbol}</span>
-                  {trade.secondaryToken && (
-                    <span className="text-slate-400 text-xs">for {trade.secondaryToken}</span>
+                  <span className="font-semibold text-white text-sm">{trade.tokenSymbol}</span>
+                  {trade.chain && (
+                    <span className="text-xs px-1.5 py-0.5 rounded bg-[#00ffa7]/10 text-[#00ffa7]">
+                      {formatChain(trade.chain)}
+                    </span>
                   )}
                 </div>
-                <div className="text-xs text-slate-400 truncate">
-                  {trade.traderLabel || 'Unknown trader'}
+                <div className="text-xs text-gray-500 truncate">
+                  {formatTimeAgo(trade.timestamp)}
                 </div>
               </div>
 
               <div className="text-right">
                 <div className="font-bold text-white text-sm">{formatValue(trade.valueUsd)}</div>
-                <div className="text-xs text-slate-400">{formatTimeAgo(trade.timestamp)}</div>
               </div>
-
-              {trade.chain && (
-                <div className="text-xs px-2 py-1 rounded-full bg-slate-700 text-slate-300">
-                  {formatChain(trade.chain)}
-                </div>
-              )}
             </div>
           ))
         )}

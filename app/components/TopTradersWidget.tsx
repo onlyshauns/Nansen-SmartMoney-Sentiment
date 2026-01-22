@@ -43,40 +43,40 @@ export default function TopTradersWidget({ traders }: TopTradersWidgetProps) {
   };
 
   return (
-    <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50">
-      <h3 className="text-xl font-bold text-white mb-4">Top Traders</h3>
+    <div className="bg-[#0a1420] rounded-2xl p-4 border border-[#00ffa7]/20 h-full flex flex-col">
+      <h3 className="text-lg font-bold text-white mb-3 pb-2 border-b border-[#00ffa7]/20">Top Traders</h3>
 
-      <div className="space-y-2 max-h-96 overflow-y-auto">
+      <div className="space-y-1.5 overflow-y-auto flex-1">
         {traders.length === 0 ? (
           <div className="text-slate-400 text-center py-8">No traders data available</div>
         ) : (
           traders.map((trader, index) => (
             <div
               key={trader.address}
-              className="p-3 rounded-lg bg-slate-900/50 hover:bg-slate-900/80 transition-colors"
+              className="p-2 rounded-lg bg-[#061019] hover:bg-[#0d1a2a] transition-colors"
             >
-              <div className="flex items-start justify-between mb-2">
-                <div className="flex items-center gap-2 flex-1">
-                  <span className="text-xl">{getRankIcon(index)}</span>
+              <div className="flex items-center justify-between mb-1.5">
+                <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                  <span className="text-sm">{getRankIcon(index)}</span>
                   <div className="flex-1 min-w-0">
-                    <div className="text-white font-semibold truncate">
+                    <div className="text-white font-semibold text-sm truncate">
                       {truncateAddress(trader.address, trader.label)}
                     </div>
-                    <div className="text-xs text-slate-400">
-                      {trader.tradeCount} trades · {trader.tokensTraded.slice(0, 3).join(', ')}
+                    <div className="text-xs text-gray-500">
+                      {trader.tradeCount} trades
                     </div>
                   </div>
                 </div>
 
                 <div className="text-right">
-                  <div className="text-white font-bold">{formatValue(trader.totalVolume)}</div>
+                  <div className="text-white font-bold text-sm">{formatValue(trader.totalVolume)}</div>
                   <div
                     className={`text-xs font-semibold ${
                       trader.dominantSide === 'long'
-                        ? 'text-emerald-400'
+                        ? 'text-[#00ffa7]'
                         : trader.dominantSide === 'short'
-                        ? 'text-red-400'
-                        : 'text-slate-400'
+                        ? 'text-[#ff4444]'
+                        : 'text-gray-500'
                     }`}
                   >
                     {trader.dominantSide === 'long' && '↗ Long'}
@@ -87,20 +87,15 @@ export default function TopTradersWidget({ traders }: TopTradersWidgetProps) {
               </div>
 
               {/* Long/Short ratio bar */}
-              <div className="relative h-2 bg-slate-700 rounded-full overflow-hidden">
+              <div className="relative h-1.5 bg-[#0a1420] rounded-full overflow-hidden">
                 <div
-                  className="absolute left-0 top-0 h-full bg-emerald-500"
+                  className="absolute left-0 top-0 h-full bg-[#00ffa7]"
                   style={{ width: `${trader.longRatio}%` }}
                 />
                 <div
-                  className="absolute right-0 top-0 h-full bg-red-500"
+                  className="absolute right-0 top-0 h-full bg-[#ff4444]"
                   style={{ width: `${trader.shortRatio}%` }}
                 />
-              </div>
-
-              <div className="flex justify-between text-xs text-slate-400 mt-1">
-                <span>{trader.longRatio}% Long</span>
-                <span>{trader.shortRatio}% Short</span>
               </div>
             </div>
           ))

@@ -19,72 +19,61 @@ export default function SentimentHero({
 }: SentimentHeroProps) {
   const isBullish = sentiment === 'bullish';
   const isBearish = sentiment === 'bearish';
-  const isNeutral = sentiment === 'neutral';
 
   return (
-    <div
-      className={`
-        relative overflow-hidden rounded-3xl p-12
-        transition-all duration-700
-        ${isBullish ? 'bg-gradient-to-br from-emerald-600 to-emerald-800' : ''}
-        ${isBearish ? 'bg-gradient-to-br from-red-600 to-red-800' : ''}
-        ${isNeutral ? 'bg-gradient-to-br from-slate-700 to-slate-900' : ''}
-      `}
-    >
-      {/* Subtle glow effect */}
-      <div
-        className={`
-          absolute inset-0 opacity-30
-          ${isBullish ? 'bg-gradient-to-t from-emerald-400/20 to-transparent' : ''}
-          ${isBearish ? 'bg-gradient-to-t from-red-400/20 to-transparent' : ''}
-          ${isNeutral ? 'bg-gradient-to-t from-slate-400/20 to-transparent' : ''}
-        `}
-      />
-
-      <div className="relative z-10">
-        {/* Main sentiment text */}
-        <div className="text-center mb-8">
-          <h2 className="text-6xl font-extrabold text-white mb-2 tracking-tight">
-            {sentiment.toUpperCase()}
-          </h2>
-          <p className="text-white/80 text-lg">
-            Smart Money Sentiment
-          </p>
-        </div>
-
-        {/* Long/Short ratio bar */}
-        <div className="max-w-2xl mx-auto mb-6">
-          <div className="flex justify-between text-white font-semibold mb-3">
-            <span>Long {longRatio}%</span>
-            <span>Short {shortRatio}%</span>
+    <div className="relative overflow-hidden rounded-2xl p-6 bg-[#0a1420] border border-[#00ffa7]/20">
+      <div className="flex items-center justify-between">
+        {/* Left: Animal Icon + Sentiment */}
+        <div className="flex items-center gap-6">
+          <div className="text-8xl">
+            {isBullish ? '🐂' : isBearish ? '🐻' : '😐'}
           </div>
-
-          <div className="relative h-8 bg-black/20 rounded-full overflow-hidden">
-            <div
-              className="absolute left-0 top-0 h-full bg-emerald-400 transition-all duration-700"
-              style={{ width: `${longRatio}%` }}
-            />
-            <div
-              className="absolute right-0 top-0 h-full bg-red-400 transition-all duration-700"
-              style={{ width: `${shortRatio}%` }}
-            />
+          <div>
+            <h2
+              className="text-5xl font-bold tracking-tight"
+              style={{
+                color: isBullish ? '#00ffa7' : isBearish ? '#ff4444' : '#888',
+                fontFamily: 'Arial, sans-serif'
+              }}
+            >
+              {sentiment.toUpperCase()}
+            </h2>
+            <p className="text-gray-400 text-sm mt-1">Smart Money Sentiment</p>
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="flex justify-center gap-12 text-white">
+        {/* Right: Stats Grid */}
+        <div className="flex gap-8">
           <div className="text-center">
-            <div className="text-3xl font-bold">{longCount}</div>
-            <div className="text-white/70 text-sm">Long Positions</div>
+            <div className="text-3xl font-bold text-[#00ffa7]">{longCount}</div>
+            <div className="text-gray-400 text-xs">LONG</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold">{shortCount}</div>
-            <div className="text-white/70 text-sm">Short Positions</div>
+            <div className="text-3xl font-bold text-[#ff4444]">{shortCount}</div>
+            <div className="text-gray-400 text-xs">SHORT</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold">{totalPositions}</div>
-            <div className="text-white/70 text-sm">Total Positions</div>
+            <div className="text-3xl font-bold text-white">{totalPositions}</div>
+            <div className="text-gray-400 text-xs">TOTAL</div>
           </div>
+        </div>
+      </div>
+
+      {/* Long/Short ratio bar */}
+      <div className="mt-4">
+        <div className="flex justify-between text-sm text-gray-400 mb-2">
+          <span>Long {longRatio}%</span>
+          <span>Short {shortRatio}%</span>
+        </div>
+        <div className="relative h-3 bg-[#061019] rounded-full overflow-hidden">
+          <div
+            className="absolute left-0 top-0 h-full bg-[#00ffa7] transition-all duration-700"
+            style={{ width: `${longRatio}%` }}
+          />
+          <div
+            className="absolute right-0 top-0 h-full bg-[#ff4444] transition-all duration-700"
+            style={{ width: `${shortRatio}%` }}
+          />
         </div>
       </div>
     </div>

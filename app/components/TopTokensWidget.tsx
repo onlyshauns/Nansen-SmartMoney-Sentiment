@@ -46,51 +46,38 @@ export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
   };
 
   return (
-    <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50">
-      <h3 className="text-xl font-bold text-white mb-4">Top Tokens Bought</h3>
+    <div className="bg-[#0a1420] rounded-2xl p-4 border border-[#00ffa7]/20 h-full flex flex-col">
+      <h3 className="text-lg font-bold text-white mb-3 pb-2 border-b border-[#00ffa7]/20">Top Tokens Bought</h3>
 
-      <div className="space-y-2 max-h-96 overflow-y-auto">
+      <div className="space-y-1.5 overflow-y-auto flex-1">
         {tokens.length === 0 ? (
           <div className="text-slate-400 text-center py-8">No tokens data available</div>
         ) : (
           tokens.map((token, index) => (
             <div
               key={`${token.address}-${token.chain}`}
-              className="flex items-center justify-between p-3 rounded-lg bg-slate-900/50 hover:bg-slate-900/80 transition-colors group"
+              className="flex items-center justify-between p-2 rounded-lg bg-[#061019] hover:bg-[#0d1a2a] transition-colors group"
             >
-              <div className="flex items-center gap-3 flex-1">
-                <div className="text-emerald-400 font-bold text-lg w-8">#{index + 1}</div>
+              <div className="flex items-center gap-2 flex-1 min-w-0">
+                <div className="text-[#00ffa7] font-bold text-sm w-6">#{index + 1}</div>
 
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold text-white">{token.symbol}</span>
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-slate-700 text-slate-300">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-semibold text-white text-sm">{token.symbol}</span>
+                    <span className="text-xs px-1.5 py-0.5 rounded bg-[#00ffa7]/10 text-[#00ffa7]">
                       {formatChain(token.chain)}
                     </span>
                   </div>
-                  <div className="text-xs text-slate-400 mt-0.5">
-                    {token.buyCount} buys · {token.sellCount} sells
+                  <div className="text-xs text-gray-500">
+                    {token.buyCount}↑ · {token.sellCount}↓
                   </div>
                 </div>
 
                 <div className="text-right">
-                  <div className="text-emerald-400 font-bold">
+                  <div className="text-[#00ffa7] font-bold text-sm">
                     +{formatValue(token.netInflow)}
                   </div>
-                  <div className="text-xs text-slate-400">net inflow</div>
                 </div>
-
-                <button
-                  onClick={() => copyAddress(token.address)}
-                  className="opacity-0 group-hover:opacity-100 transition-opacity ml-2 p-2 hover:bg-slate-800 rounded"
-                  title="Copy address"
-                >
-                  {copiedAddress === token.address ? (
-                    <span className="text-xs text-emerald-400">✓</span>
-                  ) : (
-                    <span className="text-xs text-slate-400">📋</span>
-                  )}
-                </button>
               </div>
             </div>
           ))
