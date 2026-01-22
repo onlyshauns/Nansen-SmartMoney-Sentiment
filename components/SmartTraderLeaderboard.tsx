@@ -47,11 +47,13 @@ export default function SmartTraderLeaderboard() {
             <p className="text-xs text-gray-500">Hyperliquid Leaderboard</p>
           </div>
           <div className="flex items-center gap-3">
-            <div
-              className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-xs"
-              title="Top 5 performing perpetual futures positions on Hyperliquid DEX from smart traders. Shows P&L (profit/loss in dollars) and ROI (return on investment as percentage). Positions are leveraged long or short trades on crypto perpetuals."
-            >
-              ⓘ
+            <div className="info-icon">
+              <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
+                ⓘ
+              </div>
+              <div className="tooltip-text">
+                Top 5 performing perpetual futures positions on Hyperliquid DEX from smart traders. Shows P&L (profit/loss in dollars) and ROI (return on investment as percentage). Positions are leveraged long or short trades on crypto perpetuals.
+              </div>
             </div>
             <div className="badge badge-success">Top 5</div>
           </div>

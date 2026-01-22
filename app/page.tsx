@@ -99,7 +99,7 @@ export default function Home() {
             <div className="text-gray-500">Loading data...</div>
           </div>
         ) : sentiment ? (
-          <div className="space-y-32">
+          <div className="space-y-48">
 
             {/* Hero Sentiment Indicator */}
             <div className="max-w-3xl mx-auto">
@@ -109,11 +109,13 @@ export default function Home() {
                   boxShadow: `0 30px 90px ${getSentimentColor(sentiment.overall)}25`,
                 }}
               >
-                <div
-                  className="absolute top-8 right-8 w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm"
-                  title="Overall market sentiment determined by analyzing smart money wallet activity over the last 24 hours. Bullish = more buying than selling. Bearish = more selling than buying. Based on actual DEX trades from Nansen-verified smart money wallets."
-                >
-                  ⓘ
+                <div className="absolute top-8 right-8 info-icon">
+                  <div className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-base font-bold">
+                    ⓘ
+                  </div>
+                  <div className="tooltip-text">
+                    Overall market sentiment determined by analyzing smart money wallet activity over the last 24 hours. Bullish = more buying than selling. Bearish = more selling than buying. Based on actual DEX trades from Nansen-verified smart money wallets.
+                  </div>
                 </div>
                 {renderBullBearIcon(sentiment.overall)}
 
@@ -141,11 +143,13 @@ export default function Home() {
             <div className="grid grid-cols-3 gap-12">
               {/* Buy Ratio */}
               <div className="stat-card p-8 relative">
-                <div
-                  className="absolute top-4 right-4 w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-xs"
-                  title="Buy Ratio shows the percentage of buy volume compared to total trading volume (buys + sells). A higher percentage indicates more bullish sentiment. Calculated from 24h DEX trading data."
-                >
-                  ⓘ
+                <div className="absolute top-4 right-4 info-icon">
+                  <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
+                    ⓘ
+                  </div>
+                  <div className="tooltip-text">
+                    Buy Ratio shows the percentage of buy volume compared to total trading volume (buys + sells). A higher percentage indicates more bullish sentiment. Calculated from 24h DEX trading data.
+                  </div>
                 </div>
                 <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-6">Buy Ratio</div>
                 <div
@@ -167,11 +171,13 @@ export default function Home() {
 
               {/* Buy Volume */}
               <div className="stat-card p-8 relative">
-                <div
-                  className="absolute top-4 right-4 w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-xs"
-                  title="Total USD value of tokens purchased by smart money wallets in the last 24 hours via DEX trades. This represents the aggregate buying power and bullish conviction of smart money traders."
-                >
-                  ⓘ
+                <div className="absolute top-4 right-4 info-icon">
+                  <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
+                    ⓘ
+                  </div>
+                  <div className="tooltip-text">
+                    Total USD value of tokens purchased by smart money wallets in the last 24 hours via DEX trades. This represents the aggregate buying power and bullish conviction of smart money traders.
+                  </div>
                 </div>
                 <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-6">24h Buy Volume</div>
                 <div className="text-6xl font-black text-green-500 mb-2">
@@ -182,11 +188,13 @@ export default function Home() {
 
               {/* Net Flow */}
               <div className="stat-card p-8 relative">
-                <div
-                  className="absolute top-4 right-4 w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-xs"
-                  title="Net Flow = Buy volume minus Sell volume. Positive (green) means more capital flowing IN (bullish). Negative (red) means more capital flowing OUT (bearish). Shows the net directional flow of smart money capital."
-                >
-                  ⓘ
+                <div className="absolute top-4 right-4 info-icon">
+                  <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
+                    ⓘ
+                  </div>
+                  <div className="tooltip-text">
+                    Net Flow = Buy volume minus Sell volume. Positive (green) means more capital flowing IN (bullish). Negative (red) means more capital flowing OUT (bearish). Shows the net directional flow of smart money capital.
+                  </div>
                 </div>
                 <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-6">24h Net Flow</div>
                 <div className={`text-6xl font-black mb-2 ${sentiment.net_flow >= 0 ? 'text-green-500' : 'text-red-500'}`}>
@@ -200,7 +208,7 @@ export default function Home() {
             <div>
               <h2 className="text-2xl font-bold text-white mb-12" title="Real-time trading activity from smart money wallets across spot markets (DEX) and perpetual futures (Hyperliquid)">Live Activity</h2>
 
-              <div className="grid grid-cols-2 gap-16">
+              <div className="grid grid-cols-2 gap-32">
                 {/* Spot Trades */}
                 <div className="card">
                   <div className="p-8 border-b border-white/5">
@@ -210,11 +218,13 @@ export default function Home() {
                         <p className="text-xs text-gray-500">DEX Activity</p>
                       </div>
                       <div className="flex items-center gap-3">
-                        <div
-                          className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-xs"
-                          title="Real-time decentralized exchange (DEX) spot market trades from Nansen-identified smart money wallets. Tracks buying and selling activity across Ethereum, Base, Polygon, and other EVM-compatible chains. Updates every 2 minutes."
-                        >
-                          ⓘ
+                        <div className="info-icon">
+                          <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
+                            ⓘ
+                          </div>
+                          <div className="tooltip-text">
+                            Real-time decentralized exchange (DEX) spot market trades from Nansen-identified smart money wallets. Tracks buying and selling activity across Ethereum, Base, Polygon, and other EVM-compatible chains. Updates every 2 minutes.
+                          </div>
                         </div>
                         <div className="badge badge-success">Live</div>
                       </div>
