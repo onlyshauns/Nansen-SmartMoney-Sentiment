@@ -39,7 +39,7 @@ export default function SmartTraderLeaderboard() {
   };
 
   return (
-    <div className="card relative">
+    <div className="flex-1 card relative">
       <div className="absolute top-6 right-6 info-icon z-10">
         <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
           ⓘ
