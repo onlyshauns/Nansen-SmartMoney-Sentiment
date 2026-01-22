@@ -116,10 +116,16 @@ export default function Home() {
             )}
 
             {/* Three Column Layout - Takes remaining space */}
-            <div className="grid grid-cols-3 gap-16 flex-1 min-h-0">
-              <TopTokensWidget tokens={tokensData} />
-              <TopTradersWidget traders={tradersData} />
-              <LiveTradesWidget trades={tradesData} />
+            <div className="flex flex-1 min-h-0 space-x-8">
+              <div className="flex-1 min-w-0 px-2">
+                <TopTokensWidget tokens={tokensData} />
+              </div>
+              <div className="flex-1 min-w-0 px-2">
+                <TopTradersWidget traders={tradersData} />
+              </div>
+              <div className="flex-1 min-w-0 px-2">
+                <LiveTradesWidget trades={tradesData} />
+              </div>
             </div>
           </div>
         )}
