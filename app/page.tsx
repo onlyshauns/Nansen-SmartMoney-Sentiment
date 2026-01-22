@@ -15,11 +15,31 @@ interface SmartMoneyHolding {
   change_24h: number;
 }
 
+interface NetflowData {
+  token: string;
+  net_flow: number;
+  buy_volume: number;
+  sell_volume: number;
+  unique_wallets: number;
+}
+
+interface SentimentData {
+  overall: string;
+  score: number;
+  change_24h: number;
+  buy_volume_24h: number;
+  sell_volume_24h: number;
+  buy_ratio?: number;
+  net_flow?: number;
+}
+
 export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(true);
   const [trades, setTrades] = useState<SmartMoneyTrade[]>([]);
   const [holdings, setHoldings] = useState<SmartMoneyHolding[]>([]);
+  const [netflows, setNetflows] = useState<NetflowData[]>([]);
+  const [sentiment, setSentiment] = useState<SentimentData | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -32,20 +52,35 @@ export default function Home() {
       setLoading(true);
       setError(null);
 
-      // Fetch DEX trades
-      const tradesResponse = await fetch('/api/nansen/dex-trades?limit=10');
-      const tradesData = await tradesResponse.json();
+      // Fetch all data in parallel
+      const [tradesResponse, holdingsResponse, netflowsResponse, sentimentResponse] = await Promise.all([
+        fetch('/api/nansen/dex-trades?limit=10'),
+        fetch('/api/nansen/holdings?limit=10'),
+        fetch('/api/nansen/netflows?limit=10'),
+        fetch('/api/sentiment'),
+      ]);
+
+      const [tradesData, holdingsData, netflowsData, sentimentData] = await Promise.all([
+        tradesResponse.json(),
+        holdingsResponse.json(),
+        netflowsResponse.json(),
+        sentimentResponse.json(),
+      ]);
 
       if (tradesData.success) {
         setTrades(tradesData.data || []);
       }
 
-      // Fetch holdings
-      const holdingsResponse = await fetch('/api/nansen/holdings?limit=10');
-      const holdingsData = await holdingsResponse.json();
-
       if (holdingsData.success) {
         setHoldings(holdingsData.data || []);
+      }
+
+      if (netflowsData.success) {
+        setNetflows(netflowsData.data || []);
+      }
+
+      if (sentimentData.success) {
+        setSentiment(sentimentData.data);
       }
     } catch (err: any) {
       console.error('Error fetching smart money data:', err);
@@ -80,20 +115,61 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="glass-card rounded-xl p-6 hover-lift">
             <div className="text-nansen-light/50 text-sm mb-2">Overall Sentiment</div>
-            <div className="text-4xl font-bold text-nansen-green mb-1">Bullish</div>
-            <div className="text-nansen-light/70 text-sm">+12% vs yesterday</div>
+            {loading ? (
+              <div className="text-2xl text-nansen-light/50">Loading...</div>
+            ) : sentiment ? (
+              <>
+                <div className={`text-4xl font-bold mb-1 ${
+                  sentiment.overall === 'bullish' ? 'text-nansen-green' :
+                  sentiment.overall === 'bearish' ? 'text-red-400' : 'text-yellow-400'
+                }`}>
+                  {sentiment.overall.charAt(0).toUpperCase() + sentiment.overall.slice(1)}
+                </div>
+                <div className={`text-sm ${sentiment.change_24h >= 0 ? 'text-nansen-green' : 'text-red-400'}`}>
+                  {sentiment.change_24h >= 0 ? '↑' : '↓'} {Math.abs(sentiment.change_24h)}% vs yesterday
+                </div>
+              </>
+            ) : (
+              <div className="text-2xl text-nansen-light/50">N/A</div>
+            )}
           </div>
 
           <div className="glass-card rounded-xl p-6 hover-lift">
             <div className="text-nansen-light/50 text-sm mb-2">Smart Money Buys (24h)</div>
-            <div className="text-4xl font-bold text-white mb-1">$2.4M</div>
-            <div className="text-nansen-green text-sm">↑ 24 transactions</div>
+            {loading ? (
+              <div className="text-2xl text-nansen-light/50">Loading...</div>
+            ) : sentiment ? (
+              <>
+                <div className="text-4xl font-bold text-white mb-1">
+                  ${(sentiment.buy_volume_24h / 1000000).toFixed(1)}M
+                </div>
+                <div className="text-nansen-green text-sm">
+                  Buy Ratio: {sentiment.buy_ratio || 50}%
+                </div>
+              </>
+            ) : (
+              <div className="text-2xl text-nansen-light/50">N/A</div>
+            )}
           </div>
 
           <div className="glass-card rounded-xl p-6 hover-lift">
-            <div className="text-nansen-light/50 text-sm mb-2">HL Long Positions</div>
-            <div className="text-4xl font-bold text-white mb-1">68%</div>
-            <div className="text-nansen-blue text-sm">32% shorts</div>
+            <div className="text-nansen-light/50 text-sm mb-2">Net Flow (24h)</div>
+            {loading ? (
+              <div className="text-2xl text-nansen-light/50">Loading...</div>
+            ) : sentiment && sentiment.net_flow !== undefined ? (
+              <>
+                <div className={`text-4xl font-bold mb-1 ${
+                  sentiment.net_flow >= 0 ? 'text-nansen-green' : 'text-red-400'
+                }`}>
+                  {sentiment.net_flow >= 0 ? '+' : ''}{(sentiment.net_flow / 1000000).toFixed(1)}M
+                </div>
+                <div className="text-nansen-light/70 text-sm">
+                  {sentiment.net_flow >= 0 ? 'Accumulation' : 'Distribution'}
+                </div>
+              </>
+            ) : (
+              <div className="text-2xl text-nansen-light/50">N/A</div>
+            )}
           </div>
         </div>
 
@@ -172,6 +248,42 @@ export default function Home() {
                 </div>
               )}
             </div>
+          </div>
+        </div>
+
+        {/* Token Netflows */}
+        <div className="mt-6 glass-card rounded-xl p-6">
+          <h2 className="text-2xl font-bold text-white mb-4">Token Netflows (24h)</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {loading ? (
+              <div className="text-nansen-light/50 text-center py-8 col-span-full">Loading...</div>
+            ) : error ? (
+              <div className="text-red-400 text-center py-8 col-span-full">{error}</div>
+            ) : netflows.length > 0 ? (
+              netflows.map((flow, index) => (
+                <div key={index} className="bg-nansen-darker/50 rounded-lg p-4 border border-nansen-green/10">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="text-white font-semibold">{flow.token}</div>
+                    <div className={`text-lg font-bold ${
+                      flow.net_flow >= 0 ? 'text-nansen-green' : 'text-red-400'
+                    }`}>
+                      {flow.net_flow >= 0 ? '+' : ''}{(flow.net_flow / 1000000).toFixed(2)}M
+                    </div>
+                  </div>
+                  <div className="flex justify-between text-sm text-nansen-light/70">
+                    <span>Buy: ${(flow.buy_volume / 1000000).toFixed(1)}M</span>
+                    <span>Sell: ${(flow.sell_volume / 1000000).toFixed(1)}M</span>
+                  </div>
+                  <div className="mt-2 text-xs text-nansen-light/50">
+                    {flow.unique_wallets} smart wallets
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-nansen-light/50 text-center py-8 col-span-full">
+                No netflow data available
+              </div>
+            )}
           </div>
         </div>
 
