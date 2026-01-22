@@ -58,11 +58,11 @@ export default function Home() {
   };
 
   return (
-    <div className="h-screen bg-[#061019] p-6 overflow-hidden">
-      <div className="h-full bg-[#061019] flex flex-col overflow-hidden rounded-2xl border border-white/10">
+    <div className="h-screen bg-[#061019] p-16 overflow-hidden">
+      <div className="h-full bg-[#061019] flex flex-col overflow-hidden rounded-3xl border-2 border-white/10">
         {/* Header */}
-        <header className="border-b border-[#00ffa7]/20 bg-[#0a1420] flex-shrink-0 rounded-t-2xl">
-          <div className="px-8 py-4 flex items-center justify-between">
+        <header className="border-b border-[#00ffa7]/20 bg-[#0a1420] flex-shrink-0 rounded-t-3xl">
+          <div className="px-12 py-6 flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-white" style={{ fontFamily: 'Arial, sans-serif' }}>
               Smart Money Dashboard
@@ -89,7 +89,7 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 px-10 py-8 overflow-hidden">
+      <main className="flex-1 px-12 py-10 overflow-hidden">
         {error && (
           <div className="mb-4 p-3 bg-red-900/20 border border-red-900/50 rounded-lg text-red-400 text-sm">
             {error}
@@ -101,7 +101,7 @@ export default function Home() {
             <div className="text-white text-lg">Loading dashboard...</div>
           </div>
         ) : (
-          <div className="h-full flex flex-col gap-6">
+          <div className="h-full flex flex-col gap-8">
             {/* Sentiment Hero - Full Width */}
             {sentimentData && !sentimentData.error && (
               <div className="flex-shrink-0">
