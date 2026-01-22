@@ -1,195 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --nansen-cyan: #00E2B3;
-  --nansen-blue: #5B8DEE;
-  --bg-primary: #0A0E15;
-  --bg-secondary: #131722;
-  --bg-card: #1A1F2E;
-  --border-color: #252A3C;
+* {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--bg-primary);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #0A0E15;
   color: #FFFFFF;
+  margin: 0;
+  padding: 0;
 }
 
-@layer utilities {
-  /* Clean Modern Cards */
-  .card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 24px;
-    backdrop-filter: blur(20px);
-    transition: all 0.3s ease;
-  }
-
-  .card:hover {
-    border-color: rgba(255, 255, 255, 0.12);
-    transform: translateY(-4px);
-  }
-
-  /* Hero Card */
-  .hero-card {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 32px;
-    backdrop-filter: blur(40px);
-  }
-
-  /* Stat Card */
-  .stat-card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 20px;
-    backdrop-filter: blur(20px);
-    transition: all 0.3s ease;
-  }
-
-  .stat-card:hover {
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-
-  /* Gradient Text */
-  .gradient-text {
-    background: linear-gradient(135deg, #10B981 0%, #3B82F6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* Bull Icon - Simple Upward Arrow */
-  .bull-icon {
-    width: 160px;
-    height: 160px;
-    margin: 0 auto;
-    position: relative;
-  }
-
-  .bull-arrow {
-    width: 0;
-    height: 0;
-    border-left: 80px solid transparent;
-    border-right: 80px solid transparent;
-    border-bottom: 120px solid #10B981;
-    position: relative;
-    filter: drop-shadow(0 20px 40px rgba(16, 185, 129, 0.5));
-  }
-
-  .bull-arrow::before {
-    content: '';
-    position: absolute;
-    width: 80px;
-    height: 60px;
-    background: #10B981;
-    bottom: -120px;
-    left: -40px;
-  }
-
-  /* Bear Icon - Simple Downward Arrow */
-  .bear-icon {
-    width: 160px;
-    height: 160px;
-    margin: 0 auto;
-    position: relative;
-  }
-
-  .bear-arrow {
-    width: 0;
-    height: 0;
-    border-left: 80px solid transparent;
-    border-right: 80px solid transparent;
-    border-top: 120px solid #EF4444;
-    position: relative;
-    filter: drop-shadow(0 20px 40px rgba(239, 68, 68, 0.5));
-  }
-
-  .bear-arrow::before {
-    content: '';
-    position: absolute;
-    width: 80px;
-    height: 60px;
-    background: #EF4444;
-    top: -120px;
-    left: -40px;
-  }
-
-  /* Badge */
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 14px;
-    border-radius: 12px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-  }
-
-  .badge-success {
-    background: rgba(16, 185, 129, 0.12);
-    color: #10B981;
-    border: 1px solid rgba(16, 185, 129, 0.25);
-  }
-
-  .badge-danger {
-    background: rgba(239, 68, 68, 0.12);
-    color: #EF4444;
-    border: 1px solid rgba(239, 68, 68, 0.25);
-  }
-
-  /* Info Icon Tooltip */
-  .info-icon {
-    position: relative;
-    display: inline-flex;
-  }
-
-  .info-icon .tooltip-text {
-    visibility: hidden;
-    opacity: 0;
-    position: absolute;
-    z-index: 50;
-    background: rgba(0, 0, 0, 0.95);
-    color: white;
-    padding: 12px 16px;
-    border-radius: 12px;
-    font-size: 13px;
-    line-height: 1.5;
-    width: 280px;
-    top: 100%;
-    right: 0;
-    margin-top: 8px;
-    transition: opacity 0.2s ease, visibility 0.2s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-  }
-
-  .info-icon:hover .tooltip-text {
-    visibility: visible;
-    opacity: 1;
-  }
-
-  .info-icon .tooltip-text::before {
-    content: '';
-    position: absolute;
-    bottom: 100%;
-    right: 8px;
-    border: 6px solid transparent;
-    border-bottom-color: rgba(0, 0, 0, 0.95);
-  }
-}
-
-/* Scrollbar */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -197,10 +29,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(91, 141, 238, 0.3);
-  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 226, 179, 0.5);
+  background: rgba(255, 255, 255, 0.2);
 }

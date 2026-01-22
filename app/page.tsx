@@ -66,100 +66,62 @@ export default function Home() {
     return '#F59E0B';
   };
 
-  const renderBullBearIcon = (sentiment: string) => {
-    if (sentiment === 'bullish') {
-      return (
-        <div className="bull-icon mb-12">
-          <div className="bull-arrow"></div>
-        </div>
-      );
-    }
-    if (sentiment === 'bearish') {
-      return (
-        <div className="bear-icon mb-12">
-          <div className="bear-arrow"></div>
-        </div>
-      );
-    }
-    return null;
-  };
-
   return (
-    <main className="min-h-screen bg-[#0A0E15]">
-      <div className="max-w-[1600px] mx-auto px-12 py-20">
+    <main className="min-h-screen bg-[#0A0E15] text-white">
+      <div className="max-w-7xl mx-auto px-8 py-16">
 
         {/* Header */}
-        <div className="mb-32">
-          <h1 className="text-3xl font-bold text-white mb-2" title="Dashboard tracking trading activity from wallets identified by Nansen as 'smart money' - experienced and successful traders">Smart Money Dashboard</h1>
-          <p className="text-gray-500 text-sm" title="Data updates every hour from Nansen API">Real-time sentiment from Nansen smart money wallets</p>
-        </div>
+        <header className="mb-24">
+          <h1 className="text-4xl font-bold mb-3">Smart Money Dashboard</h1>
+          <p className="text-gray-400">Real-time sentiment from Nansen smart money wallets • Updates hourly</p>
+        </header>
 
         {loading ? (
-          <div className="flex items-center justify-center py-40">
-            <div className="text-gray-500">Loading data...</div>
+          <div className="flex items-center justify-center py-32">
+            <div className="text-gray-400 text-lg">Loading...</div>
           </div>
         ) : sentiment ? (
-          <div className="space-y-64">
-
-            {/* Hero Sentiment Indicator */}
-            <div className="max-w-3xl mx-auto">
-              <div
-                className="hero-card p-24 text-center relative"
-                style={{
-                  boxShadow: `0 30px 90px ${getSentimentColor(sentiment.overall)}25`,
-                }}
-              >
-                <div className="absolute top-8 right-8 info-icon">
-                  <div className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-base font-bold">
-                    ⓘ
-                  </div>
-                  <div className="tooltip-text">
-                    Overall market sentiment determined by analyzing smart money wallet activity over the last 24 hours. Bullish = more buying than selling. Bearish = more selling than buying. Based on actual DEX trades from Nansen-verified smart money wallets.
-                  </div>
+          <>
+            {/* Main Sentiment Card */}
+            <section className="mb-24">
+              <div className="bg-gradient-to-br from-white/[0.07] to-white/[0.03] rounded-3xl p-16 text-center border border-white/10">
+                <div className="text-sm font-semibold text-gray-400 uppercase tracking-widest mb-6">
+                  Market Sentiment
                 </div>
-                {renderBullBearIcon(sentiment.overall)}
-
-                <div className="text-sm font-bold text-gray-500 uppercase tracking-[0.2em] mb-4">
-                  Smart Money Is
-                </div>
-
                 <div
-                  className="text-8xl font-black uppercase mb-8 tracking-tight"
-                  style={{
-                    color: getSentimentColor(sentiment.overall),
-                    textShadow: `0 0 80px ${getSentimentColor(sentiment.overall)}40`,
-                  }}
+                  className="text-8xl font-black uppercase mb-6"
+                  style={{ color: getSentimentColor(sentiment.overall) }}
                 >
                   {sentiment.overall}
                 </div>
-
-                <div className="text-gray-400 text-sm">
-                  Based on {sentiment.trade_count.toLocaleString()} trades in the last 24 hours
+                <div className="text-gray-400 text-base">
+                  Based on {sentiment.trade_count.toLocaleString()} trades in 24h
                 </div>
               </div>
-            </div>
+            </section>
 
-            {/* Stats Grid */}
-            <div className="flex gap-12">
-              {/* Buy Ratio */}
-              <div className="flex-1">
-                <div className="stat-card p-16 relative">
-                  <div className="absolute top-6 right-6 info-icon">
-                    <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
-                      ⓘ
+            {/* Key Metrics */}
+            <section className="mb-24">
+              <h2 className="text-2xl font-bold mb-8">Key Metrics</h2>
+
+              <div className="space-y-6">
+                {/* Buy Ratio */}
+                <div className="bg-white/[0.03] rounded-2xl p-8 border border-white/[0.08]">
+                  <div className="flex items-center justify-between mb-6">
+                    <div>
+                      <div className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">Buy Ratio</div>
+                      <div
+                        className="text-5xl font-black"
+                        style={{ color: getSentimentColor(sentiment.overall) }}
+                      >
+                        {sentiment.buy_ratio}%
+                      </div>
                     </div>
-                    <div className="tooltip-text">
-                      Buy Ratio shows the percentage of buy volume compared to total trading volume (buys + sells). A higher percentage indicates more bullish sentiment. Calculated from 24h DEX trading data.
+                    <div className="text-sm text-gray-500 max-w-xs text-right">
+                      Percentage of buy volume vs total volume
                     </div>
                   </div>
-                  <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-10">Buy Ratio</div>
-                  <div
-                    className="text-6xl font-black mb-10"
-                    style={{ color: getSentimentColor(sentiment.overall) }}
-                  >
-                    {sentiment.buy_ratio}%
-                  </div>
-                  <div className="h-2 bg-black/20 rounded-full overflow-hidden">
+                  <div className="h-3 bg-black/30 rounded-full overflow-hidden">
                     <div
                       className="h-full rounded-full transition-all duration-1000"
                       style={{
@@ -169,73 +131,57 @@ export default function Home() {
                     />
                   </div>
                 </div>
-              </div>
 
-              {/* Buy Volume */}
-              <div className="flex-1">
-                <div className="stat-card p-16 relative">
-                  <div className="absolute top-6 right-6 info-icon">
-                    <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
-                      ⓘ
-                    </div>
-                    <div className="tooltip-text">
-                      Total USD value of tokens purchased by smart money wallets in the last 24 hours via DEX trades. This represents the aggregate buying power and bullish conviction of smart money traders.
-                    </div>
-                  </div>
-                  <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-10">24h Buy Volume</div>
-                  <div className="text-6xl font-black text-green-500 mb-6">
-                    ${(sentiment.buy_volume_24h / 1000000).toFixed(1)}M
-                  </div>
-                  <div className="text-sm text-gray-500">{sentiment.buy_count.toLocaleString()} buy trades</div>
-                </div>
-              </div>
-
-              {/* Net Flow */}
-              <div className="flex-1">
-                <div className="stat-card p-16 relative">
-                  <div className="absolute top-6 right-6 info-icon">
-                    <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
-                      ⓘ
-                    </div>
-                    <div className="tooltip-text">
-                      Net Flow = Buy volume minus Sell volume. Positive (green) means more capital flowing IN (bullish). Negative (red) means more capital flowing OUT (bearish). Shows the net directional flow of smart money capital.
-                    </div>
-                  </div>
-                  <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-10">24h Net Flow</div>
-                  <div className={`text-6xl font-black mb-6 ${sentiment.net_flow >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                    {sentiment.net_flow >= 0 ? '+' : ''}{(sentiment.net_flow / 1000000).toFixed(1)}M
-                  </div>
-                  <div className="text-sm text-gray-500">{sentiment.trade_count.toLocaleString()} total trades</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Activity Section */}
-            <div>
-              <h2 className="text-2xl font-bold text-white mb-20" title="Real-time trading activity from smart money wallets across spot markets (DEX) and perpetual futures (Hyperliquid)">Live Activity</h2>
-
-              <div className="flex gap-24">
-                {/* Spot Trades */}
-                <div className="flex-1 card relative">
-                  <div className="absolute top-6 right-6 info-icon z-10">
-                    <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
-                      ⓘ
-                    </div>
-                    <div className="tooltip-text">
-                      Real-time decentralized exchange (DEX) spot market trades from Nansen-identified smart money wallets. Tracks buying and selling activity across Ethereum, Base, Polygon, and other EVM-compatible chains. Updates every hour.
-                    </div>
-                  </div>
-                  <div className="p-12 border-b border-white/5">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="text-lg font-bold text-white mb-1">Spot Trades</h3>
-                        <p className="text-xs text-gray-500">DEX Activity</p>
+                {/* 24h Buy Volume */}
+                <div className="bg-white/[0.03] rounded-2xl p-8 border border-white/[0.08]">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">24h Buy Volume</div>
+                      <div className="text-5xl font-black text-green-500">
+                        ${(sentiment.buy_volume_24h / 1000000).toFixed(1)}M
                       </div>
-                      <div className="badge badge-success">Live</div>
+                      <div className="text-sm text-gray-500 mt-2">
+                        {sentiment.buy_count.toLocaleString()} buy trades
+                      </div>
+                    </div>
+                    <div className="text-sm text-gray-500 max-w-xs text-right">
+                      Total USD value purchased by smart money
                     </div>
                   </div>
+                </div>
 
-                  <div className="p-12 space-y-8 max-h-[600px] overflow-y-auto">
+                {/* 24h Net Flow */}
+                <div className="bg-white/[0.03] rounded-2xl p-8 border border-white/[0.08]">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">24h Net Flow</div>
+                      <div className={`text-5xl font-black ${sentiment.net_flow >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                        {sentiment.net_flow >= 0 ? '+' : ''}${(Math.abs(sentiment.net_flow) / 1000000).toFixed(1)}M
+                      </div>
+                      <div className="text-sm text-gray-500 mt-2">
+                        {sentiment.trade_count.toLocaleString()} total trades
+                      </div>
+                    </div>
+                    <div className="text-sm text-gray-500 max-w-xs text-right">
+                      Buy volume minus sell volume
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Live Activity */}
+            <section>
+              <h2 className="text-2xl font-bold mb-8">Live Activity</h2>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Spot Trades */}
+                <div className="bg-white/[0.03] rounded-2xl border border-white/[0.08] overflow-hidden">
+                  <div className="p-6 border-b border-white/[0.08]">
+                    <h3 className="text-lg font-bold">Spot Trades</h3>
+                    <p className="text-sm text-gray-400">Recent DEX activity</p>
+                  </div>
+                  <div className="p-6 space-y-4 max-h-[500px] overflow-y-auto">
                     {trades.slice(0, 10).map((trade, index) => {
                       const isBuy = ['ETH', 'USDC', 'USDT', 'DAI'].includes(trade.token_sold_symbol);
                       const token = isBuy ? trade.token_bought_symbol : trade.token_sold_symbol;
@@ -243,27 +189,26 @@ export default function Home() {
                       return (
                         <div
                           key={index}
-                          className="flex items-center justify-between p-6 rounded-2xl bg-white/[0.02] border border-white/[0.04] hover:bg-white/[0.04] transition-all"
-                          title={`Smart money ${isBuy ? 'bought' : 'sold'} ${token} for $${(trade.trade_value_usd / 1000).toFixed(1)}K on ${trade.chain} at ${new Date(trade.block_timestamp).toLocaleString()}`}
+                          className="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] transition-colors"
                         >
-                          <div className="flex items-center gap-4">
-                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg font-bold ${
-                              isBuy ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'
+                          <div className="flex items-center gap-3">
+                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${
+                              isBuy ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
                             }`}>
                               {isBuy ? '↑' : '↓'}
                             </div>
                             <div>
-                              <div className="text-white font-bold">{token}</div>
-                              <div className={`text-xs font-semibold uppercase ${isBuy ? 'text-green-500' : 'text-red-500'}`}>
+                              <div className="font-bold">{token}</div>
+                              <div className={`text-xs font-semibold uppercase ${isBuy ? 'text-green-400' : 'text-red-400'}`}>
                                 {isBuy ? 'Buy' : 'Sell'}
                               </div>
                             </div>
                           </div>
                           <div className="text-right">
-                            <div className="text-white font-bold text-lg">
+                            <div className="font-bold text-lg">
                               ${(trade.trade_value_usd / 1000).toFixed(1)}K
                             </div>
-                            <div className="text-xs text-gray-500">
+                            <div className="text-xs text-gray-400">
                               {new Date(trade.block_timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </div>
                           </div>
@@ -276,19 +221,18 @@ export default function Home() {
                 {/* Perps Positions */}
                 <SmartTraderLeaderboard />
               </div>
-            </div>
-
-          </div>
+            </section>
+          </>
         ) : (
-          <div className="flex items-center justify-center py-40">
-            <div className="text-gray-500">No data available</div>
+          <div className="flex items-center justify-center py-32">
+            <div className="text-gray-400 text-lg">No data available</div>
           </div>
         )}
 
         {/* Footer */}
-        <div className="mt-20 text-center text-xs text-gray-600">
-          Powered by Nansen API • Updates every hour
-        </div>
+        <footer className="mt-16 text-center text-sm text-gray-600">
+          Powered by Nansen API
+        </footer>
       </div>
     </main>
   );
