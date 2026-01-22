@@ -140,67 +140,73 @@ export default function Home() {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-3 gap-24">
+            <div className="flex gap-12">
               {/* Buy Ratio */}
-              <div className="stat-card p-12 relative">
-                <div className="absolute top-4 right-4 info-icon">
-                  <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
-                    ⓘ
+              <div className="flex-1">
+                <div className="stat-card p-16 relative">
+                  <div className="absolute top-6 right-6 info-icon">
+                    <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
+                      ⓘ
+                    </div>
+                    <div className="tooltip-text">
+                      Buy Ratio shows the percentage of buy volume compared to total trading volume (buys + sells). A higher percentage indicates more bullish sentiment. Calculated from 24h DEX trading data.
+                    </div>
                   </div>
-                  <div className="tooltip-text">
-                    Buy Ratio shows the percentage of buy volume compared to total trading volume (buys + sells). A higher percentage indicates more bullish sentiment. Calculated from 24h DEX trading data.
-                  </div>
-                </div>
-                <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-8">Buy Ratio</div>
-                <div
-                  className="text-6xl font-black mb-8"
-                  style={{ color: getSentimentColor(sentiment.overall) }}
-                >
-                  {sentiment.buy_ratio}%
-                </div>
-                <div className="h-2 bg-black/20 rounded-full overflow-hidden">
+                  <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-10">Buy Ratio</div>
                   <div
-                    className="h-full rounded-full transition-all duration-1000"
-                    style={{
-                      width: `${sentiment.buy_ratio}%`,
-                      background: `linear-gradient(90deg, #EF4444 0%, #F59E0B 50%, #10B981 100%)`,
-                    }}
-                  />
+                    className="text-6xl font-black mb-10"
+                    style={{ color: getSentimentColor(sentiment.overall) }}
+                  >
+                    {sentiment.buy_ratio}%
+                  </div>
+                  <div className="h-2 bg-black/20 rounded-full overflow-hidden">
+                    <div
+                      className="h-full rounded-full transition-all duration-1000"
+                      style={{
+                        width: `${sentiment.buy_ratio}%`,
+                        background: `linear-gradient(90deg, #EF4444 0%, #F59E0B 50%, #10B981 100%)`,
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
 
               {/* Buy Volume */}
-              <div className="stat-card p-12 relative">
-                <div className="absolute top-4 right-4 info-icon">
-                  <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
-                    ⓘ
+              <div className="flex-1">
+                <div className="stat-card p-16 relative">
+                  <div className="absolute top-6 right-6 info-icon">
+                    <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
+                      ⓘ
+                    </div>
+                    <div className="tooltip-text">
+                      Total USD value of tokens purchased by smart money wallets in the last 24 hours via DEX trades. This represents the aggregate buying power and bullish conviction of smart money traders.
+                    </div>
                   </div>
-                  <div className="tooltip-text">
-                    Total USD value of tokens purchased by smart money wallets in the last 24 hours via DEX trades. This represents the aggregate buying power and bullish conviction of smart money traders.
+                  <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-10">24h Buy Volume</div>
+                  <div className="text-6xl font-black text-green-500 mb-6">
+                    ${(sentiment.buy_volume_24h / 1000000).toFixed(1)}M
                   </div>
+                  <div className="text-sm text-gray-500">{sentiment.buy_count.toLocaleString()} buy trades</div>
                 </div>
-                <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-8">24h Buy Volume</div>
-                <div className="text-6xl font-black text-green-500 mb-4">
-                  ${(sentiment.buy_volume_24h / 1000000).toFixed(1)}M
-                </div>
-                <div className="text-sm text-gray-500">{sentiment.buy_count.toLocaleString()} buy trades</div>
               </div>
 
               {/* Net Flow */}
-              <div className="stat-card p-12 relative">
-                <div className="absolute top-4 right-4 info-icon">
-                  <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
-                    ⓘ
+              <div className="flex-1">
+                <div className="stat-card p-16 relative">
+                  <div className="absolute top-6 right-6 info-icon">
+                    <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white/90 cursor-help transition-all text-sm font-bold">
+                      ⓘ
+                    </div>
+                    <div className="tooltip-text">
+                      Net Flow = Buy volume minus Sell volume. Positive (green) means more capital flowing IN (bullish). Negative (red) means more capital flowing OUT (bearish). Shows the net directional flow of smart money capital.
+                    </div>
                   </div>
-                  <div className="tooltip-text">
-                    Net Flow = Buy volume minus Sell volume. Positive (green) means more capital flowing IN (bullish). Negative (red) means more capital flowing OUT (bearish). Shows the net directional flow of smart money capital.
+                  <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-10">24h Net Flow</div>
+                  <div className={`text-6xl font-black mb-6 ${sentiment.net_flow >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                    {sentiment.net_flow >= 0 ? '+' : ''}{(sentiment.net_flow / 1000000).toFixed(1)}M
                   </div>
+                  <div className="text-sm text-gray-500">{sentiment.trade_count.toLocaleString()} total trades</div>
                 </div>
-                <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-8">24h Net Flow</div>
-                <div className={`text-6xl font-black mb-4 ${sentiment.net_flow >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                  {sentiment.net_flow >= 0 ? '+' : ''}{(sentiment.net_flow / 1000000).toFixed(1)}M
-                </div>
-                <div className="text-sm text-gray-500">{sentiment.trade_count.toLocaleString()} total trades</div>
               </div>
             </div>
 
