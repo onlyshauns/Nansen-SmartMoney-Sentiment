@@ -121,9 +121,12 @@ export async function getHLRealisedPnlLeaderboard(params?: {
     const client = getNansenClient();
 
     console.log('[HLLeaderboard] Building leaderboard from perp trades data...');
+    console.log('[HLLeaderboard] Service file: services/nansenHLRealisedPnl.ts - BUILD:2026-01-24T01:50:00Z');
 
     // Fetch perp trades (since /leaderboard endpoint returns 404)
     const perpTrades = await client.getSmartMoneyPerpTrades(1, 200);
+
+    console.log('[HLLeaderboard] Fetched trades:', perpTrades.length, 'First trade label:', perpTrades[0]?.trader_address_label);
 
     if (!Array.isArray(perpTrades) || perpTrades.length === 0) {
       throw new Error('No perp trades data available');
