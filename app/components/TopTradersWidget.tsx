@@ -1,6 +1,6 @@
 'use client';
 
-import Tooltip from './Tooltip';
+import styles from './TableStyles.module.css';
 
 interface Trader {
   address: string;
@@ -34,13 +34,6 @@ export default function TopTradersWidget({ traders }: TopTradersWidgetProps) {
     return `$${value.toFixed(0)}`;
   };
 
-  const getRankIcon = (index: number) => {
-    if (index === 0) return '🥇';
-    if (index === 1) return '🥈';
-    if (index === 2) return '🥉';
-    return `#${index + 1}`;
-  };
-
   const truncateAddress = (address: string, label?: string) => {
     if (label && label !== address) {
       return label;
@@ -49,68 +42,33 @@ export default function TopTradersWidget({ traders }: TopTradersWidgetProps) {
   };
 
   return (
-    <div className="rounded-xl p-6 bg-white/[0.02] border border-white/[0.05] h-full flex flex-col">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h3 className="text-xl font-semibold text-white mb-1">Top Traders</h3>
-          <p className="text-xs text-gray-600">By trading volume</p>
-        </div>
-        <Tooltip text="Most active Hyperliquid traders by volume." />
+    <div className={styles.tableContainer}>
+      <div className={styles.tableHeader}>
+        <h3 className={styles.tableTitle}>Traders</h3>
       </div>
 
-      <div className="overflow-y-auto flex-1">
+      <div className={styles.tableBody}>
         {traders.length === 0 ? (
-          <div className="text-gray-500 text-center py-12 text-sm">No traders data available</div>
+          <div className={styles.noData}>No data</div>
         ) : (
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-white/10">
-                <th className="text-left pb-4 pt-2 text-sm font-semibold text-gray-400 uppercase tracking-wider">#</th>
-                <th className="text-left pb-4 pt-2 text-sm font-semibold text-gray-400 uppercase tracking-wider">Trader</th>
-                <th className="text-right pb-4 pt-2 text-sm font-semibold text-gray-400 uppercase tracking-wider">Volume</th>
-                <th className="text-right pb-4 pt-2 text-sm font-semibold text-gray-400 uppercase tracking-wider">Long/Short</th>
+          <table className={styles.table}>
+            <thead className={styles.thead}>
+              <tr className={styles.theadRow}>
+                <th className={`${styles.th} ${styles.colIndex}`}>#</th>
+                <th className={`${styles.th} ${styles.colAddress}`}>Address</th>
+                <th className={`${styles.th} ${styles.thRight} ${styles.colValue}`}>Volume</th>
               </tr>
             </thead>
-            <tbody>
-              {traders.map((trader, index) => (
+            <tbody className={styles.tbody}>
+              {traders.slice(0, 10).map((trader, index) => (
                 <tr
                   key={trader.address}
-                  className="hover:bg-white/[0.02] cursor-pointer"
+                  className={styles.tbodyRow}
                   onClick={() => openWalletProfiler(trader.address)}
                 >
-                  <td className="py-4 text-sm text-gray-500">{index + 1}</td>
-                  <td className="py-4">
-                    <div className="text-sm text-white font-medium">
-                      {truncateAddress(trader.address, trader.label)}
-                    </div>
-                    <div className="text-xs text-gray-600 mt-0.5">{trader.tradeCount} trades</div>
-                  </td>
-                  <td className="py-4 text-sm text-white font-semibold text-right tabular-nums">
-                    {formatValue(trader.totalVolume)}
-                  </td>
-                  <td className="py-4 text-right">
-                    <div
-                      className={`text-sm font-medium tabular-nums ${
-                        trader.dominantSide === 'long'
-                          ? 'text-[#00ffa7]'
-                          : trader.dominantSide === 'short'
-                          ? 'text-[#ff4444]'
-                          : 'text-gray-500'
-                      }`}
-                    >
-                      {trader.longRatio}% / {trader.shortRatio}%
-                    </div>
-                    <div className="relative h-1 bg-white/[0.03] rounded-full overflow-hidden mt-2">
-                      <div
-                        className="absolute left-0 top-0 h-full bg-[#00ffa7]"
-                        style={{ width: `${trader.longRatio}%` }}
-                      />
-                      <div
-                        className="absolute right-0 top-0 h-full bg-[#ff4444]"
-                        style={{ width: `${trader.shortRatio}%` }}
-                      />
-                    </div>
-                  </td>
+                  <td className={`${styles.td} ${styles.tdMuted}`}>{index + 1}</td>
+                  <td className={`${styles.td} ${styles.tdMuted}`}>{truncateAddress(trader.address, trader.label)}</td>
+                  <td className={`${styles.td} ${styles.tdRight}`}>{formatValue(trader.totalVolume)}</td>
                 </tr>
               ))}
             </tbody>

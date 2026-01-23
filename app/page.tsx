@@ -3,14 +3,17 @@
 import { useEffect, useState } from 'react';
 import SentimentHero from './components/SentimentHero';
 import TopTokensWidget from './components/TopTokensWidget';
-import TopTradersWidget from './components/TopTradersWidget';
-import LiveTradesWidget from './components/LiveTradesWidget';
+import SmartMoneyOutflowsWidget from './components/SmartMoneyOutflowsWidget';
+import SentimentDrivers from './components/SentimentDrivers';
+import SmartMoneyTradersWidget from './components/SmartMoneyTradersWidget';
 
 export default function Home() {
   const [sentimentData, setSentimentData] = useState<any>(null);
   const [tokensData, setTokensData] = useState<any[]>([]);
-  const [tradersData, setTradersData] = useState<any[]>([]);
-  const [tradesData, setTradesData] = useState<any[]>([]);
+  const [smartTradersData, setSmartTradersData] = useState<any[]>([]);
+  const [marketSentimentData, setMarketSentimentData] = useState<any[]>([]);
+  const [stablecoinFlowData, setStablecoinFlowData] = useState<any>(null);
+  const [outflowsData, setOutflowsData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -19,17 +22,21 @@ export default function Home() {
     try {
       setError(null);
 
-      const [sentiment, tokens, traders, trades] = await Promise.all([
+      const [sentiment, tokens, smartTraders, marketSentiment, stablecoinFlow, outflows] = await Promise.all([
         fetch('/api/sentiment').then((r) => r.json()),
         fetch('/api/top-tokens').then((r) => r.json()),
-        fetch('/api/top-traders').then((r) => r.json()),
-        fetch('/api/live-trades').then((r) => r.json()),
+        fetch('/api/smart-traders').then((r) => r.json()),
+        fetch('/api/market-sentiment').then((r) => r.json()),
+        fetch('/api/stablecoin-flows').then((r) => r.json()),
+        fetch('/api/top-outflows').then((r) => r.json()),
       ]);
 
       setSentimentData(sentiment);
       setTokensData(tokens);
-      setTradersData(traders);
-      setTradesData(trades);
+      setSmartTradersData(smartTraders.traders || []);
+      setMarketSentimentData(marketSentiment);
+      setStablecoinFlowData(stablecoinFlow);
+      setOutflowsData(outflows);
       setLastUpdated(new Date());
       setIsLoading(false);
     } catch (err) {
@@ -58,29 +65,61 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0e16] py-14 px-14">
-      <div className="max-w-[1280px] mx-auto">
-        {/* Header */}
-        <header className="mb-12">
-          <div className="flex items-center justify-between">
+    <div
+      style={{
+        height: '100vh',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '24px',
+        paddingBottom: '32px',
+        background: '#080B12'
+      }}
+    >
+      <div
+        style={{
+          height: '100%',
+          maxWidth: '1400px',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: 0,
+          gap: '8px'
+        }}
+      >
+        {/* Fixed Header - strictly bounded height */}
+        <header
+          style={{
+            flex: '0 0 auto',
+            maxHeight: '50px',
+            overflow: 'hidden'
+          }}
+        >
+          <div className="flex items-center justify-between h-full">
             <div>
-              <h1 className="text-2xl font-semibold text-white mb-1">
+              <h1 className="text-lg font-bold text-[#EAEFF9] leading-tight">
                 Smart Money Dashboard
               </h1>
-              <p className="text-gray-500 text-sm">Real-time Nansen analytics</p>
+              <p className="text-[10px] text-[#A4ACC4]">
+                Real-time insights from Hyperliquid smart money traders
+              </p>
             </div>
 
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2">
               {lastUpdated && (
-                <div className="text-sm text-gray-500 flex items-center gap-2">
-                  <span className="inline-block w-1.5 h-1.5 bg-[#00ffa7] rounded-full animate-pulse" />
-                  Updated {formatLastUpdated()}
+                <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#1A1F2E] border border-[#00ffa7]/30 rounded-md">
+                  <div className="w-1 h-1 bg-[#30E000] rounded-full animate-pulse-glow"></div>
+                  <span className="text-[10px] font-semibold text-[#EAEFF9]">
+                    LIVE • {formatLastUpdated()}
+                  </span>
                 </div>
               )}
               <button
                 onClick={fetchAllData}
                 disabled={isLoading}
-                className="px-5 py-2 bg-white/5 hover:bg-white/10 text-white rounded-lg transition-colors disabled:opacity-50 text-sm border border-white/10"
+                className="px-3 py-1 bg-[#00ffa7]/10 hover:bg-[#00ffa7]/20 border border-[#00ffa7]/50 text-[#00ffa7] text-[10px] font-bold rounded-md transition-all disabled:opacity-50"
               >
                 {isLoading ? 'Refreshing...' : 'Refresh'}
               </button>
@@ -88,41 +127,137 @@ export default function Home() {
           </div>
         </header>
 
-        {/* Main Content */}
-        <main className="space-y-10">
         {error && (
-          <div className="mb-6 p-4 bg-red-900/20 border border-red-900/50 rounded-lg text-red-400 text-sm">
+          <div
+            style={{
+              flex: '0 0 auto',
+              padding: '8px',
+              background: 'rgba(255, 73, 74, 0.1)',
+              border: '1px solid rgba(255, 73, 74, 0.5)',
+              borderRadius: '8px',
+              color: '#FF494A',
+              fontSize: '10px'
+            }}
+          >
             {error}
           </div>
         )}
 
-          {isLoading && !sentimentData ? (
-            <div className="flex items-center justify-center py-32">
-              <div className="text-white text-lg">Loading dashboard...</div>
-            </div>
-          ) : (
-            <>
-              {/* Sentiment Hero - Full Width */}
-              {sentimentData && !sentimentData.error && (
+        {/* Main Content Area - Grid Area */}
+        {isLoading && !sentimentData ? (
+          <div
+            style={{
+              flex: '1 1 auto',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              minHeight: 0
+            }}
+          >
+            <div className="text-[#EAEFF9] text-base">Loading dashboard...</div>
+          </div>
+        ) : (
+          <div
+            style={{
+              flex: '1 1 auto',
+              display: 'flex',
+              flexDirection: 'column',
+              minHeight: 0,
+              overflow: 'hidden',
+              gap: '8px'
+            }}
+          >
+            {/* Sentiment Hero - Fixed height */}
+            {sentimentData && !sentimentData.error && (
+              <div
+                style={{
+                  flex: '0 0 auto',
+                  height: '120px',
+                  overflow: 'hidden'
+                }}
+              >
                 <SentimentHero
                   sentiment={sentimentData.sentiment}
                   longRatio={sentimentData.longRatio}
                   shortRatio={sentimentData.shortRatio}
-                  totalPositions={sentimentData.totalPositions}
-                  longCount={sentimentData.longCount}
-                  shortCount={sentimentData.shortCount}
+                  estimatedLongValue={sentimentData.estimatedLongValue}
+                  estimatedShortValue={sentimentData.estimatedShortValue}
+                  totalOpenInterestUsd={sentimentData.totalOpenInterestUsd}
+                  finalScore={sentimentData.finalScore}
                 />
-              )}
-
-              {/* Three Cards Grid */}
-              <div className="grid grid-cols-3 gap-12">
-                <TopTokensWidget tokens={tokensData} />
-                <TopTradersWidget traders={tradersData} />
-                <LiveTradesWidget trades={tradesData} />
               </div>
-            </>
-          )}
-        </main>
+            )}
+
+            {/* True 2×2 Grid - WITH VISIBLE GAP */}
+            <div
+              style={{
+                flex: '1 1 auto',
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gridTemplateRows: '1fr 1fr',
+                gap: '20px',
+                minHeight: 0,
+                overflow: 'hidden',
+                height: '100%'
+              }}
+            >
+              {/* Top-left: Inflows */}
+              <div
+                style={{
+                  minHeight: 0,
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <TopTokensWidget tokens={tokensData} />
+              </div>
+
+              {/* Top-right: Outflows */}
+              <div
+                style={{
+                  minHeight: 0,
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <SmartMoneyOutflowsWidget tokens={outflowsData} />
+              </div>
+
+              {/* Bottom-left: Sentiment Drivers */}
+              <div
+                style={{
+                  minHeight: 0,
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                {sentimentData && (
+                  <SentimentDrivers
+                    drivers={sentimentData.drivers || []}
+                    finalScore={sentimentData.finalScore || 0}
+                    confidence={sentimentData.confidence}
+                    meta={sentimentData.meta}
+                  />
+                )}
+              </div>
+
+              {/* Bottom-right: Smart Money Traders */}
+              <div
+                style={{
+                  minHeight: 0,
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <SmartMoneyTradersWidget traders={smartTradersData} />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

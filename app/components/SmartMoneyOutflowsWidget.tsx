@@ -7,16 +7,16 @@ interface Token {
   symbol: string;
   address: string;
   chain: string;
-  netInflow: number;
+  netOutflow: number;
   buyCount: number;
   sellCount: number;
 }
 
-interface TopTokensWidgetProps {
+interface SmartMoneyOutflowsWidgetProps {
   tokens: Token[];
 }
 
-export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
+export default function SmartMoneyOutflowsWidget({ tokens }: SmartMoneyOutflowsWidgetProps) {
   const openTokenGodMode = (address: string, chain: string) => {
     const chainMap: Record<string, string> = {
       ethereum: 'ethereum',
@@ -54,8 +54,8 @@ export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
     <div className={styles.tableContainer}>
       <div className={styles.tableHeader}>
         <div className="flex items-center gap-1.5">
-          <h3 className={styles.tableTitle}>Inflows</h3>
-          <Tooltip content="Top tokens with the highest net inflow (USD) from smart money spot flows in the selected window.">
+          <h3 className={styles.tableTitle}>Outflows</h3>
+          <Tooltip content="Top tokens with the highest net outflow (USD) from smart money spot flows in the selected window.">
             <TooltipIcon />
           </Tooltip>
         </div>
@@ -84,8 +84,8 @@ export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
                   <td className={`${styles.td} ${styles.tdMuted}`}>{index + 1}</td>
                   <td className={`${styles.td} ${styles.tdMuted}`}>{formatChain(token.chain)}</td>
                   <td className={styles.td}>{token.symbol}</td>
-                  <td className={`${styles.td} ${styles.tdRight} ${styles.tdGreen}`}>
-                    +{formatValue(token.netInflow)}
+                  <td className={`${styles.td} ${styles.tdRight} ${styles.tdRed}`}>
+                    -{formatValue(token.netOutflow)}
                   </td>
                 </tr>
               ))}

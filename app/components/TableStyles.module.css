@@ -1,0 +1,164 @@
+/* Shared table styles - DO NOT modify individual table styles */
+
+.tableContainer {
+  background: rgba(26, 31, 46, 1);
+  border-radius: 16px;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.tableHeader {
+  padding: 12px 16px;
+  border-bottom: 1px solid #2D334D;
+  flex-shrink: 0;
+}
+
+.tableTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #EAEFF9;
+  margin: 0;
+}
+
+.tableBody {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+}
+
+/* Custom scrollbar styling */
+.tableBody::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tableBody::-webkit-scrollbar-track {
+  background: rgba(11, 15, 26, 0.5);
+  border-radius: 4px;
+}
+
+.tableBody::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.5);
+  border-radius: 4px;
+}
+
+.tableBody::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.8);
+}
+
+.table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.thead {
+  position: sticky;
+  top: 0;
+  background: #1A1F2E;
+  z-index: 1;
+}
+
+.theadRow {
+  border-bottom: 1px solid #2D334D;
+}
+
+.th {
+  padding: 8px 16px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 600;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  height: 26px;
+}
+
+.thRight {
+  text-align: right;
+}
+
+.tbody {
+}
+
+.tbodyRow {
+  border-bottom: 1px solid rgba(45, 51, 77, 0.2);
+  transition: background-color 150ms ease;
+  cursor: pointer;
+  height: 26px;
+}
+
+.tbodyRow:hover {
+  background-color: rgba(11, 15, 26, 0.5);
+}
+
+.td {
+  padding: 0 16px;
+  font-size: 12px;
+  line-height: 26px;
+  height: 26px;
+  color: #EAEFF9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
+}
+
+.tdMuted {
+  color: #64748B;
+}
+
+.tdRight {
+  text-align: right;
+}
+
+.tdGreen {
+  color: #30E000;
+}
+
+.tdRed {
+  color: #FF494A;
+}
+
+/* Column width contracts - compact */
+.colIndex {
+  width: 50px;
+}
+
+.colToken {
+  width: 140px;
+}
+
+.colChain {
+  width: 80px;
+}
+
+.colValue {
+  width: 120px;
+}
+
+.colAddress {
+  width: 180px;
+}
+
+.colOI {
+  width: 100px;
+}
+
+.colFunding {
+  width: 100px;
+}
+
+.noData {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 200px;
+  font-size: 14px;
+  color: #64748B;
+}

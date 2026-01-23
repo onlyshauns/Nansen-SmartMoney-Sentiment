@@ -19,7 +19,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        mono: ['Roboto Mono', 'SF Mono', 'Consolas', 'monospace'],
       },
     },
   },

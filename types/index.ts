@@ -85,3 +85,23 @@ export interface PaginatedResponse<T> {
   total: number;
   has_more: boolean;
 }
+
+// Hyperliquid Market Data Types
+export interface TokenMarketData {
+  symbol: string;
+  fundingRate: number;
+  openInterest: number;         // in tokens
+  openInterestUsd: number;      // in USD
+  markPrice: number;
+  volume24h: number;
+  premium: number;
+  sentiment: 'bullish' | 'bearish' | 'neutral';
+}
+
+export interface TokenBreakdown {
+  symbol: string;
+  sentiment: 'bullish' | 'bearish' | 'neutral';
+  fundingRate: number;
+  openInterestUsd: number;
+  contributionPercent: number;
+}
