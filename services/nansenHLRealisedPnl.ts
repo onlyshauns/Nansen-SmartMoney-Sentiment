@@ -126,11 +126,11 @@ export async function getHLRealisedPnlLeaderboard(params?: {
     // Fetch perp trades (since /leaderboard endpoint returns 404)
     const perpTrades = await client.getSmartMoneyPerpTrades(1, 200);
 
-    console.log('[HLLeaderboard] Fetched trades:', perpTrades.length, 'First trade label:', perpTrades[0]?.trader_address_label);
-
     if (!Array.isArray(perpTrades) || perpTrades.length === 0) {
       throw new Error('No perp trades data available');
     }
+
+    console.log('[HLLeaderboard] Fetched trades:', perpTrades.length, 'First trade label:', perpTrades[0]?.trader_address_label);
 
     // Aggregate by trader
     const traderMap = new Map<string, {
