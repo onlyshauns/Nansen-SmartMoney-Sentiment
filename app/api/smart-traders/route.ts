@@ -1,49 +1,110 @@
 /**
- * Smart Traders API Route
- * Using real Nansen HL Realised PnL Leaderboard Service
- * Build timestamp: 2026-01-24T01:42:00Z
+ * Smart Traders API - Completely Rebuilt
+ * Direct implementation without intermediate service layers
  */
 
 import { NextResponse } from 'next/server';
-import { getHLRealisedPnlLeaderboard } from '@/services/nansenHLRealisedPnl';
+import { getNansenClient } from '@/lib/nansen-client';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 export const runtime = 'nodejs';
 
+interface WalletBias {
+  bias: 'BULLISH' | 'BEARISH' | 'NEUTRAL';
+  longUsd: number;
+  shortUsd: number;
+}
+
 export async function GET() {
   try {
-    console.log('[SmartTraders] Fetching leaderboard from real service...');
+    console.log('[SmartTraders-V2] Direct fetch from Nansen API...');
+    
+    const client = getNansenClient();
+    const perpTrades = await client.getSmartMoneyPerpTrades(1, 200);
 
-    // Fetch using the NEW real service
-    const leaderboard = await getHLRealisedPnlLeaderboard({ window: '7d', limit: 25 });
+    if (!Array.isArray(perpTrades) || perpTrades.length === 0) {
+      throw new Error('No trades available');
+    }
 
-    console.log(`[SmartTraders] ✓ Fetched ${leaderboard.rows.length} traders`);
+    console.log(`[SmartTraders-V2] Got ${perpTrades.length} trades, first trader: ${perpTrades[0]?.trader_address_label}`);
 
-    // Map to format UI expects
-    const traders = leaderboard.rows.map((row) => ({
-      rank: leaderboard.rows.indexOf(row) + 1,
-      address: row.address,
-      traderNameOrLabel: row.traderLabel || row.address.slice(0, 10),
-      realisedPnlUsd: row.realisedPnlUsd,
-      tradeCount: row.trades,
-      bias: row.bias,
-      biasReason: row.biasReason,
-      longExposureUsd: row.longUsd,
-      shortExposureUsd: row.shortUsd,
-    }));
+    // Aggregate by trader address
+    const traderMap = new Map<string, {
+      address: string;
+      label: string;
+      volume: number;
+      count: number;
+      longVol: number;
+      shortVol: number;
+    }>();
+
+    perpTrades.forEach((trade: any) => {
+      const addr = trade.trader_address;
+      const label = trade.trader_address_label || '';
+      const side = (trade.side || '').toLowerCase();
+      const value = trade.value_usd || 0;
+
+      if (!addr || !value) return;
+
+      const existing = traderMap.get(addr) || {
+        address: addr,
+        label,
+        volume: 0,
+        count: 0,
+        longVol: 0,
+        shortVol: 0,
+      };
+
+      existing.volume += value;
+      existing.count += 1;
+      if (side === 'long') existing.longVol += value;
+      if (side === 'short') existing.shortVol += value;
+
+      traderMap.set(addr, existing);
+    });
+
+    // Sort and take top 25
+    const topTraders = Array.from(traderMap.values())
+      .sort((a, b) => b.volume - a.volume)
+      .slice(0, 25);
+
+    // Calculate bias
+    const traders = topTraders.map((t, idx) => {
+      const totalExposure = t.longVol + t.shortVol;
+      const netExposure = t.longVol - t.shortVol;
+      const biasRatio = totalExposure > 0 ? netExposure / totalExposure : 0;
+      
+      let bias: 'BULLISH' | 'BEARISH' | 'NEUTRAL' = 'NEUTRAL';
+      if (biasRatio > 0.2) bias = 'BULLISH';
+      else if (biasRatio < -0.2) bias = 'BEARISH';
+
+      return {
+        rank: idx + 1,
+        address: t.address,
+        traderNameOrLabel: t.label || t.address.slice(0, 10),
+        realisedPnlUsd: t.volume,
+        tradeCount: t.count,
+        bias,
+        longExposureUsd: t.longVol,
+        shortExposureUsd: t.shortVol,
+      };
+    });
+
+    console.log(`[SmartTraders-V2] Returning ${traders.length} traders`);
 
     return NextResponse.json({
       traders,
-      timestamp: leaderboard.timestamp,
+      timestamp: new Date().toISOString(),
       isStale: false,
+      version: 'v2-direct-implementation',
     });
   } catch (error) {
-    console.error('[SmartTraders] API Error:', error);
+    console.error('[SmartTraders-V2] Error:', error);
     return NextResponse.json(
       {
-        error: 'Failed to fetch smart traders',
-        details: error instanceof Error ? error.message : 'Unknown error',
+        error: 'Failed to fetch',
+        details: error instanceof Error ? error.message : 'Unknown',
         traders: [],
         timestamp: new Date().toISOString(),
       },
