@@ -1,6 +1,7 @@
 /**
- * Smart Traders API - Completely Rebuilt
+ * Smart Traders API - Completely Rebuilt v3
  * Direct implementation without intermediate service layers
+ * Build: 2026-01-24T02:00:00Z
  */
 
 import { NextResponse } from 'next/server';
@@ -9,6 +10,7 @@ import { getNansenClient } from '@/lib/nansen-client';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 export const runtime = 'nodejs';
+export const fetchCache = 'force-no-store';
 
 interface WalletBias {
   bias: 'BULLISH' | 'BEARISH' | 'NEUTRAL';
@@ -93,12 +95,21 @@ export async function GET() {
 
     console.log(`[SmartTraders-V2] Returning ${traders.length} traders`);
 
-    return NextResponse.json({
-      traders,
-      timestamp: new Date().toISOString(),
-      isStale: false,
-      version: 'v2-direct-implementation',
-    });
+    return NextResponse.json(
+      {
+        traders,
+        timestamp: new Date().toISOString(),
+        isStale: false,
+        version: 'v2-direct-implementation',
+      },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+          'CDN-Cache-Control': 'no-store',
+          'Vercel-CDN-Cache-Control': 'no-store',
+        },
+      }
+    );
   } catch (error) {
     console.error('[SmartTraders-V2] Error:', error);
     return NextResponse.json(
