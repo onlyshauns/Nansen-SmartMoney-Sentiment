@@ -16,28 +16,73 @@ interface NansenApiResponse<T> {
 
 export class NansenClient {
   private apiKey: string;
+  private readonly timeout = 10000; // 10s timeout
+  private readonly maxRetries = 2; // 2 retries with backoff
 
   constructor(apiKey: string) {
     this.apiKey = apiKey;
   }
 
-  private async request<T>(endpoint: string, body: Record<string, any> = {}): Promise<T> {
-    const response = await fetch(`${NANSEN_API_BASE}${endpoint}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': this.apiKey,
-      },
-      body: JSON.stringify(body),
-    });
+  private async requestWithTimeout<T>(
+    url: string,
+    options: RequestInit,
+    timeout: number
+  ): Promise<Response> {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Nansen API error: ${response.status} ${errorText}`);
+    try {
+      const response = await fetch(url, {
+        ...options,
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+      return response;
+    } catch (error) {
+      clearTimeout(timeoutId);
+      throw error;
+    }
+  }
+
+  private async request<T>(endpoint: string, body: Record<string, any> = {}): Promise<T> {
+    let lastError: Error | null = null;
+
+    // Retry logic with exponential backoff
+    for (let attempt = 0; attempt <= this.maxRetries; attempt++) {
+      try {
+        const response = await this.requestWithTimeout(
+          `${NANSEN_API_BASE}${endpoint}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': this.apiKey,
+            },
+            body: JSON.stringify(body),
+          },
+          this.timeout
+        );
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Nansen API error: ${response.status} ${errorText}`);
+        }
+
+        const data: NansenApiResponse<T> = await response.json();
+        return data.data;
+      } catch (error) {
+        lastError = error as Error;
+
+        // Don't retry on last attempt
+        if (attempt < this.maxRetries) {
+          // Exponential backoff: 1s, 2s
+          const delay = Math.pow(2, attempt) * 1000;
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
+      }
     }
 
-    const data: NansenApiResponse<T> = await response.json();
-    return data.data;
+    throw lastError || new Error('Nansen API request failed');
   }
 
   /**

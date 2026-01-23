@@ -6,6 +6,10 @@
 
 import { cache } from './cache';
 import { calculateSentiment, SentimentResult } from '../lib/sentimentScore';
+import { getHLPerpsSmartMoneySnapshot } from './nansenHLPerpsSnapshot';
+import { getHLPerpsSmartMoneyDelta } from './nansenHLPerpsDelta';
+import { getSpotSmartMoneyTokenFlows } from './nansenSpotSmartMoneyFlows';
+import { getHLRealisedPnlLeaderboard } from './nansenHLRealisedPnl';
 
 const CACHE_KEY = 'sentiment_aggregated';
 const CACHE_TTL_MS = 30000; // 30s fresh
@@ -155,7 +159,7 @@ async function fetchRealisedPnL(): Promise<{
 }
 
 /**
- * Main aggregator function
+ * Main aggregator function - NOW USING REAL NANSEN DATA
  */
 export async function aggregateSentimentData(): Promise<SentimentResult> {
   // Check cache first
@@ -165,51 +169,68 @@ export async function aggregateSentimentData(): Promise<SentimentResult> {
   }
 
   try {
-    // Fetch all data in parallel
-    const [perpsData, spotData, pnlData] = await Promise.all([
-      fetchPerpsPositions(),
-      fetchSpotFlows(),
-      fetchRealisedPnL(),
+    console.log('[SentimentAggregator] Fetching real data from all 4 sources...');
+
+    // Fetch all data in parallel using NEW real services
+    const [snapshot, delta, flows, leaderboard] = await Promise.all([
+      getHLPerpsSmartMoneySnapshot(),
+      getHLPerpsSmartMoneyDelta({ lookbackWindow: '4h' }),
+      getSpotSmartMoneyTokenFlows({ limit: 8 }),
+      getHLRealisedPnlLeaderboard({ window: '7d', limit: 25 }),
     ]);
 
-    const netExposureNow = perpsData.longUsd - perpsData.shortUsd;
+    console.log('[SentimentAggregator] ✓ All sources fetched successfully');
 
-    // Store current snapshot for future delta calculations
-    storeHistoricalSnapshot(netExposureNow);
+    // Convert flows to stablecoin net flow (simplified)
+    // Inflows = buying stables (bearish), Outflows = selling stables (bullish)
+    const stablecoinTokens = ['USDT', 'USDC', 'DAI', 'USDC.e', 'USDbC'];
+    const stableInflows = flows.inflows
+      .filter((f) => stablecoinTokens.includes(f.token))
+      .reduce((sum, f) => sum + f.valueUsd, 0);
+    const stableOutflows = flows.outflows
+      .filter((f) => stablecoinTokens.includes(f.token))
+      .reduce((sum, f) => sum + f.valueUsd, 0);
+    const netStableUsd = stableInflows - stableOutflows;
 
-    // Get historical snapshot for delta (default 4h ago)
-    const netExposureLookback =
-      getHistoricalNetExposure(4) ?? netExposureNow * 0.95; // Fallback: assume 5% growth
+    // Calculate aggregated PnL from leaderboard
+    const realisedPnl7dUsd = leaderboard.rows.reduce((sum, row) => sum + row.realisedPnlUsd, 0);
 
-    // Calculate sentiment
+    // Convert wallet positions to format expected by sentiment calculator
+    const wallets = snapshot.byWallet?.map((w) => ({
+      netExposureUsd: w.netUsd,
+    })) || [];
+
+    // Calculate sentiment using real data
     const result = calculateSentiment({
       perps: {
-        longUsd: perpsData.longUsd,
-        shortUsd: perpsData.shortUsd,
-        netExposureNow,
-        netExposureLookback,
+        longUsd: snapshot.longExposureUsd,
+        shortUsd: snapshot.shortExposureUsd,
+        netExposureNow: snapshot.netExposureUsd,
+        netExposureLookback: delta.lookbackNetExposureUsd,
       },
       spot: {
-        netStableUsd: spotData.netStableUsd,
+        netStableUsd,
       },
       pnl: {
-        realisedPnl7dUsd: pnlData.realisedPnl7dUsd,
+        realisedPnl7dUsd,
       },
-      wallets: perpsData.wallets,
+      wallets,
       stale: false,
     });
+
+    console.log(`[SentimentAggregator] Sentiment: ${result.label}, Score: ${result.finalScore.toFixed(3)}`);
 
     // Cache the result
     cache.set(CACHE_KEY, result, CACHE_TTL_MS, STALE_TTL_MS);
 
     return result;
   } catch (error) {
-    console.error('Failed to aggregate sentiment data:', error);
+    console.error('[SentimentAggregator] Failed to aggregate sentiment data:', error);
 
     // Try stale cache
     const staleCache = cache.get<SentimentResult>(CACHE_KEY, STALE_TTL_MS);
     if (staleCache) {
-      console.warn('Serving stale sentiment data');
+      console.warn('[SentimentAggregator] Serving stale sentiment data');
       return {
         ...staleCache.data,
         meta: {
@@ -220,7 +241,7 @@ export async function aggregateSentimentData(): Promise<SentimentResult> {
     }
 
     // Fallback to mock data
-    console.warn('Using mock sentiment data');
+    console.warn('[SentimentAggregator] Using mock sentiment data');
     const mockResult = generateMockSentimentData();
     cache.set(CACHE_KEY, mockResult, CACHE_TTL_MS, STALE_TTL_MS);
     return mockResult;
