@@ -1,6 +1,7 @@
 /**
  * Smart Traders API Route
- * NOW USING REAL HL REALISED PNL LEADERBOARD SERVICE
+ * Using real Nansen HL Realised PnL Leaderboard Service
+ * Build timestamp: 2026-01-24T01:42:00Z
  */
 
 import { NextResponse } from 'next/server';
@@ -8,6 +9,7 @@ import { getHLRealisedPnlLeaderboard } from '@/services/nansenHLRealisedPnl';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
+export const runtime = 'nodejs';
 
 export async function GET() {
   try {
