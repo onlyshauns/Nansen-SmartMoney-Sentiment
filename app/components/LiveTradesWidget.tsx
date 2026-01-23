@@ -1,6 +1,6 @@
 'use client';
 
-import Tooltip from './Tooltip';
+import Tooltip, { TooltipIcon } from './Tooltip';
 
 interface LiveTrade {
   type: 'dex' | 'perp';
@@ -70,11 +70,13 @@ export default function LiveTradesWidget({ trades }: LiveTradesWidgetProps) {
   return (
     <div className="rounded-xl p-6 bg-white/[0.02] border border-white/[0.05] h-full flex flex-col">
       <div className="flex items-center justify-between mb-6">
-        <div>
+        <div className="flex items-center gap-1.5">
           <h3 className="text-xl font-semibold text-white mb-1">Live Trade Feed</h3>
-          <p className="text-xs text-gray-600">Recent activity</p>
+          <Tooltip content="Real-time smart money trades across all platforms.">
+            <TooltipIcon />
+          </Tooltip>
         </div>
-        <Tooltip text="Real-time smart money trades across all platforms." />
+        <p className="text-xs text-gray-600">Recent activity</p>
       </div>
 
       <div className="overflow-y-auto flex-1">
