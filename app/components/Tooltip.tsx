@@ -62,22 +62,12 @@ export default function Tooltip({ content, children }: TooltipProps) {
 }
 
 /**
- * Info icon for tooltips
+ * Question mark icon for tooltips
  */
 export function TooltipIcon() {
   return (
-    <svg
-      className="w-3.5 h-3.5 text-[#64748B] hover:text-[#EAEFF9] transition-colors cursor-help"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-      />
-    </svg>
+    <div className="flex items-center justify-center w-4 h-4 rounded-full bg-[#2D334D] border border-[#3D445D] text-[#A4ACC4] hover:text-[#EAEFF9] hover:bg-[#3D445D] transition-all cursor-help">
+      <span className="text-[10px] font-bold leading-none">?</span>
+    </div>
   );
 }

@@ -66,10 +66,10 @@ export async function GET() {
       traderMap.set(addr, existing);
     });
 
-    // Sort and take top 25
+    // Sort and take top 15
     const topTraders = Array.from(traderMap.values())
       .sort((a, b) => b.volume - a.volume)
-      .slice(0, 25);
+      .slice(0, 15);
 
     // Calculate bias
     const traders = topTraders.map((t, idx) => {
