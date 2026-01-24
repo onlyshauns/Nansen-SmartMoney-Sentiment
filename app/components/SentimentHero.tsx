@@ -68,24 +68,21 @@ export default function SentimentHero({
       }}
     >
       {/* Header section matching table style */}
-      <div style={{ padding: '12px 16px', borderBottom: '1px solid #2D334D', flexShrink: 0 }}>
+      <div style={{ padding: '8px 16px', borderBottom: '1px solid #2D334D', flexShrink: 0 }}>
         <div className="text-center">
-          <div className="text-[40px] leading-none mb-1" style={getEmojiGlowStyle()}>
+          <div className="text-[32px] leading-none mb-0.5" style={getEmojiGlowStyle()}>
             {getEmoji()}
           </div>
-          <div className="text-lg font-black text-[#EAEFF9] tracking-tight">
+          <div className="text-sm font-black text-[#EAEFF9] tracking-tight">
             {sentiment.toUpperCase()}
-          </div>
-          <div className="text-[10px] text-[#64748B]">
-            Smart Money Sentiment
           </div>
         </div>
       </div>
 
       {/* Body section */}
-      <div style={{ padding: '12px 16px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <div style={{ padding: '8px 16px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 0 }}>
         {/* Sentiment Spectrum Bar */}
-        <div className="mb-3">
+        <div className="mb-2">
           <div className="relative h-2 bg-gradient-to-r from-[#FF494A] via-[#64748B] to-[#30E000] rounded-full">
             {/* Marker */}
             <div
@@ -108,18 +105,18 @@ export default function SentimentHero({
         {/* Metrics */}
         <div className="grid grid-cols-3 gap-2 text-center">
           <div>
-            <div className="text-[10px] text-[#64748B] uppercase tracking-wide">Long</div>
-            <div className="text-sm font-bold text-[#30E000] tabular-nums">{longRatio}%</div>
+            <div className="text-[9px] text-[#64748B] uppercase tracking-wide leading-tight">Long</div>
+            <div className="text-xs font-bold text-[#30E000] tabular-nums leading-tight">{longRatio}%</div>
           </div>
           <div>
-            <div className="text-[10px] text-[#64748B] uppercase tracking-wide">Total OI</div>
-            <div className="text-sm font-bold text-[#EAEFF9] tabular-nums">
+            <div className="text-[9px] text-[#64748B] uppercase tracking-wide leading-tight">Total OI</div>
+            <div className="text-xs font-bold text-[#EAEFF9] tabular-nums leading-tight">
               {totalOpenInterestUsd ? formatValue(totalOpenInterestUsd) : '-'}
             </div>
           </div>
           <div>
-            <div className="text-[10px] text-[#64748B] uppercase tracking-wide">Short</div>
-            <div className="text-sm font-bold text-[#FF494A] tabular-nums">{shortRatio}%</div>
+            <div className="text-[9px] text-[#64748B] uppercase tracking-wide leading-tight">Short</div>
+            <div className="text-xs font-bold text-[#FF494A] tabular-nums leading-tight">{shortRatio}%</div>
           </div>
         </div>
       </div>
