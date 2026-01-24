@@ -31,6 +31,7 @@ export default function SentimentHero({
 
   const isBullish = sentiment === 'bullish';
   const isBearish = sentiment === 'bearish';
+  const isNeutral = sentiment === 'neutral';
 
   // Get emoji based on sentiment
   const getEmoji = () => {
@@ -39,11 +40,23 @@ export default function SentimentHero({
     return '😐';
   };
 
+  // Get glow color based on sentiment
+  const getGlowStyle = () => {
+    if (isBullish) {
+      return { boxShadow: '0 0 30px rgba(48, 224, 0, 0.4), 0 0 60px rgba(48, 224, 0, 0.2)' };
+    }
+    if (isBearish) {
+      return { boxShadow: '0 0 30px rgba(255, 73, 74, 0.4), 0 0 60px rgba(255, 73, 74, 0.2)' };
+    }
+    // Neutral - yellow glow
+    return { boxShadow: '0 0 30px rgba(234, 179, 8, 0.4), 0 0 60px rgba(234, 179, 8, 0.2)' };
+  };
+
   // Calculate marker position (0-100%)
   const markerPosition = ((finalScore + 1) / 2) * 100;
 
   return (
-    <div className="bg-[#1C2130] rounded-2xl p-3 h-full flex flex-col">
+    <div className="bg-[#1C2130] rounded-2xl p-3 h-full flex flex-col" style={getGlowStyle()}>
       {/* Centered emoji and title */}
       <div className="text-center mb-2">
         <div className="text-[40px] leading-none mb-0.5">

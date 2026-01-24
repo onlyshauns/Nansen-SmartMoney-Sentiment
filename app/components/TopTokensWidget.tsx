@@ -56,7 +56,7 @@ export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
     <div className={styles.tableContainer}>
       <div className={styles.tableHeader}>
         <div className="flex items-center justify-between w-full">
-          <h3 className={styles.tableTitle}>Inflows (24h)</h3>
+          <h3 className={styles.tableTitle}>Smart Money Inflows</h3>
           <Tooltip content="Top tokens with the highest net inflow (USD) from smart money spot flows in the last 24 hours. Updates hourly.">
             <TooltipIcon />
           </Tooltip>
