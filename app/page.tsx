@@ -192,7 +192,7 @@ export default function Home() {
                 flex: '1 1 auto',
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
-                gridTemplateRows: '1fr 1fr',
+                gridTemplateRows: '0.65fr 1.35fr',
                 gap: '20px',
                 minHeight: 0,
                 overflow: 'hidden',
