@@ -35,9 +35,21 @@ export async function getSpotSmartMoneyTokenFlows(params?: {
     const limit = params?.limit || 8;
     const client = getNansenClient();
 
-    // Fetch DEX trades across Solana, Ethereum, and Base only
+    // Fetch DEX trades for each chain separately to ensure balanced data
+    // Nansen API returns biased results when multiple chains are requested together
     const chains = ['ethereum', 'base', 'solana'];
-    const dexTrades = await client.getSmartMoneyDexTrades(chains, 1, 200);
+    const tradesPerChain = 200; // Fetch 200 trades from each chain
+
+    const dexTradesPromises = chains.map(chain =>
+      client.getSmartMoneyDexTrades([chain], 1, tradesPerChain)
+        .catch(err => {
+          console.warn(`[SpotFlows] Failed to fetch ${chain} trades:`, err.message);
+          return []; // Return empty array if chain fails
+        })
+    );
+
+    const dexTradesArrays = await Promise.all(dexTradesPromises);
+    const dexTrades = dexTradesArrays.flat();
 
     if (!Array.isArray(dexTrades) || dexTrades.length === 0) {
       throw new Error('No DEX trades data available');
@@ -52,6 +64,14 @@ export async function getSpotSmartMoneyTokenFlows(params?: {
       buyCount: number;
       sellCount: number;
     }>();
+
+    // Debug: Count trades by chain
+    const chainCounts = new Map<string, number>();
+    dexTrades.forEach((trade: any) => {
+      const chain = trade.chain;
+      chainCounts.set(chain, (chainCounts.get(chain) || 0) + 1);
+    });
+    console.log('[SpotFlows] Trades by chain:', Object.fromEntries(chainCounts));
 
     dexTrades.forEach((trade: any) => {
       const chain = trade.chain;
@@ -100,9 +120,17 @@ export async function getSpotSmartMoneyTokenFlows(params?: {
     const allFlows = Array.from(flowMap.values());
 
     // Top inflows (positive net flow)
-    const inflows: TokenFlow[] = allFlows
+    const inflowsSorted = allFlows
       .filter((f) => f.netFlow > 0)
-      .sort((a, b) => b.netFlow - a.netFlow)
+      .sort((a, b) => b.netFlow - a.netFlow);
+
+    // Debug: Show top 20 inflows by chain
+    console.log('[SpotFlows] Top 20 inflows:');
+    inflowsSorted.slice(0, 20).forEach((f, i) => {
+      console.log(`  ${i+1}. ${f.token} (${f.chain}): $${Math.round(f.netFlow)}`);
+    });
+
+    const inflows: TokenFlow[] = inflowsSorted
       .slice(0, limit)
       .map((f, idx) => ({
         chain: f.chain,
