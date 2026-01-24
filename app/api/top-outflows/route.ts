@@ -6,7 +6,7 @@
 import { NextResponse } from 'next/server';
 import { getSpotSmartMoneyTokenFlows } from '@/services/nansenSpotSmartMoneyFlows';
 
-export const revalidate = 3600; // Cache for 1 hour
+export const revalidate = 0; // Force dynamic - temporary for cache clear
 
 export async function GET() {
   try {
