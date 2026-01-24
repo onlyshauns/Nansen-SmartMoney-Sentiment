@@ -163,7 +163,6 @@ export default function Home() {
               display: 'flex',
               flexDirection: 'column',
               minHeight: 0,
-              overflow: 'hidden',
               gap: '8px'
             }}
           >
