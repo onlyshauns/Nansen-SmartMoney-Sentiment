@@ -238,6 +238,9 @@ export default function Home() {
                     finalScore={sentimentData.finalScore || 0}
                     confidence={sentimentData.confidence}
                     meta={sentimentData.meta}
+                    longRatio={sentimentData.longRatio}
+                    shortRatio={sentimentData.shortRatio}
+                    totalOpenInterestUsd={sentimentData.totalOpenInterestUsd}
                   />
                 )}
               </div>

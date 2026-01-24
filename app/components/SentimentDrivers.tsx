@@ -21,6 +21,9 @@ interface SentimentDriversProps {
   finalScore: number;
   confidence?: number;
   meta?: SentimentMeta;
+  longRatio?: number;
+  shortRatio?: number;
+  totalOpenInterestUsd?: number;
 }
 
 // Tooltip definitions
@@ -42,9 +45,22 @@ export default function SentimentDrivers({
   finalScore,
   confidence = 0,
   meta,
+  longRatio,
+  shortRatio,
+  totalOpenInterestUsd,
 }: SentimentDriversProps) {
   const formatScore = (score: number) => {
     return (score > 0 ? '+' : '') + score.toFixed(2);
+  };
+
+  const formatValue = (value: number) => {
+    if (value >= 1000000000) {
+      return `$${(value / 1000000000).toFixed(2)}B`;
+    }
+    if (value >= 1000000) {
+      return `$${(value / 1000000).toFixed(1)}M`;
+    }
+    return `$${(value / 1000).toFixed(0)}K`;
   };
 
   const getScoreColor = (score: number) => {
@@ -243,6 +259,50 @@ export default function SentimentDrivers({
               {(confidence * 100).toFixed(0)}%
             </span>
           </div>
+
+          {/* Long/Short Metrics */}
+          {(longRatio !== undefined || shortRatio !== undefined || totalOpenInterestUsd !== undefined) && (
+            <div
+              style={{
+                paddingTop: '12px',
+                borderTop: '1px solid #2D334D',
+                marginTop: '8px'
+              }}
+            >
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px', textAlign: 'center' }}>
+                {longRatio !== undefined && (
+                  <div>
+                    <div style={{ fontSize: '9px', color: '#EAEFF9', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>
+                      Long
+                    </div>
+                    <div style={{ fontSize: '12px', fontWeight: 700, color: '#30E000', fontVariantNumeric: 'tabular-nums' }}>
+                      {longRatio}%
+                    </div>
+                  </div>
+                )}
+                {totalOpenInterestUsd !== undefined && (
+                  <div>
+                    <div style={{ fontSize: '9px', color: '#EAEFF9', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>
+                      Total OI
+                    </div>
+                    <div style={{ fontSize: '12px', fontWeight: 700, color: '#EAEFF9', fontVariantNumeric: 'tabular-nums' }}>
+                      {formatValue(totalOpenInterestUsd)}
+                    </div>
+                  </div>
+                )}
+                {shortRatio !== undefined && (
+                  <div>
+                    <div style={{ fontSize: '9px', color: '#EAEFF9', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>
+                      Short
+                    </div>
+                    <div style={{ fontSize: '12px', fontWeight: 700, color: '#FF494A', fontVariantNumeric: 'tabular-nums' }}>
+                      {shortRatio}%
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Warnings */}

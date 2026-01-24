@@ -33,17 +33,29 @@ export default function Tooltip({ content, children }: TooltipProps) {
       onMouseLeave={() => setIsVisible(false)}
       onFocus={() => setIsVisible(true)}
       onBlur={() => setIsVisible(false)}
+      style={{ cursor: 'help' }}
     >
       {children}
 
       {isVisible && (
         <div
-          className={`absolute left-1/2 -translate-x-1/2 z-50 ${
+          className={`absolute left-1/2 -translate-x-1/2 ${
             position === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'
           }`}
+          style={{
+            zIndex: 9999,
+            pointerEvents: 'none'
+          }}
         >
           <div className="relative">
-            <div className="bg-[#1C2130] text-[#EAEFF9] text-xs px-3 py-2 rounded-lg shadow-lg border border-[#2D334D] max-w-xs whitespace-normal">
+            <div
+              className="text-[#EAEFF9] text-xs px-3 py-2 rounded-lg shadow-xl max-w-xs whitespace-normal"
+              style={{
+                background: '#1C2130',
+                border: '1px solid #2D334D',
+                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.5)'
+              }}
+            >
               {content}
             </div>
             {/* Arrow */}
