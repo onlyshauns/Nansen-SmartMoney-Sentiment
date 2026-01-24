@@ -83,12 +83,6 @@ export default function SentimentHero({
               style={{ left: `${markerPosition}%` }}
             />
           </div>
-          {/* Score only in center */}
-          <div className="flex justify-center mt-2">
-            <span className="text-xs text-[#EAEFF9] font-semibold">
-              {finalScore > 0 ? '+' : ''}{(finalScore * 100).toFixed(0)}
-            </span>
-          </div>
         </div>
 
         {/* Metrics */}

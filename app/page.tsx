@@ -172,8 +172,7 @@ export default function Home() {
               <div
                 style={{
                   flex: '0 0 auto',
-                  height: '120px',
-                  overflow: 'hidden'
+                  height: '120px'
                 }}
               >
                 <SentimentHero
