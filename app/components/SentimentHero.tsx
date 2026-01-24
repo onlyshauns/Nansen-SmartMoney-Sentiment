@@ -82,7 +82,7 @@ export default function SentimentHero({
       {/* Body section */}
       <div style={{ padding: '8px 16px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 0 }}>
         {/* Sentiment Spectrum Bar */}
-        <div className="mb-3">
+        <div className="mb-4">
           <div
             style={{
               position: 'relative',
@@ -112,17 +112,17 @@ export default function SentimentHero({
         {/* Metrics */}
         <div className="grid grid-cols-3 gap-2 text-center">
           <div>
-            <div className="text-[9px] text-[#A4ACC4] uppercase tracking-wide leading-tight">Long</div>
+            <div className="text-[9px] text-[#EAEFF9] uppercase tracking-wide leading-tight">Long</div>
             <div className="text-xs font-bold text-[#30E000] tabular-nums leading-tight">{longRatio}%</div>
           </div>
           <div>
-            <div className="text-[9px] text-[#A4ACC4] uppercase tracking-wide leading-tight">Total OI</div>
+            <div className="text-[9px] text-[#EAEFF9] uppercase tracking-wide leading-tight">Total OI</div>
             <div className="text-xs font-bold text-[#EAEFF9] tabular-nums leading-tight">
               {totalOpenInterestUsd ? formatValue(totalOpenInterestUsd) : '-'}
             </div>
           </div>
           <div>
-            <div className="text-[9px] text-[#A4ACC4] uppercase tracking-wide leading-tight">Short</div>
+            <div className="text-[9px] text-[#EAEFF9] uppercase tracking-wide leading-tight">Short</div>
             <div className="text-xs font-bold text-[#FF494A] tabular-nums leading-tight">{shortRatio}%</div>
           </div>
         </div>

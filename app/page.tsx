@@ -102,7 +102,7 @@ export default function Home() {
               <h1 className="text-lg font-bold text-[#EAEFF9] leading-tight">
                 Smart Money Sentiment Dashboard
               </h1>
-              <p className="text-[10px] text-[#A4ACC4]">
+              <p className="text-xs text-[#A4ACC4]">
                 Real-time insights from Nansen and Hyperliquid smart money traders
               </p>
             </div>
