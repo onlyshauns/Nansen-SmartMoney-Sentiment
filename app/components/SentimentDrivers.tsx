@@ -105,7 +105,7 @@ export default function SentimentDrivers({
         style={{
           flex: 1,
           minHeight: 0,
-          overflow: 'hidden',
+          overflow: 'auto',
           display: 'flex',
           flexDirection: 'column',
           gap: '10px'
