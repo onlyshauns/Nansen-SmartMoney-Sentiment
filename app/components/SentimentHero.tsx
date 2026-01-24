@@ -56,9 +56,19 @@ export default function SentimentHero({
   const markerPosition = ((finalScore + 1) / 2) * 100;
 
   return (
-    <div className="bg-[#1A1F2E] rounded-2xl h-full flex flex-col">
+    <div
+      style={{
+        background: 'rgba(26, 31, 46, 1)',
+        borderRadius: '16px',
+        height: '100%',
+        minHeight: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden'
+      }}
+    >
       {/* Header section matching table style */}
-      <div className="px-4 py-3 border-b border-[#2D334D] flex-shrink-0">
+      <div style={{ padding: '12px 16px', borderBottom: '1px solid #2D334D', flexShrink: 0 }}>
         <div className="text-center">
           <div className="text-[40px] leading-none mb-1" style={getEmojiGlowStyle()}>
             {getEmoji()}
@@ -73,14 +83,24 @@ export default function SentimentHero({
       </div>
 
       {/* Body section */}
-      <div className="px-4 py-3 flex-1 flex flex-col justify-center">
+      <div style={{ padding: '12px 16px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         {/* Sentiment Spectrum Bar */}
         <div className="mb-3">
           <div className="relative h-2 bg-gradient-to-r from-[#FF494A] via-[#64748B] to-[#30E000] rounded-full">
             {/* Marker */}
             <div
-              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 bg-[#EAEFF9] rounded-full border-2 border-[#1A1F2E] shadow-lg"
-              style={{ left: `${markerPosition}%` }}
+              style={{
+                position: 'absolute',
+                top: '50%',
+                transform: 'translate(-50%, -50%)',
+                left: `${markerPosition}%`,
+                width: '16px',
+                height: '16px',
+                background: '#EAEFF9',
+                borderRadius: '50%',
+                border: '2px solid rgba(26, 31, 46, 1)',
+                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+              }}
             />
           </div>
         </div>
