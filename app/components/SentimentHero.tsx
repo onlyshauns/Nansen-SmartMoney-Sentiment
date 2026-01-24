@@ -40,35 +40,26 @@ export default function SentimentHero({
     return '😐';
   };
 
-  // Get glow color based on sentiment
-  const getGlowStyle = () => {
+  // Get emoji glow style based on sentiment
+  const getEmojiGlowStyle = () => {
     if (isBullish) {
-      return {
-        boxShadow: '0 0 20px rgba(48, 224, 0, 0.6), 0 0 40px rgba(48, 224, 0, 0.4), 0 0 80px rgba(48, 224, 0, 0.3)',
-        border: '1px solid rgba(48, 224, 0, 0.3)'
-      };
+      return { filter: 'drop-shadow(0 0 15px rgba(48, 224, 0, 0.8)) drop-shadow(0 0 30px rgba(48, 224, 0, 0.5))' };
     }
     if (isBearish) {
-      return {
-        boxShadow: '0 0 20px rgba(255, 73, 74, 0.6), 0 0 40px rgba(255, 73, 74, 0.4), 0 0 80px rgba(255, 73, 74, 0.3)',
-        border: '1px solid rgba(255, 73, 74, 0.3)'
-      };
+      return { filter: 'drop-shadow(0 0 15px rgba(255, 73, 74, 0.8)) drop-shadow(0 0 30px rgba(255, 73, 74, 0.5))' };
     }
     // Neutral - yellow glow
-    return {
-      boxShadow: '0 0 20px rgba(234, 179, 8, 0.6), 0 0 40px rgba(234, 179, 8, 0.4), 0 0 80px rgba(234, 179, 8, 0.3)',
-      border: '1px solid rgba(234, 179, 8, 0.3)'
-    };
+    return { filter: 'drop-shadow(0 0 15px rgba(234, 179, 8, 0.8)) drop-shadow(0 0 30px rgba(234, 179, 8, 0.5))' };
   };
 
   // Calculate marker position (0-100%)
   const markerPosition = ((finalScore + 1) / 2) * 100;
 
   return (
-    <div className="bg-[#1C2130] rounded-2xl p-3 h-full flex flex-col" style={getGlowStyle()}>
+    <div className="bg-[#1C2130] rounded-2xl p-3 h-full flex flex-col">
       {/* Centered emoji and title */}
       <div className="text-center mb-2">
-        <div className="text-[40px] leading-none mb-0.5">
+        <div className="text-[40px] leading-none mb-0.5" style={getEmojiGlowStyle()}>
           {getEmoji()}
         </div>
         <div className="text-lg font-black text-[#EAEFF9] tracking-tight">
