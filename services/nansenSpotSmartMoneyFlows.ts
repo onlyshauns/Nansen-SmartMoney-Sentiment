@@ -35,8 +35,8 @@ export async function getSpotSmartMoneyTokenFlows(params?: {
     const limit = params?.limit || 8;
     const client = getNansenClient();
 
-    // Fetch DEX trades across all chains (including Solana)
-    const chains = ['ethereum', 'base', 'polygon', 'arbitrum', 'optimism', 'solana'];
+    // Fetch DEX trades across Solana, Ethereum, and Base only
+    const chains = ['ethereum', 'base', 'solana'];
     const dexTrades = await client.getSmartMoneyDexTrades(chains, 1, 200);
 
     if (!Array.isArray(dexTrades) || dexTrades.length === 0) {
