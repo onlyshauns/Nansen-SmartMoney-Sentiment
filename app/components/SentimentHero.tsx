@@ -56,7 +56,7 @@ export default function SentimentHero({
   const markerPosition = ((finalScore + 1) / 2) * 100;
 
   return (
-    <div className="bg-[#1A1F2E] rounded-2xl h-full flex flex-col overflow-hidden">
+    <div className="bg-[#1A1F2E] rounded-2xl h-full flex flex-col">
       {/* Header section matching table style */}
       <div className="px-4 py-3 border-b border-[#2D334D] flex-shrink-0">
         <div className="text-center">
