@@ -54,8 +54,8 @@ export default function SmartMoneyOutflowsWidget({ tokens }: SmartMoneyOutflowsW
     <div className={styles.tableContainer}>
       <div className={styles.tableHeader}>
         <div className="flex items-center gap-1.5">
-          <h3 className={styles.tableTitle}>Outflows</h3>
-          <Tooltip content="Top tokens with the highest net outflow (USD) from smart money spot flows in the selected window.">
+          <h3 className={styles.tableTitle}>Outflows (24h)</h3>
+          <Tooltip content="Top tokens with the highest net outflow (USD) from smart money spot flows in the last 24 hours. Updates hourly.">
             <TooltipIcon />
           </Tooltip>
         </div>

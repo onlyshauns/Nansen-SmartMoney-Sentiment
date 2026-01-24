@@ -1,13 +1,12 @@
 /**
- * Top Outflows API Route
- * NOW USING REAL SPOT SMART MONEY FLOWS SERVICE
+ * Top Outflows API Route - 24h Smart Money Flows
+ * Cached for 1 hour, data represents last 24 hours of activity
  */
 
 import { NextResponse } from 'next/server';
 import { getSpotSmartMoneyTokenFlows } from '@/services/nansenSpotSmartMoneyFlows';
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+export const revalidate = 3600; // Cache for 1 hour
 
 export async function GET() {
   try {
