@@ -9,9 +9,11 @@ export async function GET() {
     // Get full sentiment result from aggregator
     const result = await aggregateSentimentData();
 
-    // Convert finalScore from [-1, +1] to percentage [0, 100]
-    // Map: -1 -> 0% long, +1 -> 100% long
-    const longRatio = ((result.finalScore + 1) / 2) * 100;
+    // Calculate actual long/short ratios from perps positions (not from finalScore)
+    const longUsd = result.components.perpsNetExposure.longUsd || 0;
+    const shortUsd = result.components.perpsNetExposure.shortUsd || 0;
+    const totalOI = longUsd + shortUsd;
+    const longRatio = totalOI > 0 ? (longUsd / totalOI) * 100 : 50;
     const shortRatio = 100 - longRatio;
 
     // Return full explainable payload + backward-compatible fields
