@@ -56,54 +56,57 @@ export default function SentimentHero({
   const markerPosition = ((finalScore + 1) / 2) * 100;
 
   return (
-    <div className="bg-[#1C2130] rounded-2xl p-3 h-full flex flex-col">
-      {/* Centered emoji and title */}
-      <div className="text-center mb-2">
-        <div className="text-[40px] leading-none mb-0.5" style={getEmojiGlowStyle()}>
-          {getEmoji()}
-        </div>
-        <div className="text-lg font-black text-[#EAEFF9] tracking-tight">
-          {sentiment.toUpperCase()}
-        </div>
-        <div className="text-[10px] text-[#64748B]">
-          Smart Money Sentiment
-        </div>
-      </div>
-
-      {/* Sentiment Spectrum Bar */}
-      <div className="mb-2">
-        <div className="relative h-2 bg-gradient-to-r from-[#FF494A] via-[#64748B] to-[#30E000] rounded-full">
-          {/* Marker */}
-          <div
-            className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 bg-[#EAEFF9] rounded-full border-2 border-[#1C2130] shadow-lg"
-            style={{ left: `${markerPosition}%` }}
-          />
-        </div>
-        {/* Labels */}
-        <div className="flex justify-between mt-2 text-xs text-[#64748B]">
-          <span>Bearish</span>
-          <span className="text-[#EAEFF9] font-semibold">
-            {finalScore > 0 ? '+' : ''}{(finalScore * 100).toFixed(0)}
-          </span>
-          <span>Bullish</span>
-        </div>
-      </div>
-
-      {/* Metrics */}
-      <div className="grid grid-cols-3 gap-2 text-center">
-        <div>
-          <div className="text-[10px] text-[#64748B] uppercase tracking-wide">Long</div>
-          <div className="text-sm font-bold text-[#30E000] tabular-nums">{longRatio}%</div>
-        </div>
-        <div>
-          <div className="text-[10px] text-[#64748B] uppercase tracking-wide">Total OI</div>
-          <div className="text-sm font-bold text-[#EAEFF9] tabular-nums">
-            {totalOpenInterestUsd ? formatValue(totalOpenInterestUsd) : '-'}
+    <div className="bg-[#1A1F2E] rounded-2xl h-full flex flex-col overflow-hidden">
+      {/* Header section matching table style */}
+      <div className="px-4 py-3 border-b border-[#2D334D] flex-shrink-0">
+        <div className="text-center">
+          <div className="text-[40px] leading-none mb-1" style={getEmojiGlowStyle()}>
+            {getEmoji()}
+          </div>
+          <div className="text-lg font-black text-[#EAEFF9] tracking-tight">
+            {sentiment.toUpperCase()}
+          </div>
+          <div className="text-[10px] text-[#64748B]">
+            Smart Money Sentiment
           </div>
         </div>
-        <div>
-          <div className="text-[10px] text-[#64748B] uppercase tracking-wide">Short</div>
-          <div className="text-sm font-bold text-[#FF494A] tabular-nums">{shortRatio}%</div>
+      </div>
+
+      {/* Body section */}
+      <div className="px-4 py-3 flex-1 flex flex-col justify-center">
+        {/* Sentiment Spectrum Bar */}
+        <div className="mb-3">
+          <div className="relative h-2 bg-gradient-to-r from-[#FF494A] via-[#64748B] to-[#30E000] rounded-full">
+            {/* Marker */}
+            <div
+              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 bg-[#EAEFF9] rounded-full border-2 border-[#1A1F2E] shadow-lg"
+              style={{ left: `${markerPosition}%` }}
+            />
+          </div>
+          {/* Score only in center */}
+          <div className="flex justify-center mt-2">
+            <span className="text-xs text-[#EAEFF9] font-semibold">
+              {finalScore > 0 ? '+' : ''}{(finalScore * 100).toFixed(0)}
+            </span>
+          </div>
+        </div>
+
+        {/* Metrics */}
+        <div className="grid grid-cols-3 gap-2 text-center">
+          <div>
+            <div className="text-[10px] text-[#64748B] uppercase tracking-wide">Long</div>
+            <div className="text-sm font-bold text-[#30E000] tabular-nums">{longRatio}%</div>
+          </div>
+          <div>
+            <div className="text-[10px] text-[#64748B] uppercase tracking-wide">Total OI</div>
+            <div className="text-sm font-bold text-[#EAEFF9] tabular-nums">
+              {totalOpenInterestUsd ? formatValue(totalOpenInterestUsd) : '-'}
+            </div>
+          </div>
+          <div>
+            <div className="text-[10px] text-[#64748B] uppercase tracking-wide">Short</div>
+            <div className="text-sm font-bold text-[#FF494A] tabular-nums">{shortRatio}%</div>
+          </div>
         </div>
       </div>
     </div>
