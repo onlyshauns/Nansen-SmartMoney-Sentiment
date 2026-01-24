@@ -108,6 +108,22 @@ export default function SentimentHero({
             />
           </div>
         </div>
+
+        {/* Long/Short Metrics */}
+        <div className="grid grid-cols-3 gap-2 text-center">
+          <div>
+            <div className="text-[9px] text-[#EAEFF9] uppercase tracking-wide mb-1">Long</div>
+            <div className="text-[12px] font-bold text-[#30E000]">{longRatio}%</div>
+          </div>
+          <div>
+            <div className="text-[9px] text-[#EAEFF9] uppercase tracking-wide mb-1">Total OI</div>
+            <div className="text-[12px] font-bold text-[#EAEFF9]">{formatValue(totalOpenInterestUsd || 0)}</div>
+          </div>
+          <div>
+            <div className="text-[9px] text-[#EAEFF9] uppercase tracking-wide mb-1">Short</div>
+            <div className="text-[12px] font-bold text-[#FF494A]">{shortRatio}%</div>
+          </div>
+        </div>
       </div>
     </div>
   );

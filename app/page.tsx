@@ -192,7 +192,7 @@ export default function Home() {
                 flex: '1 1 auto',
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
-                gridTemplateRows: '0.65fr 1.35fr',
+                gridTemplateRows: '1fr 1fr',
                 gap: '20px',
                 minHeight: 0,
                 overflow: 'hidden',
@@ -238,9 +238,6 @@ export default function Home() {
                     finalScore={sentimentData.finalScore || 0}
                     confidence={sentimentData.confidence}
                     meta={sentimentData.meta}
-                    longRatio={sentimentData.longRatio}
-                    shortRatio={sentimentData.shortRatio}
-                    totalOpenInterestUsd={sentimentData.totalOpenInterestUsd}
                   />
                 )}
               </div>

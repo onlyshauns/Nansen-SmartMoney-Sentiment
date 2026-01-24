@@ -286,10 +286,10 @@ export function generateDrivers(components: {
 
   const drivers: SentimentDriver[] = [];
 
-  // A: Perps net exposure
+  // A: Long/Short Position Bias
   const { longUsd = 0, shortUsd = 0 } = components.perpsNetExposure;
   drivers.push({
-    name: 'Perps net exposure',
+    name: 'Long/Short Position Bias',
     score: components.perpsNetExposure.score,
     weight: SENTIMENT_CONFIG.WEIGHT_PERPS_NET_EXPOSURE,
     explain: `Net long ${formatUsd(longUsd)} vs short ${formatUsd(shortUsd)}`,
