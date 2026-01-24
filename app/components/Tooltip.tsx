@@ -57,11 +57,12 @@ export default function Tooltip({ content, children }: TooltipProps) {
         >
           <div className="relative">
             <div
-              className="text-[#EAEFF9] text-xs px-3 py-2 rounded-lg shadow-xl max-w-xs whitespace-normal"
+              className="text-[#EAEFF9] text-[10px] px-2.5 py-1.5 rounded-lg shadow-xl whitespace-normal"
               style={{
                 background: '#1C2130',
                 border: '1px solid #2D334D',
-                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.5)'
+                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.5)',
+                maxWidth: '200px'
               }}
             >
               {content}
