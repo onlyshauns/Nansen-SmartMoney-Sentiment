@@ -43,13 +43,22 @@ export default function SentimentHero({
   // Get glow color based on sentiment
   const getGlowStyle = () => {
     if (isBullish) {
-      return { boxShadow: '0 0 30px rgba(48, 224, 0, 0.4), 0 0 60px rgba(48, 224, 0, 0.2)' };
+      return {
+        boxShadow: '0 0 20px rgba(48, 224, 0, 0.6), 0 0 40px rgba(48, 224, 0, 0.4), 0 0 80px rgba(48, 224, 0, 0.3)',
+        border: '1px solid rgba(48, 224, 0, 0.3)'
+      };
     }
     if (isBearish) {
-      return { boxShadow: '0 0 30px rgba(255, 73, 74, 0.4), 0 0 60px rgba(255, 73, 74, 0.2)' };
+      return {
+        boxShadow: '0 0 20px rgba(255, 73, 74, 0.6), 0 0 40px rgba(255, 73, 74, 0.4), 0 0 80px rgba(255, 73, 74, 0.3)',
+        border: '1px solid rgba(255, 73, 74, 0.3)'
+      };
     }
     // Neutral - yellow glow
-    return { boxShadow: '0 0 30px rgba(234, 179, 8, 0.4), 0 0 60px rgba(234, 179, 8, 0.2)' };
+    return {
+      boxShadow: '0 0 20px rgba(234, 179, 8, 0.6), 0 0 40px rgba(234, 179, 8, 0.4), 0 0 80px rgba(234, 179, 8, 0.3)',
+      border: '1px solid rgba(234, 179, 8, 0.3)'
+    };
   };
 
   // Calculate marker position (0-100%)
