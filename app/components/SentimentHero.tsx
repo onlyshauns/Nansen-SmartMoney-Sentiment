@@ -83,7 +83,14 @@ export default function SentimentHero({
       <div style={{ padding: '8px 16px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 0 }}>
         {/* Sentiment Spectrum Bar */}
         <div className="mb-2">
-          <div className="relative h-2 bg-gradient-to-r from-[#FF494A] via-[#64748B] to-[#30E000] rounded-full">
+          <div
+            style={{
+              position: 'relative',
+              height: '8px',
+              background: 'linear-gradient(to right, #FF494A 0%, #64748B 50%, #30E000 100%)',
+              borderRadius: '4px'
+            }}
+          >
             {/* Marker */}
             <div
               style={{
@@ -91,12 +98,12 @@ export default function SentimentHero({
                 top: '50%',
                 transform: 'translate(-50%, -50%)',
                 left: `${markerPosition}%`,
-                width: '16px',
-                height: '16px',
+                width: '12px',
+                height: '12px',
                 background: '#EAEFF9',
                 borderRadius: '50%',
                 border: '2px solid rgba(26, 31, 46, 1)',
-                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)'
               }}
             />
           </div>
