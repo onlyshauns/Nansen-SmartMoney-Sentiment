@@ -10,17 +10,23 @@ interface TooltipProps {
 export default function Tooltip({ content, children }: TooltipProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [position, setPosition] = useState<'top' | 'bottom'>('top');
+  const [coords, setCoords] = useState({ top: 0, left: 0 });
   const triggerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isVisible && triggerRef.current) {
       const rect = triggerRef.current.getBoundingClientRect();
 
+      // Calculate position
+      const tooltipLeft = rect.left + rect.width / 2;
+
       // If tooltip would overflow at top, show at bottom
       if (rect.top < 100) {
         setPosition('bottom');
+        setCoords({ top: rect.bottom + 8, left: tooltipLeft });
       } else {
         setPosition('top');
+        setCoords({ top: rect.top - 8, left: tooltipLeft });
       }
     }
   }, [isVisible]);
@@ -39,10 +45,12 @@ export default function Tooltip({ content, children }: TooltipProps) {
 
       {isVisible && (
         <div
-          className={`absolute left-1/2 -translate-x-1/2 ${
-            position === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'
+          className={`fixed -translate-x-1/2 ${
+            position === 'top' ? '-translate-y-full' : ''
           }`}
           style={{
+            top: coords.top,
+            left: coords.left,
             zIndex: 9999,
             pointerEvents: 'none'
           }}
