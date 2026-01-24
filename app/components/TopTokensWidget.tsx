@@ -24,6 +24,7 @@ export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
       polygon: 'polygon',
       arbitrum: 'arbitrum',
       optimism: 'optimism',
+      solana: 'solana',
     };
     const nansenChain = chainMap[chain.toLowerCase()] || 'ethereum';
     window.open(`https://app.nansen.ai/token/${address}?chain=${nansenChain}`, '_blank');
@@ -36,6 +37,7 @@ export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
       polygon: 'POLY',
       arbitrum: 'ARB',
       optimism: 'OP',
+      solana: 'SOL',
     };
     return chainMap[chain.toLowerCase()] || chain.toUpperCase();
   };
@@ -53,7 +55,7 @@ export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
   return (
     <div className={styles.tableContainer}>
       <div className={styles.tableHeader}>
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center justify-between w-full">
           <h3 className={styles.tableTitle}>Inflows (24h)</h3>
           <Tooltip content="Top tokens with the highest net inflow (USD) from smart money spot flows in the last 24 hours. Updates hourly.">
             <TooltipIcon />

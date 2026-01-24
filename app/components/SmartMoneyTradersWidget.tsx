@@ -39,7 +39,7 @@ export default function SmartMoneyTradersWidget({ traders }: SmartMoneyTradersWi
   return (
     <div className={styles.tableContainer}>
       <div className={styles.tableHeader}>
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center justify-between w-full">
           <h3 className={styles.tableTitle}>Smart Money Traders (7D Realised PnL)</h3>
           <Tooltip content="Top traders on Hyperliquid ranked by 7-day realised PnL. Shows which smart money wallets are performing best.">
             <TooltipIcon />
