@@ -1,7 +1,7 @@
 'use client';
 
 interface SentimentHeroProps {
-  sentiment: 'bullish' | 'bearish' | 'neutral';
+  sentiment: 'extremely_bullish' | 'bullish' | 'slightly_bullish' | 'neutral' | 'slightly_bearish' | 'bearish' | 'extremely_bearish';
   longRatio: number;
   shortRatio: number;
   estimatedLongValue?: number;
@@ -29,27 +29,45 @@ export default function SentimentHero({
     return `$${(value / 1000).toFixed(0)}K`;
   };
 
-  const isBullish = sentiment === 'bullish';
-  const isBearish = sentiment === 'bearish';
-  const isNeutral = sentiment === 'neutral';
-
   // Get emoji based on sentiment
   const getEmoji = () => {
-    if (isBullish) return '🐂';
-    if (isBearish) return '🐻';
-    return '😐';
+    switch (sentiment) {
+      case 'extremely_bullish': return '🚀';
+      case 'bullish': return '🐂';
+      case 'slightly_bullish': return '📈';
+      case 'neutral': return '😐';
+      case 'slightly_bearish': return '📉';
+      case 'bearish': return '🐻';
+      case 'extremely_bearish': return '💀';
+      default: return '😐';
+    }
   };
 
   // Get emoji glow style based on sentiment
   const getEmojiGlowStyle = () => {
-    if (isBullish) {
-      return { filter: 'drop-shadow(0 0 15px rgba(48, 224, 0, 0.8)) drop-shadow(0 0 30px rgba(48, 224, 0, 0.5))' };
+    switch (sentiment) {
+      case 'extremely_bullish':
+        return { filter: 'drop-shadow(0 0 20px rgba(48, 224, 0, 1)) drop-shadow(0 0 40px rgba(48, 224, 0, 0.7))' };
+      case 'bullish':
+        return { filter: 'drop-shadow(0 0 15px rgba(48, 224, 0, 0.8)) drop-shadow(0 0 30px rgba(48, 224, 0, 0.5))' };
+      case 'slightly_bullish':
+        return { filter: 'drop-shadow(0 0 10px rgba(48, 224, 0, 0.6)) drop-shadow(0 0 20px rgba(48, 224, 0, 0.3))' };
+      case 'neutral':
+        return { filter: 'drop-shadow(0 0 15px rgba(234, 179, 8, 0.8)) drop-shadow(0 0 30px rgba(234, 179, 8, 0.5))' };
+      case 'slightly_bearish':
+        return { filter: 'drop-shadow(0 0 10px rgba(255, 73, 74, 0.6)) drop-shadow(0 0 20px rgba(255, 73, 74, 0.3))' };
+      case 'bearish':
+        return { filter: 'drop-shadow(0 0 15px rgba(255, 73, 74, 0.8)) drop-shadow(0 0 30px rgba(255, 73, 74, 0.5))' };
+      case 'extremely_bearish':
+        return { filter: 'drop-shadow(0 0 20px rgba(255, 73, 74, 1)) drop-shadow(0 0 40px rgba(255, 73, 74, 0.7))' };
+      default:
+        return { filter: 'drop-shadow(0 0 15px rgba(234, 179, 8, 0.8)) drop-shadow(0 0 30px rgba(234, 179, 8, 0.5))' };
     }
-    if (isBearish) {
-      return { filter: 'drop-shadow(0 0 15px rgba(255, 73, 74, 0.8)) drop-shadow(0 0 30px rgba(255, 73, 74, 0.5))' };
-    }
-    // Neutral - yellow glow
-    return { filter: 'drop-shadow(0 0 15px rgba(234, 179, 8, 0.8)) drop-shadow(0 0 30px rgba(234, 179, 8, 0.5))' };
+  };
+
+  // Get display label
+  const getDisplayLabel = () => {
+    return sentiment.toUpperCase().replace(/_/g, ' ');
   };
 
   // Calculate marker position (0-100%)
@@ -74,7 +92,7 @@ export default function SentimentHero({
             {getEmoji()}
           </div>
           <div className="text-sm font-black text-[#EAEFF9] tracking-tight">
-            {sentiment.toUpperCase()}
+            {getDisplayLabel()}
           </div>
         </div>
       </div>

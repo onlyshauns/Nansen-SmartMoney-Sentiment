@@ -28,7 +28,7 @@ export async function GET() {
       drivers: result.drivers,
 
       // Backward-compatible fields (for existing UI)
-      sentiment: result.label.toLowerCase() as 'bullish' | 'bearish' | 'neutral',
+      sentiment: result.label.toLowerCase() as 'extremely_bullish' | 'bullish' | 'slightly_bullish' | 'neutral' | 'slightly_bearish' | 'bearish' | 'extremely_bearish',
       longRatio: Math.round(longRatio * 10) / 10,
       shortRatio: Math.round(shortRatio * 10) / 10,
       estimatedLongValue: Math.round(result.components.perpsNetExposure.longUsd || 0),

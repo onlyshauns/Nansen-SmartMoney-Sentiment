@@ -93,7 +93,12 @@ export default function SentimentDrivers({
         </h3>
         <p style={{ fontSize: '10px', color: '#64748B', marginTop: '4px' }}>
           Why the market is{' '}
-          {finalScore > 0 ? 'bullish' : finalScore < 0 ? 'bearish' : 'neutral'}
+          {finalScore >= 0.5 ? 'extremely bullish' :
+           finalScore >= 0.25 ? 'bullish' :
+           finalScore >= 0.05 ? 'slightly bullish' :
+           finalScore >= -0.05 ? 'neutral' :
+           finalScore >= -0.25 ? 'slightly bearish' :
+           finalScore >= -0.5 ? 'bearish' : 'extremely bearish'}
         </p>
       </div>
 

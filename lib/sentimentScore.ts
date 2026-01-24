@@ -13,8 +13,13 @@ export const SENTIMENT_CONFIG = {
   WEIGHT_PNL_MODIFIER: 0.10,
 
   // Thresholds
-  BULLISH_THRESHOLD: 0.15,
-  BEARISH_THRESHOLD: -0.15,
+  EXTREMELY_BULLISH_THRESHOLD: 0.5,
+  BULLISH_THRESHOLD: 0.25,
+  SLIGHTLY_BULLISH_THRESHOLD: 0.05,
+  NEUTRAL_THRESHOLD: 0.05,
+  SLIGHTLY_BEARISH_THRESHOLD: -0.05,
+  BEARISH_THRESHOLD: -0.25,
+  EXTREMELY_BEARISH_THRESHOLD: -0.5,
 
   // Normalization scales
   DELTA_SCALE_USD: 5000000, // $5M
@@ -63,7 +68,7 @@ export interface SentimentMeta {
 }
 
 export interface SentimentResult {
-  label: 'BULLISH' | 'NEUTRAL' | 'BEARISH';
+  label: 'EXTREMELY_BULLISH' | 'BULLISH' | 'SLIGHTLY_BULLISH' | 'NEUTRAL' | 'SLIGHTLY_BEARISH' | 'BEARISH' | 'EXTREMELY_BEARISH';
   finalScore: number;
   confidence: number;
   windows: {
@@ -261,10 +266,14 @@ export function computeFinalScore(components: {
  */
 export function getSentimentLabel(
   finalScore: number
-): 'BULLISH' | 'NEUTRAL' | 'BEARISH' {
+): 'EXTREMELY_BULLISH' | 'BULLISH' | 'SLIGHTLY_BULLISH' | 'NEUTRAL' | 'SLIGHTLY_BEARISH' | 'BEARISH' | 'EXTREMELY_BEARISH' {
+  if (finalScore >= SENTIMENT_CONFIG.EXTREMELY_BULLISH_THRESHOLD) return 'EXTREMELY_BULLISH';
   if (finalScore >= SENTIMENT_CONFIG.BULLISH_THRESHOLD) return 'BULLISH';
-  if (finalScore <= SENTIMENT_CONFIG.BEARISH_THRESHOLD) return 'BEARISH';
-  return 'NEUTRAL';
+  if (finalScore >= SENTIMENT_CONFIG.SLIGHTLY_BULLISH_THRESHOLD) return 'SLIGHTLY_BULLISH';
+  if (finalScore >= -SENTIMENT_CONFIG.NEUTRAL_THRESHOLD) return 'NEUTRAL';
+  if (finalScore >= SENTIMENT_CONFIG.SLIGHTLY_BEARISH_THRESHOLD) return 'SLIGHTLY_BEARISH';
+  if (finalScore >= SENTIMENT_CONFIG.BEARISH_THRESHOLD) return 'BEARISH';
+  return 'EXTREMELY_BEARISH';
 }
 
 /**
