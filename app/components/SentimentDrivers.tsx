@@ -78,21 +78,12 @@ export default function SentimentDrivers({
   return (
     <div className={styles.tableContainer}>
       <div className={styles.tableHeader}>
-        <div className="flex items-center justify-between w-full mb-2">
+        <div className="flex items-center justify-between w-full">
           <h3 className={styles.tableTitle}>Sentiment Drivers</h3>
           <Tooltip content="Key metrics driving the overall market sentiment. Weighted combination of position data, PnL, and risk indicators.">
             <TooltipIcon />
           </Tooltip>
         </div>
-        <p style={{ fontSize: '9px', color: '#64748B', margin: 0 }}>
-          Why the market is{' '}
-          {finalScore >= 0.6 ? 'extremely bullish' :
-           finalScore >= 0.35 ? 'bullish' :
-           finalScore >= 0.15 ? 'slightly bullish' :
-           finalScore >= -0.15 ? 'neutral' :
-           finalScore >= -0.35 ? 'slightly bearish' :
-           finalScore >= -0.6 ? 'bearish' : 'extremely bearish'}
-        </p>
       </div>
 
       <div className={styles.tableBody} style={{ padding: '0 16px' }}>
