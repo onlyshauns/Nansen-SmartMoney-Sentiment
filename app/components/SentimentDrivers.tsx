@@ -1,5 +1,6 @@
 'use client';
 
+import styles from './TableStyles.module.css';
 import Tooltip, { TooltipIcon } from './Tooltip';
 
 interface SentimentDriver {
@@ -75,48 +76,26 @@ export default function SentimentDrivers({
   const showLowConfidenceWarning = confidence < 0.4;
 
   return (
-    <div
-      style={{
-        background: 'rgba(26, 31, 46, 1)',
-        borderRadius: '16px',
-        padding: '16px',
-        height: '100%',
-        minHeight: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden'
-      }}
-    >
-      <div style={{ marginBottom: '12px' }}>
+    <div className={styles.tableContainer}>
+      <div className={styles.tableHeader}>
         <div className="flex items-center justify-between w-full">
-          <h3 style={{ fontSize: '12px', fontWeight: 700, color: '#EAEFF9', margin: 0 }}>
-            Sentiment Drivers
-          </h3>
+          <h3 className={styles.tableTitle}>Sentiment Drivers</h3>
           <Tooltip content="Key metrics driving the overall market sentiment. Weighted combination of position data, PnL, and risk indicators.">
             <TooltipIcon />
           </Tooltip>
         </div>
       </div>
 
-      <div
-        style={{
-          flex: 1,
-          minHeight: 0,
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px'
-        }}
-      >
+      <div className={styles.tableBody} style={{ padding: '0 16px' }}>
         {/* Render each driver */}
         {drivers.map((driver, idx) => (
-          <div key={idx} style={{ marginBottom: idx < drivers.length - 1 ? '8px' : 0 }}>
+          <div key={idx} style={{ marginBottom: idx < drivers.length - 1 ? '4px' : 0 }}>
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                marginBottom: '6px'
+                marginBottom: '4px'
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -186,7 +165,7 @@ export default function SentimentDrivers({
                 }}
               />
             </div>
-            <div style={{ marginTop: '4px', fontSize: '9px', color: '#64748B' }}>
+            <div style={{ marginTop: '2px', fontSize: '9px', color: '#64748B' }}>
               {driver.explain}
             </div>
           </div>
@@ -195,9 +174,9 @@ export default function SentimentDrivers({
         {/* Final Score & Confidence */}
         <div
           style={{
-            paddingTop: '4px',
+            paddingTop: '6px',
             borderTop: '1px solid #2D334D',
-            marginTop: '4px'
+            marginTop: '6px'
           }}
         >
           <div
@@ -205,7 +184,7 @@ export default function SentimentDrivers({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              marginBottom: '8px'
+              marginBottom: '6px'
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
