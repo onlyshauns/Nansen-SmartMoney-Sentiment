@@ -1,6 +1,5 @@
 'use client';
 
-import styles from './TableStyles.module.css';
 import Tooltip, { TooltipIcon } from './Tooltip';
 
 interface SentimentDriver {
@@ -76,17 +75,39 @@ export default function SentimentDrivers({
   const showLowConfidenceWarning = confidence < 0.4;
 
   return (
-    <div className={styles.tableContainer}>
-      <div className={styles.tableHeader}>
+    <div
+      style={{
+        background: 'rgba(26, 31, 46, 1)',
+        borderRadius: '16px',
+        padding: '16px',
+        height: '100%',
+        minHeight: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden'
+      }}
+    >
+      <div style={{ marginBottom: '12px' }}>
         <div className="flex items-center justify-between w-full">
-          <h3 className={styles.tableTitle}>Sentiment Drivers</h3>
+          <h3 style={{ fontSize: '12px', fontWeight: 700, color: '#EAEFF9', margin: 0 }}>
+            Sentiment Drivers
+          </h3>
           <Tooltip content="Key metrics driving the overall market sentiment. Weighted combination of position data, PnL, and risk indicators.">
             <TooltipIcon />
           </Tooltip>
         </div>
       </div>
 
-      <div className={styles.tableBody} style={{ padding: '0 16px' }}>
+      <div
+        style={{
+          flex: 1,
+          minHeight: 0,
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px'
+        }}
+      >
         {/* Render each driver */}
         {drivers.map((driver, idx) => (
           <div key={idx} style={{ marginBottom: idx < drivers.length - 1 ? '8px' : 0 }}>
@@ -174,9 +195,9 @@ export default function SentimentDrivers({
         {/* Final Score & Confidence */}
         <div
           style={{
-            paddingTop: '12px',
+            paddingTop: '4px',
             borderTop: '1px solid #2D334D',
-            marginTop: '8px'
+            marginTop: '4px'
           }}
         >
           <div
