@@ -1,5 +1,6 @@
 'use client';
 
+import styles from './TableStyles.module.css';
 import Tooltip, { TooltipIcon } from './Tooltip';
 
 interface SentimentDriver {
@@ -75,23 +76,15 @@ export default function SentimentDrivers({
   const showLowConfidenceWarning = confidence < 0.4;
 
   return (
-    <div
-      style={{
-        background: 'rgba(26, 31, 46, 1)',
-        borderRadius: '16px',
-        padding: '16px',
-        height: '100%',
-        minHeight: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden'
-      }}
-    >
-      <div style={{ marginBottom: '12px' }}>
-        <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#EAEFF9', margin: 0 }}>
-          Sentiment Drivers
-        </h3>
-        <p style={{ fontSize: '10px', color: '#64748B', marginTop: '4px' }}>
+    <div className={styles.tableContainer}>
+      <div className={styles.tableHeader}>
+        <div className="flex items-center justify-between w-full mb-2">
+          <h3 className={styles.tableTitle}>Sentiment Drivers</h3>
+          <Tooltip content="Key metrics driving the overall market sentiment. Weighted combination of position data, PnL, and risk indicators.">
+            <TooltipIcon />
+          </Tooltip>
+        </div>
+        <p style={{ fontSize: '9px', color: '#64748B', margin: 0 }}>
           Why the market is{' '}
           {finalScore >= 0.6 ? 'extremely bullish' :
            finalScore >= 0.35 ? 'bullish' :
@@ -102,16 +95,7 @@ export default function SentimentDrivers({
         </p>
       </div>
 
-      <div
-        style={{
-          flex: 1,
-          minHeight: 0,
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px'
-        }}
-      >
+      <div className={styles.tableBody} style={{ padding: '0 16px' }}>
         {/* Render each driver */}
         {drivers.map((driver, idx) => (
           <div key={idx} style={{ marginBottom: idx < drivers.length - 1 ? '8px' : 0 }}>
@@ -126,7 +110,7 @@ export default function SentimentDrivers({
               <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <span
                   style={{
-                    fontSize: '12px',
+                    fontSize: '10px',
                     fontWeight: 600,
                     color: '#EAEFF9'
                   }}
@@ -142,13 +126,13 @@ export default function SentimentDrivers({
                 >
                   <TooltipIcon />
                 </Tooltip>
-                <span style={{ fontSize: '10px', color: '#64748B' }}>
+                <span style={{ fontSize: '9px', color: '#64748B' }}>
                   {(driver.weight * 100).toFixed(0)}%
                 </span>
               </div>
               <span
                 style={{
-                  fontSize: '12px',
+                  fontSize: '10px',
                   fontWeight: 700,
                   fontVariantNumeric: 'tabular-nums',
                   textAlign: 'right',
@@ -190,7 +174,7 @@ export default function SentimentDrivers({
                 }}
               />
             </div>
-            <div style={{ marginTop: '4px', fontSize: '10px', color: '#64748B' }}>
+            <div style={{ marginTop: '4px', fontSize: '9px', color: '#64748B' }}>
               {driver.explain}
             </div>
           </div>
@@ -213,7 +197,7 @@ export default function SentimentDrivers({
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <span style={{ fontSize: '12px', fontWeight: 700, color: '#EAEFF9' }}>
+              <span style={{ fontSize: '10px', fontWeight: 700, color: '#EAEFF9' }}>
                 Final Score
               </span>
               <Tooltip content="Combined weighted score from all sentiment signals">
@@ -222,7 +206,7 @@ export default function SentimentDrivers({
             </div>
             <div
               style={{
-                fontSize: '16px',
+                fontSize: '13px',
                 fontWeight: 900,
                 fontVariantNumeric: 'tabular-nums',
                 textAlign: 'right',
@@ -242,14 +226,14 @@ export default function SentimentDrivers({
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <span style={{ fontSize: '10px', color: '#64748B' }}>Confidence</span>
+              <span style={{ fontSize: '9px', color: '#64748B' }}>Confidence</span>
               <Tooltip content={TOOLTIP_DEFINITIONS.Confidence}>
                 <TooltipIcon />
               </Tooltip>
             </div>
             <span
               style={{
-                fontSize: '10px',
+                fontSize: '9px',
                 fontWeight: 600,
                 color: '#EAEFF9',
                 fontVariantNumeric: 'tabular-nums',
@@ -268,7 +252,7 @@ export default function SentimentDrivers({
             {showConcentrationWarning && (
               <div
                 style={{
-                  fontSize: '10px',
+                  fontSize: '9px',
                   color: '#F59E0B',
                   display: 'flex',
                   alignItems: 'flex-start',
@@ -286,7 +270,7 @@ export default function SentimentDrivers({
             {showLowConfidenceWarning && (
               <div
                 style={{
-                  fontSize: '10px',
+                  fontSize: '9px',
                   color: '#F59E0B',
                   display: 'flex',
                   alignItems: 'flex-start',

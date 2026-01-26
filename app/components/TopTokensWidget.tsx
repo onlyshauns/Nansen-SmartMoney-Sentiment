@@ -77,7 +77,7 @@ export default function TopTokensWidget({ tokens }: TopTokensWidgetProps) {
               </tr>
             </thead>
             <tbody className={styles.tbody}>
-              {tokens.slice(0, 10).map((token, index) => (
+              {tokens.slice(0, 20).map((token, index) => (
                 <tr
                   key={`${token.address}-${token.chain}`}
                   className={styles.tbodyRow}
